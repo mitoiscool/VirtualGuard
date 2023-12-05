@@ -17,5 +17,6 @@ public class VirtualGuardContext
 
     public ModuleDefinition Module;
     public VirtualGuardSettings Settings;
-    
+    public Dictionary<MethodDefinition, bool> VirtualizedMethods = new Dictionary<MethodDefinition, bool>(); // populated once methods added
+
 }

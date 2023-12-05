@@ -2,6 +2,7 @@
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Cloning;
 using VirtualGuard.RT;
+using VirtualGuard.RT.Chunk;
 
 namespace VirtualGuard;
 
@@ -27,6 +28,7 @@ public class Virtualizer
         Console.WriteLine("Virtualizing " + def.Name);
         
         _methodVirtualizer.Virtualize(def, exportMethod);
+        _ctx.VirtualizedMethods.Add(def, exportMethod);
         
         sw.Stop();
         
@@ -35,7 +37,10 @@ public class Virtualizer
 
     public void CommitRuntime()
     {
+        _rt.AddChunk(new BinaryChunk()); // test
         
+        _rt.WriteHeap(_ctx);
+
         // clone runtime module into target module
         var cloner = new MemberCloner(_ctx.Module);
 
@@ -43,7 +48,15 @@ public class Virtualizer
 
         cloner.Include(members);
 
-        var resut = cloner.Clone();
+        var result = cloner.Clone();
+
+        foreach (var type in result.ClonedTopLevelTypes)
+        {
+            _ctx.Module.TopLevelTypes.Add(type);
+        }
+
+        var processor = new RuntimeProcessor(_rt, _ctx);
+        processor.FinalizeMethods();
     }
     
     

@@ -1,5 +1,7 @@
 using AsmResolver.DotNet;
+using AsmResolver.PE.DotNet.Metadata;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.RT.Mutators;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT;
@@ -20,16 +22,22 @@ public class VirtualGuardRT
     
     private List<IChunk> _allChunks = new List<IChunk>();
 
+    public int GetExportLocation(MethodDefinition def)
+    {
+        return ((VmChunk)_exportMap.Single(x => x.Value == def).Key).Offset;
+    }
+    
     public void AddExportChunk(VmChunk chunk, MethodDefinition parent)
     {
         AddChunk(chunk);
         _exportMap.Add(chunk, parent);
     }
+    
     public void AddChunk(VmChunk chunk) => _vmChunks.Add(chunk);
 
     public void AddChunk(IChunk chunk) => _additionalChunks.Add(chunk);
 
-    public void RequestHeap(VirtualGuardContext ctx)
+    public void WriteHeap(VirtualGuardContext ctx)
     {
         FinalizeChunks();
         
@@ -39,12 +47,17 @@ public class VirtualGuardRT
 
         var bytes = SerializeChunks();
         
+        // do encrypt stuff
         
+        //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 
     void MutateChunks()
     {
-        
+        foreach (var mutator in IRuntimeMutator.GetMutators())
+        {
+            mutator.Mutate(this);
+        }
     }
 
     byte[] SerializeChunks()

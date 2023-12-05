@@ -12,15 +12,16 @@ public class VmChunk : IChunk
     public List<VmInstruction> Content;
 
     public int Length => CalculateLength();
+    public int Offset;
     
     public void OnOffsetComputed(int offset)
     {
-        throw new NotImplementedException();
+        Offset = offset;
     }
 
     public void WriteBytes(BinaryWriter writer)
     {
-        throw new NotImplementedException();
+        
     }
 
     int CalculateLength()
