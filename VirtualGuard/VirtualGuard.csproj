@@ -11,18 +11,15 @@
       <PackageReference Include="AsmResolver.DotNet" Version="5.5.0" />
     </ItemGroup>
 
-
-
-
     <ItemGroup>
       <Reference Include="Echo">
-        <HintPath>..\..\..\CellVM\CellVM.Virtualizer\bin\Debug\net7.0\Echo.dll</HintPath>
+        <HintPath>..\Deps\Echo.dll</HintPath>
       </Reference>
       <Reference Include="Echo.ControlFlow">
-        <HintPath>..\..\..\CellVM\CellVM.Virtualizer\bin\Debug\net7.0\Echo.ControlFlow.dll</HintPath>
+        <HintPath>..\Deps\Echo.ControlFlow.dll</HintPath>
       </Reference>
       <Reference Include="Echo.Platforms.AsmResolver">
-        <HintPath>..\..\..\CellVM\CellVM.Virtualizer\bin\Debug\net7.0\Echo.Platforms.AsmResolver.dll</HintPath>
+        <HintPath>..\Deps\Echo.Platforms.AsmResolver.dll</HintPath>
       </Reference>
     </ItemGroup>
 
