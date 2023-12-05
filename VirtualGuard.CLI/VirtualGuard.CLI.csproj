@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VirtualGuard.Runtime\VirtualGuard.Runtime.csproj" />
+      <ProjectReference Include="..\VirtualGuard.TestBinary\VirtualGuard.TestBinary.csproj" />
+      <ProjectReference Include="..\VirtualGuard\VirtualGuard.csproj" />
+    </ItemGroup>
+
+</Project>

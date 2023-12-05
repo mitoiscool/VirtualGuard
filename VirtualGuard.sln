@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard", "VirtualGuard\VirtualGuard.csproj", "{D211CC7C-3D20-4DEE-98AB-31235DB3BA04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.CLI", "VirtualGuard.CLI\VirtualGuard.CLI.csproj", "{EB77B975-B768-438A-A3F7-3C2000782E89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinary", "VirtualGuard.TestBinary\VirtualGuard.TestBinary.csproj", "{AB0BA665-ED14-475A-91EE-BC06C2E66749}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{21CA955B-61FA-48FA-A817-824312A341D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D211CC7C-3D20-4DEE-98AB-31235DB3BA04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D211CC7C-3D20-4DEE-98AB-31235DB3BA04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D211CC7C-3D20-4DEE-98AB-31235DB3BA04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D211CC7C-3D20-4DEE-98AB-31235DB3BA04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB77B975-B768-438A-A3F7-3C2000782E89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB77B975-B768-438A-A3F7-3C2000782E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB77B975-B768-438A-A3F7-3C2000782E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB77B975-B768-438A-A3F7-3C2000782E89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CA955B-61FA-48FA-A817-824312A341D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CA955B-61FA-48FA-A817-824312A341D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CA955B-61FA-48FA-A817-824312A341D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CA955B-61FA-48FA-A817-824312A341D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
