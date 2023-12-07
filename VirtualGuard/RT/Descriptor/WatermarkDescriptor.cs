@@ -6,6 +6,6 @@ public class WatermarkDescriptor
     {
         
     }
-    
-    
+
+    public string Identifier;
 }

@@ -1,4 +1,5 @@
-﻿using AsmResolver.DotNet;
+﻿using System.Reflection.Emit;
+using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 
 namespace VirtualGuard.RT;
@@ -47,7 +48,37 @@ public class RuntimeProcessor
         
         instrs.Add(CilOpCodes.Ldc_I4, loc);
         
-        instrs.Add(CilOpCodes.Ldnull);
+        // ldc.i4 paramcount
+        // newarr <object>
+        
+        // iterate:
+        
+        // dup
+        // ldc.i4 index
+        
+        // ldarg param
+        
+        // box param.type
+        // stelem.ref
+        
+        
+        instrs.Add(CilOpCodes.Ldc_I4, meth.Parameters.Count);
+        instrs.Add(CilOpCodes.Newarr, _ctx.Module.CorLibTypeFactory.Object.ToTypeDefOrRef());
+
+        int index = 0;
+        foreach (var param in meth.Parameters)
+        {
+            instrs.Add(CilOpCodes.Dup);
+            instrs.Add(CilOpCodes.Ldc_I4, index);
+            
+            instrs.Add(CilOpCodes.Ldarg, param);
+            
+            instrs.Add(CilOpCodes.Box, param.ParameterType.ToTypeDefOrRef()); // get paramtype
+            instrs.Add(CilOpCodes.Stelem_Ref);
+            
+            index++;
+        }
+        
         
         instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
         
