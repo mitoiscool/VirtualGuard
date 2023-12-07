@@ -28,11 +28,8 @@ public static class Constants
     public static int RD_BYTE_ROT;
     
     // data
-    public static string DT_NAME;
     public static string DT_WATERMARK;
-
-    public static int DT_STR_LENGTH;
-    public static int DT_VMDATA_LENGTH;
+    
     
     // msg
     public static string MSG_INVALID;

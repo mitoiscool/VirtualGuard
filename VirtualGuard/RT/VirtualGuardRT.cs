@@ -1,6 +1,8 @@
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Cloning;
 using AsmResolver.PE.DotNet.Metadata;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.RT.Descriptor;
 using VirtualGuard.RT.Mutators;
 using VirtualGuard.VMIL.VM;
 
@@ -8,20 +10,31 @@ namespace VirtualGuard.RT;
 
 public class VirtualGuardRT
 {
-    public VirtualGuardRT(ModuleDefinition rtModule)
+    public VirtualGuardRT(ModuleDefinition rtModule, bool debug = false)
     {
         RuntimeModule = rtModule;
+        isDebug = debug;
+
+        Elements = new VmElements()
+        {
+            VmEntry = rtModule.LookupMethod(RuntimeConfig.VmEntry),
+            Constants = rtModule.LookupType(RuntimeConfig.Constants)
+        };
+        
     }
     
     public ModuleDefinition RuntimeModule;
 
     private Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
-    
+
+    public VmElements Elements;
+    public bool isDebug = false;
+    public VMDescriptor Descriptor;
     private List<VmChunk> _vmChunks = new List<VmChunk>();
     private List<IChunk> _additionalChunks = new List<IChunk>();
     
     private List<IChunk> _allChunks = new List<IChunk>();
-
+    
     public int GetExportLocation(MethodDefinition def)
     {
         return ((VmChunk)_exportMap.Single(x => x.Value == def).Key).Offset;
@@ -32,6 +45,28 @@ public class VirtualGuardRT
         AddChunk(chunk);
         _exportMap.Add(chunk, parent);
     }
+
+    public void Inject(ModuleDefinition target)
+    {
+        var cloner = new MemberCloner(target);
+
+        cloner.Include(RuntimeModule.TopLevelTypes);
+
+        var res = cloner.Clone();
+
+        foreach (var type in res.ClonedTopLevelTypes)
+        {
+            target.TopLevelTypes.Add(type);
+        }
+        
+        // now update elements
+        Elements.VmEntry = res.GetClonedMember(Elements.VmEntry);
+        Elements.Constants = res.GetClonedMember(Elements.Constants);
+
+        Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
+    }
+    
+    
     
     public void AddChunk(VmChunk chunk) => _vmChunks.Add(chunk);
 

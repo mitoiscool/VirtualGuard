@@ -21,4 +21,13 @@ public class Test
     {
         return i1 + i2;
     }
+
+    public static void TestCaller1()
+    {
+        AddTest(10, 12);
+    }
+    public static void TestCaller2()
+    {
+        AddTest(10, 12);
+    }
 }

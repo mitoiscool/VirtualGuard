@@ -4,12 +4,15 @@ public class Renamer : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt)
     {
+        if(rt.isDebug)
+            return;
+        
         var random = new Random();
         // rename members
 
         foreach (var type in rt.RuntimeModule.GetAllTypes())
         {
-            type.Namespace = "vg";
+            type.Namespace = "";
             type.Name = random.Next(int.MaxValue).ToString("x");
 
             foreach (var method in type.Methods)
@@ -25,7 +28,7 @@ public class Renamer : IRuntimeMutator
             
             foreach (var field in type.Fields)
             {
-                field.Name = "https://virtualguard.io/";
+                field.Name = "";
             }
             
         }

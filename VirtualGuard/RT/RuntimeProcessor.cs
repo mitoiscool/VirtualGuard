@@ -24,7 +24,7 @@ public class RuntimeProcessor
             if(export)
                 PatchMethod(meth);
             else
-                RemoveMethod();
+                RemoveMethod(meth);
             
             
         }
@@ -42,12 +42,25 @@ public class RuntimeProcessor
         
         
         instrs.Clear();
-
+        
+        // VMEntry(loc, args)
+        
         instrs.Add(CilOpCodes.Ldc_I4, loc);
+        
+        instrs.Add(CilOpCodes.Ldnull);
+        
+        instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
+        
+        if(!meth.Signature.ReturnsValue)
+            instrs.Add(CilOpCodes.Pop);
+        
         instrs.Add(CilOpCodes.Ret);
+        
+        meth.CilMethodBody.VerifyLabels();
+        meth.CilMethodBody.ComputeMaxStack();
     }
 
-    void RemoveMethod()
+    void RemoveMethod(MethodDefinition def)
     {
         
     }

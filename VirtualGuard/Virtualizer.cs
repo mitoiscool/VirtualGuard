@@ -42,18 +42,7 @@ public class Virtualizer
         _rt.WriteHeap(_ctx);
 
         // clone runtime module into target module
-        var cloner = new MemberCloner(_ctx.Module);
-
-        var members = _rt.RuntimeModule.GetAllTypes().ToArray();
-
-        cloner.Include(members);
-
-        var result = cloner.Clone();
-
-        foreach (var type in result.ClonedTopLevelTypes)
-        {
-            _ctx.Module.TopLevelTypes.Add(type);
-        }
+        _rt.Inject(_ctx.Module);
 
         var processor = new RuntimeProcessor(_rt, _ctx);
         processor.FinalizeMethods();
