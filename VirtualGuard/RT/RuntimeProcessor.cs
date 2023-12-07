@@ -81,9 +81,16 @@ public class RuntimeProcessor
         
         
         instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
-        
-        if(!meth.Signature.ReturnsValue)
+
+        if (!meth.Signature.ReturnsValue)
+        {
             instrs.Add(CilOpCodes.Pop);
+        }
+        else
+        {
+            instrs.Add(CilOpCodes.Unbox_Any, meth.Signature.ReturnType.ToTypeDefOrRef());
+        }
+            
         
         instrs.Add(CilOpCodes.Ret);
         

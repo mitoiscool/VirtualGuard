@@ -14,3 +14,4 @@ public class Sub : IOpCode
 
     public byte GetCode() => Constants.OP_SUB;
 }
+

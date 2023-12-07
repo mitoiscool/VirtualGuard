@@ -49,7 +49,7 @@ public class VMReader : IElement
         // read from vmdata dict
         return new StringVariant(_data.GetString(id.U4()));
     }
-
+    
     public void SetValue(int i)
     {
         _data.GetVMData().Seek(i, SeekOrigin.Begin);
