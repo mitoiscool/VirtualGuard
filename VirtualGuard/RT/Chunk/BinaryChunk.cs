@@ -8,7 +8,7 @@ public class BinaryChunk : IChunk
         
     }
 
-    public void WriteBytes(BinaryWriter writer)
+    public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
         
     }

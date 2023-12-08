@@ -20,8 +20,38 @@ public class VmChunk : IChunk
         Offset = offset;
     }
 
-    public void WriteBytes(BinaryWriter writer)
+    public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
+        // encryption should be done here
+        
+        
+        foreach (var instr in Content)
+        {
+            
+            writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
+            
+            if (instr.Operand == null)
+                continue; // stop execution
+
+            if (instr.Operand is int i )
+                writer.Write(i);
+
+            if (instr.Operand is long l)
+                writer.Write(l);
+
+            if (instr.Operand is VmVariable vv)
+                writer.Write(vv.Id);
+            
+            if(instr.Operand is VmChunk chunk)
+                writer.Write(chunk.Offset); // trust this is updated
+            
+            if(instr.Operand is string s)
+                writer.Write(rt.Descriptor.Data.AddString(s)); // get id for string
+            
+            // need to add logic for members
+        }
+        
+        
         
     }
 

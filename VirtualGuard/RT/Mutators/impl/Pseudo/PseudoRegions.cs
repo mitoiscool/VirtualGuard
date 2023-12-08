@@ -12,7 +12,7 @@ public class PseudoRegions : IRuntimeMutator
         
         // jmp (we don't need a return addr)
 
-        var delemBuilder = new RegionBuilder(VmCode.__ldelem);
+        var delemBuilder = new RegionBuilder(VmCode.__ldelem); // DEMO DEMO
 
         delemBuilder // return address on-stack
             .WithInstruction(VmCode.Ldc_I4, 10)

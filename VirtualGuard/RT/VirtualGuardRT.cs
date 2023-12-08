@@ -87,8 +87,6 @@ public class VirtualGuardRT
         
         Print();
         
-        // do encrypt stuff
-        
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 
@@ -109,7 +107,7 @@ public class VirtualGuardRT
 
         foreach (var chunk in _allChunks)
         {
-            chunk.WriteBytes(binaryWriter);
+            chunk.WriteBytes(binaryWriter, this);
         }
 
         return ms.ToArray();
