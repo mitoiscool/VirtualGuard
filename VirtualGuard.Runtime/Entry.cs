@@ -4,7 +4,7 @@ public class Entry
 {
     public static object VMEntry(int loc, object[] args)
     {
-        return new VMContext(VMData.Load()).Dispatch(args);
+        return new VMContext().Dispatch(loc, args);
     }
     
     

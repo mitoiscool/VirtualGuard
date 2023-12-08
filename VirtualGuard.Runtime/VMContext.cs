@@ -6,10 +6,10 @@ namespace VirtualGuard.Runtime;
 
 public class VMContext
 {
-    public VMContext(VMData data)
+    public VMContext()
     {
         Stack = new VMStack();
-        Reader = new VMReader(data);
+        Reader = new VMReader();
     }
     
     public VMStack Stack;
@@ -17,8 +17,9 @@ public class VMContext
 
     private Exception _exception;
 
-    public object Dispatch(object[] args)
+    public object Dispatch(int loc, object[] args)
     {
+        Reader.SetValue(loc);
         Stack.Push(new ArrayVariant(args));
         
         switch (DispatchInternal())

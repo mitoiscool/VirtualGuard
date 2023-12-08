@@ -29,6 +29,7 @@ public static class Constants
     
     // data
     public static string DT_WATERMARK;
+    public static string RSRC_NAME;
     
     
     // msg

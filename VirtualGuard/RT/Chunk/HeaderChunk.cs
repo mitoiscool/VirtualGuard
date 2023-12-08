@@ -24,7 +24,6 @@ public class HeaderChunk : IChunk
         writer.Write(_vmDescriptor.Watermark.Identifier);
         
         _vmDescriptor.Data.WriteStrings(writer);
-        
     }
     
     

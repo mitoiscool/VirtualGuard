@@ -1,5 +1,7 @@
+using System.Reflection;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Variant;
+using VirtualGuard.Runtime.Variant.Object;
 using VirtualGuard.Runtime.Variant.ValueType;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
@@ -7,17 +9,47 @@ namespace VirtualGuard.Runtime;
 
 public class VMReader : IElement
 {
-    public VMReader(VMData data)
+    static VMReader()
     {
-        _data = data;
+        var assembly = Assembly.GetExecutingAssembly();
+
+        var stream = assembly.GetManifestResourceStream(Constants.RSRC_NAME);
+
+        _bytes = new byte[stream.Length];
+
+        stream.Read(_bytes, 0, _bytes.Length);
+
+        var reader = new BinaryReader(stream);
+
+        var watermark = reader.ReadString();
+
+        if (watermark != Constants.DT_WATERMARK)
+            throw new InvalidDataException();
+
+        var stringCount = reader.ReadInt32();
+
+        for (int i = 0; i < stringCount; i++)
+        {
+            _stringMap.Add((uint)reader.ReadInt32(), reader.ReadString());
+        }
+        
     }
 
-    private VMData _data;
+    private static byte[] _bytes;
+    private static Dictionary<uint, string> _stringMap = new Dictionary<uint, string>();
+    
+    public VMReader()
+    {
+        _memoryStream = new MemoryStream(_bytes);
+        _key = Constants.RD_IV;
+    }
+
+    private MemoryStream _memoryStream;
     private int _key;
 
     public ByteVariant ReadHandler()
     {
-        var b = _data.GetVMData().ReadByte();
+        var b = _memoryStream.ReadByte();
 
         _key += Constants.RD_HANDLER_ROT;
         
@@ -44,20 +76,24 @@ public class VMReader : IElement
         return new LongVariant(BitConverter.ToInt64(ReadPrimitive(8), 0));
     }
 
-    public StringVariant ReadString(BaseVariant id)
+    public BaseVariant ReadString(BaseVariant id)
     {
+        
+        if (id.U4() == 0)
+            return new NullVariant();
+        
         // read from vmdata dict
-        return new StringVariant(_data.GetString(id.U4()));
+        return new StringVariant(_stringMap[id.U4()]);
     }
     
     public void SetValue(int i)
     {
-        _data.GetVMData().Seek(i, SeekOrigin.Begin);
+        _memoryStream.Seek(i, SeekOrigin.Begin);
     }
 
     public int GetValue()
     {
-        return (int)_data.GetVMData().Position;
+        return (int)_memoryStream.Position;
     }
     
     private byte[] ReadPrimitive(int length)
@@ -72,7 +108,7 @@ public class VMReader : IElement
     
     private byte ReadByteInternal()
     {
-        var b = _data.GetVMData().ReadByte();
+        var b = _memoryStream.ReadByte();
 
         _key += Constants.RD_BYTE_ROT;
 
