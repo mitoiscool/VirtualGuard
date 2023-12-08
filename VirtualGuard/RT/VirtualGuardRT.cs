@@ -1,7 +1,9 @@
 using System.Text;
+using AsmResolver;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Cloning;
 using AsmResolver.PE.DotNet.Metadata;
+using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.RT.Descriptor;
 using VirtualGuard.RT.Mutators;
@@ -87,6 +89,7 @@ public class VirtualGuardRT
         
         Print();
         
+        ctx.Module.Resources.Add(new ManifestResource("test", ManifestResourceAttributes.Private, new DataSegment(bytes)));
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 
