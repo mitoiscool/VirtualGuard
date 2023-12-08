@@ -24,6 +24,9 @@ public static class Constants
     public static byte OP_RET;
     public static byte OP_CMP;
 
+    public static byte OP_ENTR_REG;
+    public static byte OP_JMP;
+
     // reader
     public static int RD_IV;
     public static int RD_HANDLER_ROT;

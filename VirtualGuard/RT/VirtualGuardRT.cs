@@ -39,8 +39,6 @@ public class VirtualGuardRT
     public VmElements Elements;
     public bool isDebug = false;
     public VMDescriptor Descriptor;
-    private List<VmChunk> _vmChunks = new List<VmChunk>();
-    private List<IChunk> _additionalChunks = new List<IChunk>();
     
     private List<IChunk> _allChunks = new List<IChunk>();
     
@@ -75,14 +73,12 @@ public class VirtualGuardRT
         Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
     }
     
-    public void AddChunk(VmChunk chunk) => _vmChunks.Add(chunk);
+    public void AddChunk(IChunk chunk) => _allChunks.Add(chunk);
 
-    public void AddChunk(IChunk chunk) => _additionalChunks.Add(chunk);
+    public VmChunk[] VmChunks => _allChunks.Where(x => x is VmChunk).Cast<VmChunk>().ToArray();
 
     public void WriteHeap(VirtualGuardContext ctx)
     {
-        FinalizeChunks();
-        
         MutateChunks();
         
         UpdateOffsets();
@@ -119,13 +115,7 @@ public class VirtualGuardRT
         return ms.ToArray();
     }
     
-    void FinalizeChunks()
-    {
-        _allChunks.Clear();
-        _allChunks.AddRange(_additionalChunks);
-        _allChunks.AddRange(_vmChunks);
-    }
-    void UpdateOffsets() // keep in mind this uses all chunks, so do this when the bytes are requested
+    public void UpdateOffsets() // keep in mind this uses all chunks, so do this when the bytes are requested
     {
         int offset = 0;
         

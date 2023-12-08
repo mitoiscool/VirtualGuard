@@ -39,12 +39,13 @@ public class VmBlock
         var thisChunk = chunkMap[this];
 
         foreach (var content in thisChunk.Content)
-        { // update jmps to use chunks; keep in mind on encoding time we should change __jmploc to ldc_i4 and get the latest offset
+        { // update jmps to use chunks; it's in ldc.i4 which is kinda ew
             
-            if (content.OpCode != VmCode.__jmploc)
+            if (content.OpCode != VmCode.Ldc_I4) // 
                 continue;
 
-            Debug.Assert(content.Operand.GetType() == typeof(VmBlock)); // should be a vmblock at this point
+            if(content.Operand is not VmBlock)
+                continue;
 
             var oldBlock = (VmBlock)content.Operand;
             var equivalentChunk = chunkMap[oldBlock];

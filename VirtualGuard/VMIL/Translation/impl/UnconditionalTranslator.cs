@@ -9,8 +9,12 @@ public class UnconditionalTranslator : ITranslator
     {
         block.WithContent(
             new VmInstruction(
-                VmCode.__jmploc,
-                instr.Operand));
+                VmCode.Ldc_I4,
+                instr.Operand),
+            new VmInstruction(
+                VmCode.Jmp
+                )
+            );
     }
 
     public bool Supports(CilInstruction instr)

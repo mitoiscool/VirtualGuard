@@ -1,4 +1,5 @@
 using VirtualGuard.RT.Mutators.impl;
+using VirtualGuard.RT.Mutators.impl.Pseudo;
 
 namespace VirtualGuard.RT.Mutators;
 
@@ -22,6 +23,7 @@ public interface IRuntimeMutator
     private static readonly IRuntimeMutator[] _mutators =
     { // need to do it manually to preserve order
         new InjectConstants(),
+        new PseudoRegions(),
         new Renamer()
     };
 

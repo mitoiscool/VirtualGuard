@@ -20,16 +20,17 @@ public enum VmCode
     Ldfld,
     
     LoadState,
+    EnterRegion,
     
     Cmp,
+    
+    Jmp,
     
     Dup,
     
     __ldelem, // these will be vcalls in special region
     __stelem, // these will be vcalls
-    
-    __jmploc, // change to ldc_i4 on encode time, ensure we get the latest offset
-    __jmp,
+
     __jz,
     __jnz,
 }
