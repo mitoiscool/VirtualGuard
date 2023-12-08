@@ -10,5 +10,5 @@ public class Ret : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_RET;
+    public byte GetCode() => 0;
 }

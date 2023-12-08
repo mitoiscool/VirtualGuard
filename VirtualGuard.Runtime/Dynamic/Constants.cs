@@ -2,35 +2,10 @@ namespace VirtualGuard.Runtime.Dynamic;
 
 public static class Constants
 {
-    public static byte OP_ADD;
-    public static byte OP_SUB;
-    public static byte OP_MUL;
-    public static byte OP_DIV;
-    
-    public static byte OP_LDLOC;
-    public static byte OP_STLOC;
-    
-    public static byte OP_POP;
-    public static byte OP_DUP;
-
-    public static byte OP_LDC_I4;
-    public static byte OP_LDC_I8;
-    
-    public static byte OP_LDFLD;
-    public static byte OP_STFLD;
-
-    public static byte OP_LOADSTATE;
-    
-    public static byte OP_RET;
-    public static byte OP_CMP;
-
-    public static byte OP_ENTR_REG;
-    public static byte OP_JMP;
-
     // reader
-    public static int RD_IV;
-    public static int RD_HANDLER_ROT;
-    public static int RD_BYTE_ROT;
+    public static int RD_IV = 0; // dbg
+    public static int RD_HANDLER_ROT = 0;
+    public static int RD_BYTE_ROT = 0;
     
     // data
     public static string DT_WATERMARK;

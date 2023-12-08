@@ -10,5 +10,5 @@ public class Pop : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_POP;
+    public byte GetCode() => 0;
 }

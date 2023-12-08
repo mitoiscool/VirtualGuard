@@ -10,5 +10,5 @@ public class Stloc : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_STLOC;
+    public byte GetCode() => 0;
 }

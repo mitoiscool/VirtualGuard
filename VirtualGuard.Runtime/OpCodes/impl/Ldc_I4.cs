@@ -12,5 +12,5 @@ public class Ldc_I4 : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_LDC_I4;
+    public byte GetCode() => 0;
 }

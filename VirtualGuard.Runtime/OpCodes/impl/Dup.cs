@@ -10,5 +10,5 @@ public class Dup : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_DUP;
+    public byte GetCode() => 0;
 }

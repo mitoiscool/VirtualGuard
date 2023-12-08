@@ -10,5 +10,5 @@ public class Cmp : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_CMP;
+    public byte GetCode() => 0;
 }

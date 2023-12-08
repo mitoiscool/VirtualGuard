@@ -10,5 +10,5 @@ public class EnterRegion : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_ENTR_REG;
+    public byte GetCode() => 0;
 }

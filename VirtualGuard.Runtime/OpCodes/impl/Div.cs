@@ -12,5 +12,5 @@ public class Div : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_DIV;
+    public byte GetCode() => 0;
 }

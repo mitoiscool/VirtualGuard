@@ -10,5 +10,5 @@ public class LoadState : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_LOADSTATE;
+    public byte GetCode() => 0;
 }

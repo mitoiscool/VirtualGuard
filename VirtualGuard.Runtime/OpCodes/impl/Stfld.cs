@@ -15,5 +15,5 @@ public class Stfld : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_STFLD;
+    public byte GetCode() => 0;
 }

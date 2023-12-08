@@ -12,6 +12,6 @@ public class Sub : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_SUB;
+    public byte GetCode() => 0;
 }
 

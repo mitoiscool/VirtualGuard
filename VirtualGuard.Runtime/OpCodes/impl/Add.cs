@@ -12,6 +12,6 @@ public class Add : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_ADD;
+    public byte GetCode() => 0;
 }
 

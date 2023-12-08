@@ -18,5 +18,5 @@ public class Ldfld : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_LDFLD;
+    public byte GetCode() => 0;
 }

@@ -10,6 +10,6 @@ public class Ldloc : IOpCode
         throw new NotImplementedException();
     }
 
-    public byte GetCode() => Constants.OP_LDLOC;
+    public byte GetCode() => 0;
     
 }

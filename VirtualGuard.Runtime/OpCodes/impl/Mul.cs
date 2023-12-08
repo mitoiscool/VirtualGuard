@@ -12,5 +12,5 @@ public class Mul : IOpCode
         state = ExecutionState.Next;
     }
 
-    public byte GetCode() => Constants.OP_MUL;
+    public byte GetCode() => 0;
 }

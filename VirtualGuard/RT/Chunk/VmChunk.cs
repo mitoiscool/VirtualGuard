@@ -27,7 +27,6 @@ public class VmChunk : IChunk
         
         foreach (var instr in Content)
         {
-            
             writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
             
             if (instr.Operand == null)
