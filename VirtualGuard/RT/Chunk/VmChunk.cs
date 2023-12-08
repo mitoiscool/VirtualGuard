@@ -1,3 +1,4 @@
+using System.Text;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
@@ -49,8 +50,9 @@ public class VmChunk : IChunk
 
         return length;
     }
-    
-    
-    
-    
+
+    public override string ToString()
+    {
+        return "<chunk @ " + Offset + ">";
+    }
 }

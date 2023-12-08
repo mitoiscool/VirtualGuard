@@ -15,8 +15,7 @@ public class InjectConstants : IRuntimeMutator
         foreach (var name in opcodes)
         {
             var type = rt.RuntimeModule.LookupType(RuntimeConfig.BaseHandler + "." + name);
-            
-            Console.WriteLine("t: {0} o: {1}", type.FullName, name);
+
             opcodeMap.Add((VmCode)Array.IndexOf(opcodes, name), type);
         }
 

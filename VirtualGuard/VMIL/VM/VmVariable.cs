@@ -8,4 +8,9 @@ public class VmVariable
     }
     
     public short Id;
+
+    public override string ToString()
+    {
+        return "<Var: " + Id + ">";
+    }
 }

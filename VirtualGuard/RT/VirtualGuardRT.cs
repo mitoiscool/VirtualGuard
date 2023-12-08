@@ -1,3 +1,4 @@
+using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Cloning;
 using AsmResolver.PE.DotNet.Metadata;
@@ -88,6 +89,8 @@ public class VirtualGuardRT
 
         var bytes = SerializeChunks();
         
+        Print();
+        
         // do encrypt stuff
         
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
@@ -134,4 +137,67 @@ public class VirtualGuardRT
         
     }
 
+
+    void Print()
+    {
+        var sb = new StringBuilder();
+
+        sb.AppendLine("VirtualGuard VM");
+
+        sb.AppendLine();
+        
+        sb.AppendLine("------");
+        sb.AppendLine("Exports");
+        sb.AppendLine("------");
+
+        foreach (var export in _exportMap)
+        {
+            sb.AppendLine($"Method: {export.Value.FullName} Offset: {export.Key.Offset}");
+        }
+
+        sb.AppendLine();
+        
+        sb.AppendLine("------");
+        sb.AppendLine("Stats");
+        sb.AppendLine("------");
+
+        sb.AppendLine("Chunks: " + _allChunks.Count);
+        sb.AppendLine("Exports: " + _exportMap.Count);
+        
+        sb.AppendLine("");
+        
+        sb.AppendLine("------");
+        sb.AppendLine("Chunks:");
+        sb.AppendLine("------");
+
+        int i = 0;
+        foreach (var chunk in _allChunks)
+        {
+            if(chunk is VmChunk vchunk)
+                AppendVmChunk(sb, vchunk, i);
+
+            sb.AppendLine();
+            i++;
+        }
+        
+        Console.WriteLine(sb.ToString());
+    }
+
+    void AppendVmChunk(StringBuilder sb, VmChunk chunk, int index)
+    {
+        sb.AppendLine("Chunk " + index + " - Offset: " + chunk.Offset + " Length: " + chunk.Length);
+
+        foreach (var instr in chunk.Content)
+        {
+            var operandString = instr.Operand == null ? "" : instr.Operand.ToString();
+
+            sb.AppendLine(instr.OpCode + " " + instr.Operand);
+        }
+        
+        
+        
+    }
+    
+    
+    
 }
