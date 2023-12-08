@@ -12,15 +12,17 @@ public static class Constants
     
     public static byte OP_POP;
     public static byte OP_DUP;
-    
-    public static byte OP_LDELEM;
-    public static byte OP_SETELEMENT;
 
     public static byte OP_LDC_I4;
     public static byte OP_LDC_I8;
     
     public static byte OP_LDFLD;
     public static byte OP_STFLD;
+
+    public static byte OP_LOADSTATE;
+    
+    public static byte OP_RET;
+    public static byte OP_CMP;
 
     // reader
     public static int RD_IV;
@@ -34,5 +36,4 @@ public static class Constants
     
     // msg
     public static string MSG_INVALID;
-    
 }

@@ -18,10 +18,6 @@ public enum VmCode
     
     LoadState,
     
-    Jmp,
-    Jz,
-    Jnz,
-    
     Cmp,
     
     Dup,
@@ -30,4 +26,7 @@ public enum VmCode
     __stelem, // these will be vcalls
     
     __jmploc, // change to ldc_i4 on encode time, ensure we get the latest offset
+    __jmp,
+    __jz,
+    __jnz,
 }

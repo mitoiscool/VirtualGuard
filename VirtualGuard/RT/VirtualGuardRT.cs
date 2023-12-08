@@ -20,6 +20,14 @@ public class VirtualGuardRT
             VmEntry = rtModule.LookupMethod(RuntimeConfig.VmEntry),
             Constants = rtModule.LookupType(RuntimeConfig.Constants)
         };
+
+        Descriptor = new VMDescriptor()
+        {
+            Data = new DataDescriptor(),
+            Encryption = new EncryptionDescriptor(),
+            OpCodes = new OpCodeDescriptor(new Random()),
+            Watermark = new WatermarkDescriptor()
+        };
         
     }
     
@@ -65,8 +73,6 @@ public class VirtualGuardRT
 
         Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
     }
-    
-    
     
     public void AddChunk(VmChunk chunk) => _vmChunks.Add(chunk);
 
