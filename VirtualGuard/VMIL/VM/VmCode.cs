@@ -16,6 +16,9 @@ public enum VmCode
     Pop,
     Ret,
     
+    Stfld,
+    Ldfld,
+    
     LoadState,
     
     Cmp,

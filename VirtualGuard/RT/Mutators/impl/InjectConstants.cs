@@ -23,8 +23,6 @@ public class InjectConstants : IRuntimeMutator
 
         foreach (var kvp in opcodeMap)
         {
-            // gonna use a fucked pattern here, just assume that op name is OP_name2upper
-            
             // wait I'm completely bypassing the idea of the constants class here lol
             
             // find method in type
