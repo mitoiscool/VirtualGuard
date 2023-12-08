@@ -12,11 +12,19 @@ public class InjectConstants : IRuntimeMutator
         var opcodes = typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray(); // eliminate transform instrs
         var opcodeMap = new Dictionary<VmCode, TypeDefinition>();
 
+        
         foreach (var name in opcodes)
         {
-            var type = rt.RuntimeModule.LookupType(RuntimeConfig.BaseHandler + "." + name);
+            try
+            {
+                var type = rt.RuntimeModule.LookupType(RuntimeConfig.BaseHandler + "." + name);
 
-            opcodeMap.Add((VmCode)Array.IndexOf(opcodes, name), type);
+                opcodeMap.Add((VmCode)Array.IndexOf(opcodes, name), type);
+            }
+            catch(InvalidOperationException ex)
+            {
+                throw new KeyNotFoundException("Could not locate opcode: " + name + " in runtime!");
+            }
         }
 
 

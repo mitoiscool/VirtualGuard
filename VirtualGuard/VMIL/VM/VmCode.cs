@@ -12,6 +12,13 @@ public enum VmCode
     
     Ldc_I4,
     Ldc_I8,
+        
+    Ldstr,
+    
+    Ldc_R4,
+    Ldc_R8,
+    
+    Call,
     
     Pop,
     Ret,

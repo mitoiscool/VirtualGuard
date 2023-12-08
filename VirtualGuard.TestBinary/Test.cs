@@ -7,20 +7,14 @@ public class Test
         return i1 + i2;
     }
     
-    public static int AddTest2(int i1, int i2)
+    public static void CallTest()
     {
-        return i1 + i2;
+        Console.WriteLine("test1");
+        Console.WriteLine("test1");
+        Console.WriteLine(Console.ReadLine());
+        Console.WriteLine("done");
     }
-    
-    public static int AddTest3(int i1, int i2)
-    {
-        return i1 + i2;
-    }
-    
-    public static int AddTest4(int i1, int i2)
-    {
-        return i1 + i2;
-    }
+
 
     public static void TestCaller1()
     {
