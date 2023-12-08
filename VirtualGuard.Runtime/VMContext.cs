@@ -1,3 +1,4 @@
+using System.Reflection;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
 using VirtualGuard.Runtime.Variant.Object;
@@ -63,6 +64,11 @@ public class VMContext
         } while (true);
 
         return state;
+    }
+
+    public MethodBase ResolveMethod(int i)
+    {
+        return (MethodBase)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
     }
     
 }

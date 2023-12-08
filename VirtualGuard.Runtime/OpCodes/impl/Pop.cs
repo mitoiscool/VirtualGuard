@@ -7,7 +7,8 @@ public class Pop : IOpCode
 {
     public void Execute(VMContext ctx, out ExecutionState state)
     {
-        throw new NotImplementedException();
+        ctx.Stack.Pop();
+        state = ExecutionState.Next;
     }
 
     public byte GetCode() => 0;

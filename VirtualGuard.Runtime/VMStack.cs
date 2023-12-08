@@ -1,4 +1,5 @@
 using VirtualGuard.Runtime.Variant;
+using VirtualGuard.Runtime.Variant.Object;
 
 namespace VirtualGuard.Runtime;
 
@@ -30,10 +31,20 @@ public class VMStack {
     internal BaseVariant Pop()
     {
         if (_index == 0)
-            return null;
+            return new NullVariant();
 
         var res = _array[--_index];
         _array[_index] = null;
         return res;
     }
+    
+    internal BaseVariant Peek()
+    {
+        if (_index == 0)
+            return new NullVariant();
+
+        var res = _array[_index];
+        return res;
+    }
+    
 }

@@ -7,7 +7,8 @@ public class Dup : IOpCode
 {
     public void Execute(VMContext ctx, out ExecutionState state)
     {
-        throw new NotImplementedException();
+        ctx.Stack.Push(ctx.Stack.Peek());
+        state = ExecutionState.Next;
     }
 
     public byte GetCode() => 0;
