@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.CLI", "Virtual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinary", "VirtualGuard.TestBinary\VirtualGuard.TestBinary.csproj", "{AB0BA665-ED14-475A-91EE-BC06C2E66749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{21CA955B-61FA-48FA-A817-824312A341D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +26,9 @@ Global
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21CA955B-61FA-48FA-A817-824312A341D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21CA955B-61FA-48FA-A817-824312A341D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21CA955B-61FA-48FA-A817-824312A341D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21CA955B-61FA-48FA-A817-824312A341D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

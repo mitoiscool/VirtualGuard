@@ -1,16 +1,19 @@
-namespace VirtualGuard.Runtime.Variant.ValueType;
-
-public class StringVariant : BaseVariant
+namespace VirtualGuard.Runtime.Variant.ValueType
 {
-    private string _str;
-    public StringVariant(string str)
+
+    public class StringVariant : BaseVariant
     {
-        _str = str;
+        private string _str;
+
+        public StringVariant(string str)
+        {
+            _str = str;
+        }
+
+        public override object GetObject()
+        {
+            return _str;
+        }
+
     }
-    
-    public override object GetObject()
-    {
-        return _str;
-    }
-    
 }

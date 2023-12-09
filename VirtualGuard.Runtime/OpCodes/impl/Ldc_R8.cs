@@ -1,13 +1,16 @@
+using System;
 using VirtualGuard.Runtime.Execution;
 
-namespace VirtualGuard.Runtime.OpCodes.impl;
-
-public class Ldc_R8 : IOpCode
+namespace VirtualGuard.Runtime.OpCodes.impl
 {
-    public void Execute(VMContext ctx, out ExecutionState state)
-    {
-        throw new NotImplementedException();
-    }
 
-    public byte GetCode() => 0;
+    public class Ldc_R8 : IOpCode
+    {
+        public void Execute(VMContext ctx, out ExecutionState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte GetCode() => 0;
+    }
 }

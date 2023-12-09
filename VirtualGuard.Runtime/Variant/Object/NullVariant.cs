@@ -1,10 +1,12 @@
-namespace VirtualGuard.Runtime.Variant.Object;
-
-public class NullVariant : BaseVariant
+namespace VirtualGuard.Runtime.Variant.Object
 {
-    public override object GetObject()
+
+    public class NullVariant : BaseVariant
     {
-        return null;
+        public override object GetObject()
+        {
+            return null;
+        }
+
     }
-    
 }

@@ -1,27 +1,31 @@
-namespace VirtualGuard.Runtime.Variant.Object;
+using System;
 
-public class ArrayVariant : BaseVariant
+namespace VirtualGuard.Runtime.Variant.Object
 {
-    private Array _array;
-    
-    public ArrayVariant(Array arr)
-    {
-        _array = arr;
-    }
-    
-    public override object GetObject()
-    {
-        return _array;
-    }
 
-    public object LoadDelimeter(BaseVariant index)
+    public class ArrayVariant : BaseVariant
     {
-        return _array.GetValue(index.I4());
-    }
+        private Array _array;
 
-    public void SetDelimeter(BaseVariant index, BaseVariant obj)
-    {
-        _array.SetValue(obj.GetObject(), index.I4());
+        public ArrayVariant(Array arr)
+        {
+            _array = arr;
+        }
+
+        public override object GetObject()
+        {
+            return _array;
+        }
+
+        public object LoadDelimeter(BaseVariant index)
+        {
+            return _array.GetValue(index.I4());
+        }
+
+        public void SetDelimeter(BaseVariant index, BaseVariant obj)
+        {
+            _array.SetValue(obj.GetObject(), index.I4());
+        }
+
     }
-    
 }

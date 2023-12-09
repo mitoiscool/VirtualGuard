@@ -1,16 +1,18 @@
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
 
-namespace VirtualGuard.Runtime.OpCodes.impl;
-
-public class Ldc_I4 : IOpCode
+namespace VirtualGuard.Runtime.OpCodes.impl
 {
-    public void Execute(VMContext ctx, out ExecutionState state)
+
+    public class Ldc_I4 : IOpCode
     {
-        ctx.Stack.Push(ctx.Reader.ReadInt());
+        public void Execute(VMContext ctx, out ExecutionState state)
+        {
+            ctx.Stack.Push(ctx.Reader.ReadInt());
 
-        state = ExecutionState.Next;
+            state = ExecutionState.Next;
+        }
+
+        public byte GetCode() => 0;
     }
-
-    public byte GetCode() => 0;
 }

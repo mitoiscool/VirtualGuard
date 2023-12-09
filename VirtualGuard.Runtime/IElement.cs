@@ -1,7 +1,9 @@
-namespace VirtualGuard.Runtime;
-
-public interface IElement
+namespace VirtualGuard.Runtime
 {
-    public void SetValue(int i);
-    public int GetValue();
+
+    public interface IElement
+    {
+        void SetValue(int i);
+        int GetValue();
+    }
 }

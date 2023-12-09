@@ -1,67 +1,73 @@
-namespace VirtualGuard.Runtime.Variant.ValueType.Numeric;
+using System;
 
-public class ByteVariant : NumeralVariant
+namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 {
-    private byte _b;
-    public ByteVariant(byte b)
+
+    public class ByteVariant : NumeralVariant
     {
-        _b = b;
-    }
-    public override object GetObject()
-    {
-        throw new NotImplementedException();
-    }
+        private byte _b;
 
-    public override void SetFlags(int flag)
-    {
-        throw new NotImplementedException();
-    }
+        public ByteVariant(byte b)
+        {
+            _b = b;
+        }
 
-    public override NumeralVariant Add(NumeralVariant addend)
-    {
-        var sum = this.U1() + addend.U1();
+        public override object GetObject()
+        {
+            throw new NotImplementedException();
+        }
 
-        return new ByteVariant((byte)sum);
-    }
+        public override void SetFlags(int flag)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Sub(NumeralVariant subtraend)
-    {
-        var sum = this.U1() - subtraend.U1();
+        public override NumeralVariant Add(NumeralVariant addend)
+        {
+            var sum = this.U1() + addend.U1();
 
-        return new ByteVariant((byte)sum);
-    }
+            return new ByteVariant((byte)sum);
+        }
 
-    public override NumeralVariant Mul(NumeralVariant factor)
-    {
-        var sum = this.U1() * factor.U1();
+        public override NumeralVariant Sub(NumeralVariant subtraend)
+        {
+            var sum = this.U1() - subtraend.U1();
 
-        return new ByteVariant((byte)sum);
-    }
+            return new ByteVariant((byte)sum);
+        }
 
-    public override NumeralVariant Div(NumeralVariant divisor)
-    {
-        var sum = this.U1() / divisor.U1();
+        public override NumeralVariant Mul(NumeralVariant factor)
+        {
+            var sum = this.U1() * factor.U1();
 
-        return new ByteVariant((byte)sum);
-    }
+            return new ByteVariant((byte)sum);
+        }
 
-    public override NumeralVariant Xor(NumeralVariant xorfactor)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Div(NumeralVariant divisor)
+        {
+            var sum = this.U1() / divisor.U1();
 
-    public override NumeralVariant Rem(NumeralVariant remfactor)
-    {
-        throw new NotImplementedException();
-    }
+            return new ByteVariant((byte)sum);
+        }
 
-    public override NumeralVariant Or(NumeralVariant or)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Xor(NumeralVariant xorfactor)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Not(NumeralVariant not)
-    {
-        throw new NotImplementedException();
+        public override NumeralVariant Rem(NumeralVariant remfactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NumeralVariant Or(NumeralVariant or)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NumeralVariant Not(NumeralVariant not)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

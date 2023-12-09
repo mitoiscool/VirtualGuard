@@ -1,74 +1,77 @@
+using System;
 using System.Reflection;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
 using VirtualGuard.Runtime.Variant.Object;
 
-namespace VirtualGuard.Runtime;
-
-public class VMContext
+namespace VirtualGuard.Runtime
 {
-    public VMContext()
-    {
-        Stack = new VMStack();
-        Reader = new VMReader();
-    }
-    
-    public VMStack Stack;
-    public VMReader Reader;
 
-    private Exception _exception;
-
-    public object Dispatch(int loc, object[] args)
+    public class VMContext
     {
-        Reader.SetValue(loc);
-        Stack.Push(new ArrayVariant(args));
-        
-        switch (DispatchInternal())
+        public VMContext()
         {
-            case ExecutionState.Catch:
-                // handle _exception, check for finally and potentially jump to that state in the case
-                
-                // if finally, goto case finally
-                break;
-            
-            case ExecutionState.Finally:
-                // jump to handler location 
-                break;
+            Stack = new VMStack();
+            Reader = new VMReader();
         }
-        
-        return Stack.Pop();
-    }
 
-    ExecutionState DispatchInternal()
-    {
-        ExecutionState state;
-        
-        do
+        public VMStack Stack;
+        public VMReader Reader;
+
+        private Exception _exception;
+
+        public object Dispatch(int loc, object[] args)
         {
-            try
+            Reader.SetValue(loc);
+            Stack.Push(new ArrayVariant(args));
+
+            switch (DispatchInternal())
             {
-                var handler = Reader.ReadHandler();
+                case ExecutionState.Catch:
+                    // handle _exception, check for finally and potentially jump to that state in the case
 
-                CodeMap.GetCode(handler).Execute(this, out state);
-
-                if (state != ExecutionState.Next)
+                    // if finally, goto case finally
                     break;
-                
+
+                case ExecutionState.Finally:
+                    // jump to handler location 
+                    break;
             }
-            catch (Exception ex)
+
+            return Stack.Pop();
+        }
+
+        ExecutionState DispatchInternal()
+        {
+            ExecutionState state;
+
+            do
             {
-                _exception = ex;
-                return ExecutionState.Catch;
-            }
+                try
+                {
+                    var handler = Reader.ReadHandler();
 
-        } while (true);
+                    CodeMap.GetCode(handler).Execute(this, out state);
 
-        return state;
+                    if (state != ExecutionState.Next)
+                        break;
+
+                }
+                catch (Exception ex)
+                {
+                    _exception = ex;
+                    return ExecutionState.Catch;
+                }
+
+            } while (true);
+
+            return state;
+        }
+
+        public MethodBase ResolveMethod(int i)
+        {
+            return (MethodBase)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
+        }
+
     }
-
-    public MethodBase ResolveMethod(int i)
-    {
-        return (MethodBase)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
-    }
-    
 }

@@ -1,11 +1,13 @@
-namespace VirtualGuard.Runtime;
-
-public class Entry
+namespace VirtualGuard.Runtime
 {
-    public static object VMEntry(int loc, object[] args)
+
+    public class Entry
     {
-        return new VMContext().Dispatch(loc, args);
+        public static object VMEntry(int loc, object[] args)
+        {
+            return new VMContext().Dispatch(loc, args);
+        }
+
+
     }
-    
-    
 }

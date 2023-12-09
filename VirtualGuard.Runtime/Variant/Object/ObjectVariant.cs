@@ -1,15 +1,18 @@
-namespace VirtualGuard.Runtime.Variant.Object;
-
-public class ObjectVariant : BaseVariant
+namespace VirtualGuard.Runtime.Variant.Object
 {
-    public ObjectVariant(object obj)
-    {
-        _obj = obj;
-    }
 
-    private object _obj;
-    public override object GetObject()
+    public class ObjectVariant : BaseVariant
     {
-        return _obj;
+        public ObjectVariant(object obj)
+        {
+            _obj = obj;
+        }
+
+        private object _obj;
+
+        public override object GetObject()
+        {
+            return _obj;
+        }
     }
 }

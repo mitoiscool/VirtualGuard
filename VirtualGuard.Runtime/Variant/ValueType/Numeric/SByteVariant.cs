@@ -1,60 +1,65 @@
-namespace VirtualGuard.Runtime.Variant.ValueType.Numeric;
+using System;
 
-public class SByteVariant : NumeralVariant
+namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 {
-    private short _value;
-    public SByteVariant(sbyte s)
-    {
-        _value = s;
-    }
-    
-    public override object GetObject()
-    {
-        return _value;
-    }
 
-    public override void SetFlags(int flag)
+    public class SByteVariant : NumeralVariant
     {
-        throw new NotImplementedException();
-    }
+        private short _value;
 
-    public override NumeralVariant Add(NumeralVariant addend)
-    {
-        throw new NotImplementedException();
-    }
+        public SByteVariant(sbyte s)
+        {
+            _value = s;
+        }
 
-    public override NumeralVariant Sub(NumeralVariant subtraend)
-    {
-        throw new NotImplementedException();
-    }
+        public override object GetObject()
+        {
+            return _value;
+        }
 
-    public override NumeralVariant Mul(NumeralVariant factor)
-    {
-        throw new NotImplementedException();
-    }
+        public override void SetFlags(int flag)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Div(NumeralVariant divisor)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Add(NumeralVariant addend)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Xor(NumeralVariant xorfactor)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Sub(NumeralVariant subtraend)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Rem(NumeralVariant remfactor)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Mul(NumeralVariant factor)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Or(NumeralVariant or)
-    {
-        throw new NotImplementedException();
-    }
+        public override NumeralVariant Div(NumeralVariant divisor)
+        {
+            throw new NotImplementedException();
+        }
 
-    public override NumeralVariant Not(NumeralVariant not)
-    {
-        throw new NotImplementedException();
+        public override NumeralVariant Xor(NumeralVariant xorfactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NumeralVariant Rem(NumeralVariant remfactor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NumeralVariant Or(NumeralVariant or)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NumeralVariant Not(NumeralVariant not)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

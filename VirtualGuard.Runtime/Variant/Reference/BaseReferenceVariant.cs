@@ -1,11 +1,15 @@
-namespace VirtualGuard.Runtime.Variant.Reference;
+using System;
 
-public abstract class BaseReferenceVariant : BaseVariant
+namespace VirtualGuard.Runtime.Variant.Reference
 {
-    public override bool IsReference()
-    {
-        return true;
-    }
 
-    public abstract IntPtr GetPtr();
+    public abstract class BaseReferenceVariant : BaseVariant
+    {
+        public override bool IsReference()
+        {
+            return true;
+        }
+
+        public abstract IntPtr GetPtr();
+    }
 }

@@ -1,51 +1,59 @@
+using System;
 using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
 
-namespace VirtualGuard.Runtime;
+namespace VirtualGuard.Runtime
+{
 
-public class VMStack {
-    BaseVariant[] _array;
-    uint _index;
+    public class VMStack
+    {
+        BaseVariant[] _array;
+        uint _index;
 
-    internal VMStack() {
-        _array = new BaseVariant[10];
-        _index = 0;
-    }
-
-    ~VMStack() {
-        Array.Clear(_array, 0, _array.Length);
-        _array = null;
-        _index = 0;
-    }
-
-    internal void Push(BaseVariant val) {
-        if (_index == _array.Length) {
-            var arr = new BaseVariant[2 * _array.Length];
-            Array.Copy(_array, 0, arr, 0, _index);
-            _array = arr;
+        internal VMStack()
+        {
+            _array = new BaseVariant[10];
+            _index = 0;
         }
 
-        _array[_index++] = val;
-    }
+        ~VMStack()
+        {
+            Array.Clear(_array, 0, _array.Length);
+            _array = null;
+            _index = 0;
+        }
 
-    internal BaseVariant Pop()
-    {
-        if (_index == 0)
-            return new NullVariant();
+        internal void Push(BaseVariant val)
+        {
+            if (_index == _array.Length)
+            {
+                var arr = new BaseVariant[2 * _array.Length];
+                Array.Copy(_array, 0, arr, 0, _index);
+                _array = arr;
+            }
 
-        var res = _array[--_index];
-        _array[_index] = null;
-        return res;
-    }
-    
-    
-    internal BaseVariant Peek()
-    {
-        if (_index == 0)
-            return new NullVariant();
+            _array[_index++] = val;
+        }
 
-        var res = _array[_index];
-        return res;
+        internal BaseVariant Pop()
+        {
+            if (_index == 0)
+                return new NullVariant();
+
+            var res = _array[--_index];
+            _array[_index] = null;
+            return res;
+        }
+
+
+        internal BaseVariant Peek()
+        {
+            if (_index == 0)
+                return new NullVariant();
+
+            var res = _array[_index];
+            return res;
+        }
+
     }
-    
 }

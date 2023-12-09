@@ -1,9 +1,11 @@
 using VirtualGuard.Runtime.Execution;
 
-namespace VirtualGuard.Runtime.OpCodes;
-
-public interface IOpCode
+namespace VirtualGuard.Runtime.OpCodes
 {
-    public void Execute(VMContext ctx, out ExecutionState state);
-    public byte GetCode();
+
+    public interface IOpCode
+    {
+        void Execute(VMContext ctx, out ExecutionState state);
+        byte GetCode();
+    }
 }

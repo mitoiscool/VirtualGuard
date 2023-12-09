@@ -1,28 +1,30 @@
 using System.Reflection;
 
-namespace VirtualGuard.Runtime.Variant.Member.impl;
-
-public class FieldVariant : BaseMemberVariant
+namespace VirtualGuard.Runtime.Variant.Member.impl
 {
-    private FieldInfo _info;
-    
-    public FieldVariant(FieldInfo info)
-    {
-        _info = info;
-    }
-    
-    public override object GetObject()
-    {
-        return _info;
-    }
 
-    public override void SetValue(BaseVariant inst, BaseVariant value)
+    public class FieldVariant : BaseMemberVariant
     {
-        _info.SetValue(inst.GetObject(), value.GetObject());
-    }
+        private FieldInfo _info;
 
-    public override object GetValue(BaseVariant inst)
-    {
-        return _info.GetValue(inst.GetObject());
+        public FieldVariant(FieldInfo info)
+        {
+            _info = info;
+        }
+
+        public override object GetObject()
+        {
+            return _info;
+        }
+
+        public override void SetValue(BaseVariant inst, BaseVariant value)
+        {
+            _info.SetValue(inst.GetObject(), value.GetObject());
+        }
+
+        public override object GetValue(BaseVariant inst)
+        {
+            return _info.GetValue(inst.GetObject());
+        }
     }
 }

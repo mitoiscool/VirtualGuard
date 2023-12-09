@@ -1,9 +1,11 @@
-namespace VirtualGuard.Runtime.Execution;
-
-public enum ExecutionState
+namespace VirtualGuard.Runtime.Execution
 {
-    Next,
-    Exit,
-    Catch,
-    Finally
+
+    public enum ExecutionState
+    {
+        Next,
+        Exit,
+        Catch,
+        Finally
+    }
 }

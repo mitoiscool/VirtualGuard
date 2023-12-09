@@ -1,9 +1,98 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>VirtualGuard.Runtime</RootNamespace>
+        <AssemblyName>VirtualGuard.Runtime</AssemblyName>
+        <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Dynamic\Constants.cs" />
+        <Compile Include="Dynamic\Routine.cs" />
+        <Compile Include="Entry.cs" />
+        <Compile Include="Execution\ExecutionState.cs" />
+        <Compile Include="Flags\ArithmeticFlags.cs" />
+        <Compile Include="IElement.cs" />
+        <Compile Include="OpCodes\CodeMap.cs" />
+        <Compile Include="OpCodes\impl\Add.cs" />
+        <Compile Include="OpCodes\impl\Call.cs" />
+        <Compile Include="OpCodes\impl\Cmp.cs" />
+        <Compile Include="OpCodes\impl\Div.cs" />
+        <Compile Include="OpCodes\impl\Dup.cs" />
+        <Compile Include="OpCodes\impl\EnterRegion.cs" />
+        <Compile Include="OpCodes\impl\Jmp.cs" />
+        <Compile Include="OpCodes\impl\Ldc_I4.cs" />
+        <Compile Include="OpCodes\impl\Ldc_I8.cs" />
+        <Compile Include="OpCodes\impl\Ldc_R4.cs" />
+        <Compile Include="OpCodes\impl\Ldc_R8.cs" />
+        <Compile Include="OpCodes\impl\Ldfld.cs" />
+        <Compile Include="OpCodes\impl\Ldloc.cs" />
+        <Compile Include="OpCodes\impl\Ldstr.cs" />
+        <Compile Include="OpCodes\impl\LoadState.cs" />
+        <Compile Include="OpCodes\impl\Mul.cs" />
+        <Compile Include="OpCodes\impl\Pop.cs" />
+        <Compile Include="OpCodes\impl\Ret.cs" />
+        <Compile Include="OpCodes\impl\Stfld.cs" />
+        <Compile Include="OpCodes\impl\Stloc.cs" />
+        <Compile Include="OpCodes\impl\Sub.cs" />
+        <Compile Include="OpCodes\IOpCode.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Variant\BaseVariant.cs" />
+        <Compile Include="Variant\Member\BaseMemberVariant.cs" />
+        <Compile Include="Variant\Member\impl\FieldVariant.cs" />
+        <Compile Include="Variant\Object\ArrayVariant.cs" />
+        <Compile Include="Variant\Object\NullVariant.cs" />
+        <Compile Include="Variant\Object\ObjectVariant.cs" />
+        <Compile Include="Variant\Reference\BaseReferenceVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\ByteVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\IntVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\LongVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\NumeralVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\SByteVariant.cs" />
+        <Compile Include="Variant\ValueType\Numeric\ShortVariant.cs" />
+        <Compile Include="Variant\ValueType\StringVariant.cs" />
+        <Compile Include="VMContext.cs" />
+        <Compile Include="VMReader.cs" />
+        <Compile Include="VMStack.cs" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
 
 </Project>

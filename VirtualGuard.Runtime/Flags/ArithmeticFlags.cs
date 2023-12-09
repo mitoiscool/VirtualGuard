@@ -1,10 +1,14 @@
-namespace VirtualGuard.Runtime.Flags;
+using System;
 
-[Flags]
-public enum ArithmeticFlags
+namespace VirtualGuard.Runtime.Flags
 {
-    ZERO,
-    SIGN,
-    OVERFLOW,
-    CARRY
+
+    [Flags]
+    public enum ArithmeticFlags
+    {
+        ZERO,
+        SIGN,
+        OVERFLOW,
+        CARRY
+    }
 }
