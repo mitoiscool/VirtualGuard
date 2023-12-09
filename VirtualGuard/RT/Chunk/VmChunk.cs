@@ -80,6 +80,21 @@ public class VmChunk : IChunk
         return length;
     }
 
+    public VmChunk Split(VirtualGuardRT rt, int splitIndex)
+    {
+        var newInstrs = new List<VmInstruction>();
+
+        for (int i = splitIndex; i <= this.Content.Count; i++)
+        {
+            newInstrs.Add(Content[i]);
+        }
+
+        var chunk = new VmChunk(newInstrs);
+        rt.AddChunk(chunk, rt.IndexOfChunk(this));
+
+        return chunk;
+    }
+
     public override string ToString()
     {
         return "<chunk @ " + Offset + ">";

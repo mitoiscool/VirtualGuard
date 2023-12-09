@@ -43,7 +43,7 @@ public class VmMethod
                 block.WithContent(
                     new VmInstruction(VmCode.Dup), // dup onstack array of args
                     new VmInstruction(VmCode.Ldc_I4, parameter.Index), // load index onto stack
-                    new VmInstruction(VmCode.__ldelem), // load index from arg array
+                    new VmInstruction(VmCode.Ldelem), // load index from arg array
                     new VmInstruction(VmCode.Stloc, local) // set value into local
                     );
             }

@@ -77,6 +77,10 @@ public class VirtualGuardRT
     
     public void AddChunk(IChunk chunk) => _allChunks.Add(chunk);
 
+    public void AddChunk(IChunk chunk, int index) => _allChunks.Insert(index, chunk);
+
+    public int IndexOfChunk(IChunk chunk) => _allChunks.IndexOf(chunk);
+    
     public VmChunk[] VmChunks => _allChunks.Where(x => x is VmChunk).Cast<VmChunk>().ToArray();
 
     public void WriteHeap(VirtualGuardContext ctx)

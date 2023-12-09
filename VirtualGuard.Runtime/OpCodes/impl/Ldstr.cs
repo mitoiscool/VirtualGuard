@@ -1,4 +1,3 @@
-using System.Xml;
 using VirtualGuard.Runtime.Execution;
 
 namespace VirtualGuard.Runtime.OpCodes.impl

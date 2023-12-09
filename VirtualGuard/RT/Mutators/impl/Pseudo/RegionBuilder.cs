@@ -1,7 +1,7 @@
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.VMIL.VM;
 
-namespace VirtualGuard.RT.Mutators.impl;
+namespace VirtualGuard.RT.Mutators.impl.Pseudo;
 
 public class RegionBuilder
 {

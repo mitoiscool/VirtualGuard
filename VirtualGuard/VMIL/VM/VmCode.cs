@@ -34,10 +34,9 @@ public enum VmCode
     Jmp,
     
     Dup,
-    
-    __ldelem, // these will be vcalls in special region
-    __stelem, // these will be vcalls
+    Ldelem, // these will be vcalls in special region
+    Stelem, // these will be vcalls
 
-    __jz,
-    __jnz,
+    Jz,
+    Jnz,
 }
