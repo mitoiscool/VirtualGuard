@@ -38,6 +38,7 @@ public class VMStack {
         return res;
     }
     
+    
     internal BaseVariant Peek()
     {
         if (_index == 0)
