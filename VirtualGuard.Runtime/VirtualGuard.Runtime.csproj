@@ -53,10 +53,13 @@
         <Compile Include="OpCodes\impl\Dup.cs" />
         <Compile Include="OpCodes\impl\EnterRegion.cs" />
         <Compile Include="OpCodes\impl\Jmp.cs" />
+        <Compile Include="OpCodes\impl\Jnz.cs" />
+        <Compile Include="OpCodes\impl\Jz.cs" />
         <Compile Include="OpCodes\impl\Ldc_I4.cs" />
         <Compile Include="OpCodes\impl\Ldc_I8.cs" />
         <Compile Include="OpCodes\impl\Ldc_R4.cs" />
         <Compile Include="OpCodes\impl\Ldc_R8.cs" />
+        <Compile Include="OpCodes\impl\Ldelem.cs" />
         <Compile Include="OpCodes\impl\Ldfld.cs" />
         <Compile Include="OpCodes\impl\Ldloc.cs" />
         <Compile Include="OpCodes\impl\Ldstr.cs" />
@@ -64,6 +67,7 @@
         <Compile Include="OpCodes\impl\Mul.cs" />
         <Compile Include="OpCodes\impl\Pop.cs" />
         <Compile Include="OpCodes\impl\Ret.cs" />
+        <Compile Include="OpCodes\impl\Stelem.cs" />
         <Compile Include="OpCodes\impl\Stfld.cs" />
         <Compile Include="OpCodes\impl\Stloc.cs" />
         <Compile Include="OpCodes\impl\Sub.cs" />
