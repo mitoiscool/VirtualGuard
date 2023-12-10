@@ -71,7 +71,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return new LongVariant(res);
         }
 
-        public override NumeralVariant Not(NumeralVariant not)
+        public override NumeralVariant Not()
         {
             throw new NotImplementedException();
         }

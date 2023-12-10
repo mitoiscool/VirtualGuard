@@ -3,6 +3,11 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
     public abstract class NumeralVariant : BaseVariant
     {
+        public override bool IsNumeral()
+        {
+            return true;
+        }
+
         public abstract void SetFlags(int flag);
 
         public abstract NumeralVariant Add(NumeralVariant addend);
@@ -13,6 +18,6 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public abstract NumeralVariant Xor(NumeralVariant xorfactor);
         public abstract NumeralVariant Rem(NumeralVariant remfactor);
         public abstract NumeralVariant Or(NumeralVariant or);
-        public abstract NumeralVariant Not(NumeralVariant not);
+        public abstract NumeralVariant Not();
     }
 }

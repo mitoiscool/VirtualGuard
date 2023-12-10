@@ -6,7 +6,11 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            throw new System.NotImplementedException();
+            var arr = ctx.Stack.Pop().ToArray();
+
+            arr.SetDelimeter(ctx.Stack.Pop(), ctx.Stack.Pop());
+            state = ExecutionState.Next;
+            
         }
 
         public byte GetCode() => 0;

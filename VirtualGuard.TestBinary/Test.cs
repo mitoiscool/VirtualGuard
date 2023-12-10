@@ -15,6 +15,18 @@ public class Test
         Console.WriteLine("done");
     }
 
+    public static void ConditionalTest()
+    {
+        if (Console.ReadKey().KeyChar == 'a')
+        {
+            Console.WriteLine("true");
+        }
+        else
+        {
+            Console.WriteLine("false");
+        }
+    }
+
 
     public static void TestCaller1()
     {

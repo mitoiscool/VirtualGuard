@@ -92,7 +92,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return new IntVariant(sum);
         }
 
-        public override NumeralVariant Not(NumeralVariant not)
+        public override NumeralVariant Not()
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,10 @@
+using System;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using VirtualGuard.Runtime.Flags;
 using VirtualGuard.Runtime.Variant.Member.impl;
 using VirtualGuard.Runtime.Variant.Object;
+using VirtualGuard.Runtime.Variant.ValueType;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime.Variant
@@ -11,13 +16,69 @@ namespace VirtualGuard.Runtime.Variant
         {
             // populate with casts
 
+            var type = Type.GetTypeCode(obj.GetType());
 
+            switch (type)
+            { // simple types
+                case TypeCode.Byte:
+                    return new ByteVariant((byte)obj);
+                case TypeCode.SByte:
+                    return new SByteVariant((sbyte)obj);
+                
+                case TypeCode.Int16:
+                    return new ShortVariant((short)obj);
+                
+                case TypeCode.Int32:
+                    return new IntVariant((int)obj);
+                
+                case TypeCode.Int64:
+                    return new LongVariant((long)obj);
+                
+                case TypeCode.String:
+                    return new StringVariant((string)obj);
+            }
 
+            if (obj is Array arr)
+                return new ArrayVariant(arr);
+            
             return new ObjectVariant(obj);
         }
 
+        public static byte Compare(BaseVariant firstELement, BaseVariant secondElement)
+        {
+            byte flags = 0;
+            
+
+            if (firstELement.IsNumeral() && secondElement.IsNumeral())
+            {
+                // gt lt eq comparisons
+                
+                // cast to safe int (long in this case, no support for unsigned yet)
+
+                if (firstELement.I8() > secondElement.I8())
+                    flags |= (byte)ComparisonFlags.GT; // i'm not super sure how to use flags, could be &=
+
+                if (firstELement.I8() < secondElement.I8())
+                    flags |= (byte)ComparisonFlags.LT;
+
+                if (firstELement.I8() == secondElement.I8())
+                    flags |= (byte)ComparisonFlags.EQ;
+
+                return flags;
+            }
+
+            if (firstELement.GetObject().Equals(secondElement.GetObject()))
+                return (byte)ComparisonFlags.EQ;
+
+            return (byte)ComparisonFlags.NEQ;
+        }
 
         public virtual bool IsReference()
+        {
+            return false;
+        }
+
+        public virtual bool IsNumeral()
         {
             return false;
         }

@@ -7,6 +7,8 @@ public enum VmCode
     Mul,
     Div,
     
+    Not,
+    
     Stloc,
     Ldloc,
     
@@ -38,5 +40,4 @@ public enum VmCode
     Stelem, // these will be vcalls
 
     Jz,
-    Jnz,
 }

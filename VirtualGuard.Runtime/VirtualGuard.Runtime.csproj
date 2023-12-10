@@ -44,6 +44,7 @@
         <Compile Include="Entry.cs" />
         <Compile Include="Execution\ExecutionState.cs" />
         <Compile Include="Flags\ArithmeticFlags.cs" />
+        <Compile Include="Flags\ComparisonFlags.cs" />
         <Compile Include="IElement.cs" />
         <Compile Include="OpCodes\CodeMap.cs" />
         <Compile Include="OpCodes\impl\Add.cs" />
@@ -53,7 +54,6 @@
         <Compile Include="OpCodes\impl\Dup.cs" />
         <Compile Include="OpCodes\impl\EnterRegion.cs" />
         <Compile Include="OpCodes\impl\Jmp.cs" />
-        <Compile Include="OpCodes\impl\Jnz.cs" />
         <Compile Include="OpCodes\impl\Jz.cs" />
         <Compile Include="OpCodes\impl\Ldc_I4.cs" />
         <Compile Include="OpCodes\impl\Ldc_I8.cs" />
@@ -65,6 +65,7 @@
         <Compile Include="OpCodes\impl\Ldstr.cs" />
         <Compile Include="OpCodes\impl\LoadState.cs" />
         <Compile Include="OpCodes\impl\Mul.cs" />
+        <Compile Include="OpCodes\impl\Not.cs" />
         <Compile Include="OpCodes\impl\Pop.cs" />
         <Compile Include="OpCodes\impl\Ret.cs" />
         <Compile Include="OpCodes\impl\Stelem.cs" />

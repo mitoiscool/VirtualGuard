@@ -1,7 +1,9 @@
 using System;
 using System.Reflection;
 using VirtualGuard.Runtime.Execution;
+using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
+using VirtualGuard.Runtime.Variant.Reference;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
@@ -24,10 +26,30 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             }
 
             // this is such a shitty way of doing this
-            if (methodBase.IsStatic)
-                ctx.Stack.Push(new NullVariant());
 
-            var ret = methodBase.Invoke(ctx.Stack.Pop().GetObject(), argsCasted);
+            
+            object inst;
+
+            if (!methodBase.IsStatic)
+            {
+                BaseVariant instVar = null;
+                instVar = ctx.Stack.Pop();
+
+                if (instVar.IsReference())
+                {
+                    inst = ((BaseReferenceVariant)instVar).GetPtr();
+                }
+                else
+                {
+                    inst = instVar.GetObject();
+                }
+            }
+            else
+            {
+                inst = null;
+            }
+
+            var ret = methodBase.Invoke(inst, argsCasted);
 
             // terms for ret
 
