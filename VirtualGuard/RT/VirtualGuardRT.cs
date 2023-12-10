@@ -37,7 +37,8 @@ public class VirtualGuardRT
     public ModuleDefinition RuntimeModule;
 
     private Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
-
+    private Dictionary<VmChunk, MethodDefinition> _importMap = new Dictionary<VmChunk, MethodDefinition>();
+    
     public VmElements Elements;
     public bool isDebug = false;
     public VMDescriptor Descriptor;
@@ -53,6 +54,12 @@ public class VirtualGuardRT
     {
         AddChunk(chunk);
         _exportMap.Add(chunk, parent);
+    }
+    
+    public void AddImportChunk(VmChunk chunk, MethodDefinition parent)
+    {
+        AddChunk(chunk);
+        _importMap.Add(chunk, parent);
     }
 
     public void Inject(ModuleDefinition target)
@@ -80,9 +87,33 @@ public class VirtualGuardRT
     public void AddChunk(IChunk chunk, int index) => _allChunks.Insert(index, chunk);
 
     public int IndexOfChunk(IChunk chunk) => _allChunks.IndexOf(chunk);
+
+    
     
     public VmChunk[] VmChunks => _allChunks.Where(x => x is VmChunk).Cast<VmChunk>().ToArray();
 
+    public bool IsMethodVirtualized(MethodDefinition def, out VmChunk methodChunk)
+    {
+        methodChunk = null;
+        
+        bool isImport = _importMap.ContainsValue(def);
+        bool isExport = _exportMap.ContainsValue(def);
+
+        if (!isImport && !isExport)
+            return false;
+
+        if (isImport)
+        {
+            methodChunk = _importMap.Single(x => x.Value == def).Key;
+        }
+        else
+        {
+            methodChunk = _exportMap.Single(x => x.Value == def).Key;
+        }
+
+        return true;
+    }
+    
     public void WriteHeap(VirtualGuardContext ctx)
     {
         MutateChunks();

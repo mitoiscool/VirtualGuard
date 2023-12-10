@@ -40,4 +40,5 @@ public enum VmCode
     Stelem, // these will be vcalls
 
     Jz,
+    Vmcall // can be a sick ass vcall, jmp to region, push all args and relativize ctx
 }
