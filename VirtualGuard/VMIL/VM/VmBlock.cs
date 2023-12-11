@@ -21,7 +21,11 @@ public class VmBlock
         var chunk = new VmChunk(this.Content);
 
         if (!parent.Entry.Equals(this))
+        { // not an entry chunk
+            rt.AddChunk(chunk);
             return chunk; // not entry chunk
+        }
+        
 
         if (parent.isExport)
         {
