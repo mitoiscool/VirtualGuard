@@ -114,17 +114,18 @@ public class VirtualGuardRT
         return true;
     }
     
-    public void WriteHeap(VirtualGuardContext ctx)
+    public void Commit(VirtualGuardContext ctx)
     {
+        
         MutateChunks();
         
         UpdateOffsets();
 
-        var bytes = SerializeChunks();
+        //var bytes = SerializeChunks();
         
         Print();
         
-        ctx.Module.Resources.Add(new ManifestResource("test", ManifestResourceAttributes.Private, new DataSegment(bytes)));
+        //ctx.Module.Resources.Add(new ManifestResource("test", ManifestResourceAttributes.Private, new DataSegment(bytes)));
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 
@@ -201,6 +202,8 @@ public class VirtualGuardRT
         {
             if(chunk is VmChunk vchunk)
                 AppendVmChunk(sb, vchunk, i);
+            else
+                sb.AppendLine(chunk.GetType().Name + " " + i + " - length: " + chunk.Length);
 
             sb.AppendLine();
             i++;

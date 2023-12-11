@@ -19,6 +19,7 @@ public class LocalTranslator : ITranslator
                     new VmInstruction(VmCode.Stloc, vmLoc));
                 break;
             
+            case CilCode.Ldloca:
             case CilCode.Ldloc:
                 block.WithContent(
                     new VmInstruction(VmCode.Ldloc, vmLoc));
@@ -30,7 +31,11 @@ public class LocalTranslator : ITranslator
     {
         if (instr.OpCode.Code == CilCode.Stloc)
             return true;
+        
         if (instr.OpCode.Code == CilCode.Ldloc)
+            return true;
+        
+        if (instr.OpCode.Code == CilCode.Ldloca)
             return true;
         
         return false;

@@ -9,8 +9,9 @@ public class Test
     
     public static void CallTest()
     {
-        Console.WriteLine("test1");
-        Console.WriteLine("test1");
+        ConditionalTest();
+        
+        Console.WriteLine(AddTest(10, 12));
         Console.WriteLine(Console.ReadLine());
         Console.WriteLine("done");
     }

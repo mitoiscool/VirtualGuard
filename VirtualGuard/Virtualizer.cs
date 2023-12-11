@@ -37,9 +37,7 @@ public class Virtualizer
 
     public void CommitRuntime()
     {
-        _rt.AddChunk(new BinaryChunk()); // test
-        
-        _rt.WriteHeap(_ctx);
+        _rt.Commit(_ctx);
 
         // clone runtime module into target module
         _rt.Inject(_ctx.Module);

@@ -22,11 +22,11 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             for (int i = 0; i < args.Length; i++)
             {
+                // this doesn't support ref args
                 argsCasted[i] = Convert.ChangeType(ctx.Stack.Pop().GetObject(), args[i].ParameterType);
             }
 
             // this is such a shitty way of doing this
-
             
             object inst;
 

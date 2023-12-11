@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
+using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
 
 namespace VirtualGuard.Runtime
@@ -17,6 +19,7 @@ namespace VirtualGuard.Runtime
 
         public VMStack Stack;
         public VMReader Reader;
+        private Dictionary<short, BaseVariant> _locals = new Dictionary<short, BaseVariant>();
 
         private Exception _exception;
 
