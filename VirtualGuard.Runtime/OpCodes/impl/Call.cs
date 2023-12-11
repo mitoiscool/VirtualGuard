@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
@@ -26,43 +28,15 @@ namespace VirtualGuard.Runtime.OpCodes.impl
                 argsCasted[i] = Convert.ChangeType(ctx.Stack.Pop().GetObject(), args[i].ParameterType);
             }
 
-            // this is such a shitty way of doing this
+            throw new NotImplementedException();
             
-            object inst;
-
-            if (!methodBase.IsStatic)
-            {
-                BaseVariant instVar = null;
-                instVar = ctx.Stack.Pop();
-
-                if (instVar.IsReference())
-                {
-                    inst = ((BaseReferenceVariant)instVar).GetPtr();
-                }
-                else
-                {
-                    inst = instVar.GetObject();
-                }
-            }
-            else
-            {
-                inst = null;
-            }
-
-            var ret = methodBase.Invoke(inst, argsCasted);
-
-            // terms for ret
-
-            // if it is a ctor, inst should be returned always
-            if (methodBase.Name == ".ctor" || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))
-            {
-                // should return
-                ctx.Stack.Push(new ObjectVariant(ret));
-            }
 
             state = ExecutionState.Next;
         }
 
         public byte GetCode() => 0;
+
+        private static Dictionary<MethodBase, DynamicMethod> _dynamicMethodCache =
+            new Dictionary<MethodBase, DynamicMethod>();
     }
 }

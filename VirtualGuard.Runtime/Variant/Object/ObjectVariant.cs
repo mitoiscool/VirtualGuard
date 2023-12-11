@@ -14,5 +14,15 @@ namespace VirtualGuard.Runtime.Variant.Object
         {
             return _obj;
         }
+
+        public override void SetValue(object obj)
+        {
+            _obj = obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new ObjectVariant(_obj);
+        }
     }
 }

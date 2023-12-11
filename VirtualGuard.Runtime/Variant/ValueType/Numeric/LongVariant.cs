@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 {
@@ -17,6 +18,16 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return _value;
         }
 
+        public override void SetValue(object obj)
+        {
+            _value = (long)obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new LongVariant(_value);
+        }
+
         public override void SetFlags(int flag)
         {
             throw new NotImplementedException();
@@ -24,56 +35,56 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
         public override NumeralVariant Add(NumeralVariant addend)
         {
-            var sum = this.I8() + addend.I8();
+            var sum = _value + addend.I8();
 
             return new LongVariant(sum);
         }
 
         public override NumeralVariant Sub(NumeralVariant subtraend)
         {
-            var diff = this.I8() - subtraend.I8();
+            var diff = _value - subtraend.I8();
 
             return new LongVariant(diff);
         }
 
         public override NumeralVariant Mul(NumeralVariant factor)
         {
-            var product = this.I8() * factor.I8();
+            var product = _value * factor.I8();
 
             return new LongVariant(product);
         }
 
         public override NumeralVariant Div(NumeralVariant divisor)
         {
-            var quotient = this.I8() / divisor.I8();
+            var quotient = _value / divisor.I8();
 
             return new LongVariant(quotient);
         }
 
         public override NumeralVariant Xor(NumeralVariant xorfactor)
         {
-            var result = this.I8() ^ xorfactor.I8();
+            var result = _value ^ xorfactor.I8();
 
             return new LongVariant(result);
         }
 
         public override NumeralVariant Rem(NumeralVariant remfactor)
         {
-            var res = this.I8() % remfactor.I8();
+            var res = _value % remfactor.I8();
 
             return new LongVariant(res);
         }
 
         public override NumeralVariant Or(NumeralVariant or)
         {
-            var res = this.I8() | or.I8();
+            var res = _value | or.I8();
 
             return new LongVariant(res);
         }
 
         public override NumeralVariant Not()
         {
-            throw new NotImplementedException();
+            return new LongVariant(~_value);
         }
     }
 }

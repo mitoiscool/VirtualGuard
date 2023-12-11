@@ -13,14 +13,13 @@ namespace VirtualGuard.Runtime
 
         public BaseVariant GetLocal(BaseVariant index)
         {
-            return new Local
+            return _internal[index.I2()];
         }
 
         public void SetLocal(BaseVariant index, BaseVariant value)
         {
-            
+            _internal[index.I2()] = value;
         }
-        
         
     }
 }

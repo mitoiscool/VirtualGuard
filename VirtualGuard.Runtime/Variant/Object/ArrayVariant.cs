@@ -17,6 +17,16 @@ namespace VirtualGuard.Runtime.Variant.Object
             return _array;
         }
 
+        public override void SetValue(object obj)
+        {
+            _array = (Array)obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new ArrayVariant(_array);
+        }
+
         public BaseVariant LoadDelimeter(BaseVariant index)
         {
             return BaseVariant.CastVariant(_array.GetValue(index.I4()));

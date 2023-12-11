@@ -14,7 +14,17 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
         public override object GetObject()
         {
-            throw new NotImplementedException();
+            return _b;
+        }
+
+        public override void SetValue(object obj)
+        {
+            _b = (byte)obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new ByteVariant(_b);
         }
 
         public override void SetFlags(int flag)
@@ -52,22 +62,21 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
         public override NumeralVariant Xor(NumeralVariant xorfactor)
         {
-            throw new NotImplementedException();
+            return new ByteVariant((byte)(_b ^ xorfactor.U1()));
         }
 
         public override NumeralVariant Rem(NumeralVariant remfactor)
         {
-            throw new NotImplementedException();
+            return new ByteVariant((byte)(_b % remfactor.U1()));
         }
-
         public override NumeralVariant Or(NumeralVariant or)
         {
-            throw new NotImplementedException();
+            return new ByteVariant((byte)(_b | or.U1()));
         }
 
         public override NumeralVariant Not()
         {
-            throw new NotImplementedException();
+            return new ByteVariant((byte)~_b);
         }
     }
 }

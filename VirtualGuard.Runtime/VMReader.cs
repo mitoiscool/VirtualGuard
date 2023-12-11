@@ -65,9 +65,9 @@ namespace VirtualGuard.Runtime
             return new ByteVariant(ReadByteInternal());
         }
 
-        public ShortVariant ReadShort()
+        public IntVariant ReadShort()
         {
-            return new ShortVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
+            return new IntVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
         }
 
         public IntVariant ReadInt()

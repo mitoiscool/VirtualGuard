@@ -1,3 +1,5 @@
+using System;
+
 namespace VirtualGuard.Runtime.Variant.Object
 {
 
@@ -8,5 +10,14 @@ namespace VirtualGuard.Runtime.Variant.Object
             return null;
         }
 
+        public override void SetValue(object obj)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new NullVariant();
+        }
     }
 }

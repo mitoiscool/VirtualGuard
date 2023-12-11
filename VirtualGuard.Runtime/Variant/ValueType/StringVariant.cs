@@ -15,5 +15,14 @@ namespace VirtualGuard.Runtime.Variant.ValueType
             return _str;
         }
 
+        public override void SetValue(object obj)
+        {
+            _str = (string)obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new StringVariant(_str);
+        }
     }
 }

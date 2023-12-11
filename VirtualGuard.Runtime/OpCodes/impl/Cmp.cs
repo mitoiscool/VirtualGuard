@@ -17,11 +17,11 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             
             if (BaseVariant.Compare(v1, v2) == (byte)ComparisonFlags.EQ)
             {
-                ctx.Stack.Push(new ShortVariant(1));
+                ctx.Stack.Push(new IntVariant(1));
             }
             else
             {
-                ctx.Stack.Push(new ShortVariant(0));
+                ctx.Stack.Push(new IntVariant(0));
             }
 
             state = ExecutionState.Next;

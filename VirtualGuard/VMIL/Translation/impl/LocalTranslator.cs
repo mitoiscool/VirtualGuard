@@ -20,6 +20,10 @@ public class LocalTranslator : ITranslator
                 break;
             
             case CilCode.Ldloca:
+                block.WithContent(
+                    new VmInstruction(VmCode.Ldloca, vmLoc));
+                break;
+            
             case CilCode.Ldloc:
                 block.WithContent(
                     new VmInstruction(VmCode.Ldloc, vmLoc));

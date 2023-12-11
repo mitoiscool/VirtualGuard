@@ -1,10 +1,10 @@
-using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
+using VirtualGuard.Runtime.Variant;
+using VirtualGuard.Runtime.Variant.Reference.impl;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
-
-    public class Stfld : IOpCode
+    public class Ldflda : IOpCode
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
@@ -14,8 +14,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             if (!field.IsStatic)
                 inst = ctx.Stack.Pop();
-
-            field.SetValue(inst, ctx.Stack.Pop());
+            
+            ctx.Stack.Push(new FieldReferenceVariant(field, inst)); // no value here, interesting
 
             state = ExecutionState.Next;
         }

@@ -9,10 +9,14 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
+            var field = ctx.ResolveField(ctx.Stack.Pop().I4());
 
-            var field = ctx.Stack.Pop().ToField();
+            object inst = null;
 
-            var value = BaseVariant.CastVariant(field.GetValue(ctx.Stack.Pop()));
+            if (!field.IsStatic) // ldsfld
+                inst = ctx.Stack.Pop();
+
+            var value = BaseVariant.CastVariant(field.GetValue(inst));
 
             ctx.Stack.Push(value);
 

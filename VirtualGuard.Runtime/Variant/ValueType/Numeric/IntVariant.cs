@@ -17,6 +17,16 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return _value;
         }
 
+        public override void SetValue(object obj)
+        {
+            _value = (int)obj;
+        }
+
+        public override BaseVariant Clone()
+        {
+            return new IntVariant(_value);
+        }
+
         public override void SetFlags(int flag)
         {
             throw new NotImplementedException();
@@ -25,7 +35,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Add(NumeralVariant addend)
         {
             // result should always be int operating under realm of int
-            var sum = this.I4() + addend.I4();
+            var sum = _value + addend.I4();
 
             // do something with flags????
 
@@ -35,7 +45,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Sub(NumeralVariant subtraend)
         {
             // result should always be int operating under realm of int
-            var diff = this.I4() - subtraend.I4();
+            var diff = _value - subtraend.I4();
 
             // do something with flags????
 
@@ -45,7 +55,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Mul(NumeralVariant factor)
         {
             // result should always be int operating under realm of int
-            var sum = this.I4() * factor.I4();
+            var sum = _value * factor.I4();
 
             // do something with flags????
 
@@ -55,7 +65,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Div(NumeralVariant divisor)
         {
             // result should always be int operating under realm of int
-            var sum = this.I4() + divisor.I4();
+            var sum = _value + divisor.I4();
 
             // do something with flags????
 
@@ -65,7 +75,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Xor(NumeralVariant xorfactor)
         {
             // result should always be int operating under realm of int
-            var sum = this.I4() ^ xorfactor.I4();
+            var sum = _value ^ xorfactor.I4();
 
             // do something with flags????
 
@@ -75,7 +85,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Rem(NumeralVariant remfactor)
         {
             // result should always be int operating under realm of int
-            var sum = this.I4() % remfactor.I4();
+            var sum = _value % remfactor.I4();
 
             // do something with flags????
 
@@ -94,7 +104,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
         public override NumeralVariant Not()
         {
-            throw new NotImplementedException();
+            return new IntVariant(~_value);
         }
     }
 }

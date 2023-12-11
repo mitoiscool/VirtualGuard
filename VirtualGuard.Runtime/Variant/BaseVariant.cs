@@ -1,8 +1,8 @@
 using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using VirtualGuard.Runtime.Flags;
-using VirtualGuard.Runtime.Variant.Member.impl;
 using VirtualGuard.Runtime.Variant.Object;
 using VirtualGuard.Runtime.Variant.ValueType;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
@@ -22,12 +22,9 @@ namespace VirtualGuard.Runtime.Variant
             { // simple types
                 case TypeCode.Byte:
                     return new ByteVariant((byte)obj);
+                
                 case TypeCode.SByte:
-                    return new SByteVariant((sbyte)obj);
-                
                 case TypeCode.Int16:
-                    return new ShortVariant((short)obj);
-                
                 case TypeCode.Int32:
                     return new IntVariant((int)obj);
                 
@@ -40,6 +37,8 @@ namespace VirtualGuard.Runtime.Variant
 
             if (obj is Array arr)
                 return new ArrayVariant(arr);
+            
+            
             
             return new ObjectVariant(obj);
         }
@@ -84,7 +83,9 @@ namespace VirtualGuard.Runtime.Variant
         }
 
         public abstract object GetObject();
-
+        public abstract void SetValue(object obj);
+        public abstract BaseVariant Clone();
+        
         public virtual sbyte I1()
         {
             return (sbyte)GetObject();
@@ -139,11 +140,7 @@ namespace VirtualGuard.Runtime.Variant
         {
             return (ArrayVariant)this;
         }
-
-        public virtual FieldVariant ToField()
-        {
-            return (FieldVariant)this;
-        }
+        
 
     }
 }

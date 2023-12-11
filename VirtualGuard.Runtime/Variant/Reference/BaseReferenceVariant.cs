@@ -9,7 +9,6 @@ namespace VirtualGuard.Runtime.Variant.Reference
         {
             return true;
         }
-
-        public abstract IntPtr GetPtr();
+        
     }
 }

@@ -1,19 +1,20 @@
-using System;
-using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
+using VirtualGuard.Runtime.Variant.Reference.impl;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
-
-    public class Ldloc : IOpCode
+    public class Ldloca : IOpCode
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            ctx.Stack.Push(ctx.Locals.GetLocal(ctx.Reader.ReadShort()));
+            var local = ctx.Locals.GetLocal(ctx.Reader.ReadShort());
+            
+            ctx.Stack.Push(new LocalReferenceVariant(local));
+
             state = ExecutionState.Next;
         }
 
         public byte GetCode() => 0;
-
+        
     }
 }

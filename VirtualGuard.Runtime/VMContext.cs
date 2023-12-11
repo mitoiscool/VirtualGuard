@@ -15,9 +15,11 @@ namespace VirtualGuard.Runtime
         {
             Stack = new VMStack();
             Reader = new VMReader();
+            Locals = new LocalStorage();
         }
 
         public VMStack Stack;
+        public LocalStorage Locals;
         public VMReader Reader;
         private Dictionary<short, BaseVariant> _locals = new Dictionary<short, BaseVariant>();
 
@@ -74,6 +76,11 @@ namespace VirtualGuard.Runtime
         public MethodBase ResolveMethod(int i)
         {
             return (MethodBase)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
+        }
+
+        public FieldInfo ResolveField(int i)
+        {
+            return (FieldInfo)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
         }
 
     }

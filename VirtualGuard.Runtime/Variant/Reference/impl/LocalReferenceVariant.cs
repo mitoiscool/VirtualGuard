@@ -4,14 +4,29 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
 {
     public class LocalReferenceVariant : BaseReferenceVariant
     {
+        private BaseVariant _variant;
+        
+        public LocalReferenceVariant(BaseVariant var)
+        {
+            _variant = var;
+        }
+        
         public override object GetObject()
         {
-            throw new NotImplementedException();
+            return _variant.GetObject();
+        }
+        
+        public override void SetValue(object obj)
+        {
+            _variant.SetValue(obj);
         }
 
-        public override IntPtr GetPtr()
+        public override BaseVariant Clone()
         {
-            throw new NotImplementedException();
+            return new LocalReferenceVariant(_variant);
         }
+        
+        
+        
     }
 }

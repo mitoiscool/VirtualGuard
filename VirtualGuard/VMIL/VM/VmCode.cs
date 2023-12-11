@@ -11,6 +11,7 @@ public enum VmCode
     
     Stloc,
     Ldloc,
+    Ldloca,
     
     Ldc_I4,
     Ldc_I8,
@@ -27,6 +28,7 @@ public enum VmCode
     
     Stfld,
     Ldfld,
+    Ldflda,
     
     LoadState,
     EnterRegion,
@@ -36,6 +38,7 @@ public enum VmCode
     Jmp,
     
     Dup,
+    
     Ldelem, // these will be vcalls in special region
     Stelem, // these will be vcalls
 
