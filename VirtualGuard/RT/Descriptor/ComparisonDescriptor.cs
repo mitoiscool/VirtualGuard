@@ -2,10 +2,8 @@ namespace VirtualGuard.RT.Descriptor;
 
 public class ComparisonDescriptor
 {
-    public ComparisonDescriptor()
+    public ComparisonDescriptor(Random rnd)
     {
-        var rnd = new Random();
-
         GtFlag = (byte)rnd.Next(byte.MaxValue);
         LtFlag = (byte)rnd.Next(byte.MaxValue);
         EqFlag = (byte)rnd.Next(byte.MaxValue);

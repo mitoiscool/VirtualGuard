@@ -25,7 +25,7 @@ public interface IRuntimeMutator
         new InjectConstants(),
         new VmCalls(),
         //new PseudoRegions(),
-        new Renamer()
+        //new Renamer()
     };
 
     public static IRuntimeMutator[] GetMutators() => _mutators;

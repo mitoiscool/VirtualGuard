@@ -2,6 +2,12 @@ namespace VirtualGuard.RT.Descriptor;
 
 public class DataDescriptor
 {
+    public DataDescriptor(Random rnd)
+    {
+        Reader_IV = (byte)rnd.Next(byte.MaxValue);
+        Reader_Normal_Shift = (byte)rnd.Next(byte.MaxValue);
+        Reader_Handler_Shift = (byte)rnd.Next(byte.MaxValue);
+    }
     
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
 

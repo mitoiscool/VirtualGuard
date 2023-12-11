@@ -24,15 +24,17 @@ public class VirtualGuardRT
             VmEntry = rtModule.LookupMethod(RuntimeConfig.VmEntry),
         };
 
+        var rnd = new Random();
+
         Descriptor = new VMDescriptor()
         {
-            Data = new DataDescriptor()
+            Data = new DataDescriptor(rnd)
             {
                 StreamName = "vg",
                 Watermark = "virtualguard"
             },
-            OpCodes = new OpCodeDescriptor(new Random()),
-            ComparisonFlags = new ComparisonDescriptor()
+            OpCodes = new OpCodeDescriptor(rnd),
+            ComparisonFlags = new ComparisonDescriptor(rnd)
         };
         
     }
