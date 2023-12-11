@@ -17,7 +17,7 @@ namespace VirtualGuard.Runtime
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            var stream = assembly.GetManifestResourceStream(Constants.RSRC_NAME);
+            var stream = assembly.GetManifestResourceStream(Constants.DT_NAME);
 
             _bytes = new byte[stream.Length];
 

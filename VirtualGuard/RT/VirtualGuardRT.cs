@@ -15,35 +15,38 @@ public class VirtualGuardRT
 {
     public VirtualGuardRT(ModuleDefinition rtModule, bool debug = false)
     {
+        
         RuntimeModule = rtModule;
         isDebug = debug;
 
         Elements = new VmElements()
         {
             VmEntry = rtModule.LookupMethod(RuntimeConfig.VmEntry),
-            Constants = rtModule.LookupType(RuntimeConfig.Constants)
         };
 
         Descriptor = new VMDescriptor()
         {
-            Data = new DataDescriptor(),
-            Encryption = new EncryptionDescriptor(),
+            Data = new DataDescriptor()
+            {
+                StreamName = "vg",
+                Watermark = "virtualguard"
+            },
             OpCodes = new OpCodeDescriptor(new Random()),
-            Watermark = new WatermarkDescriptor()
+            ComparisonFlags = new ComparisonDescriptor()
         };
         
     }
     
-    public ModuleDefinition RuntimeModule;
+    public readonly ModuleDefinition RuntimeModule;
 
-    private Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
-    private Dictionary<VmChunk, MethodDefinition> _importMap = new Dictionary<VmChunk, MethodDefinition>();
+    private readonly Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
+    private readonly Dictionary<VmChunk, MethodDefinition> _importMap = new Dictionary<VmChunk, MethodDefinition>();
     
     public VmElements Elements;
-    public bool isDebug = false;
-    public VMDescriptor Descriptor;
+    public readonly bool isDebug = false;
+    public readonly VMDescriptor Descriptor;
     
-    private List<IChunk> _allChunks = new List<IChunk>();
+    private readonly List<IChunk> _allChunks = new List<IChunk>();
     
     public int GetExportLocation(MethodDefinition def)
     {
@@ -77,7 +80,7 @@ public class VirtualGuardRT
         
         // now update elements
         Elements.VmEntry = res.GetClonedMember(Elements.VmEntry);
-        Elements.Constants = res.GetClonedMember(Elements.Constants);
+        //Elements.Constants = res.GetClonedMember(Elements.Constants); constants will be inlined, obsolete
 
         Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
     }
@@ -87,8 +90,6 @@ public class VirtualGuardRT
     public void AddChunk(IChunk chunk, int index) => _allChunks.Insert(index, chunk);
 
     public int IndexOfChunk(IChunk chunk) => _allChunks.IndexOf(chunk);
-
-    
     
     public VmChunk[] VmChunks => _allChunks.Where(x => x is VmChunk).Cast<VmChunk>().ToArray();
 

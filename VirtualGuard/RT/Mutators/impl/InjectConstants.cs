@@ -43,8 +43,92 @@ public class InjectConstants : IRuntimeMutator
             instrs.Add(CilOpCodes.Ret);
         }
         
+        // inject comparison flags
+
+        var constantsType = rt.RuntimeModule.LookupType(RuntimeConfig.Constants);
+
         
-        
+
+        foreach (var method in rt.RuntimeModule.GetAllTypes().SelectMany(x => x.Methods).Where(x => x.CilMethodBody != null && x.CilMethodBody.Instructions.Count > 0))
+        { // iterate through all instructions in vm type (is there a faster way to do this?)
+            
+            foreach (var cilInstruction in method.CilMethodBody.Instructions)
+            {
+                
+                if(cilInstruction.OpCode.Code != CilCode.Ldsfld)
+                    continue;
+            
+                if(cilInstruction.Operand == null)
+                    continue;
+
+                var field = (IFieldDescriptor)cilInstruction.Operand;
+
+                if(field.DeclaringType != constantsType)
+                    continue;
+                
+                // this is a bad way of doing this
+
+                object inlinedConstant = 0; // this is nice bc if data is not put in field it defaults to 0
+
+                switch (field.Name)
+                {
+                    case "CMP_GT":
+                        inlinedConstant = rt.Descriptor.ComparisonFlags.GtFlag;
+                        break;
+                    
+                    case "CMP_LT":
+                        inlinedConstant = rt.Descriptor.ComparisonFlags.LtFlag;
+                        break;
+                    
+                    case "CMP_EQ":
+                        inlinedConstant = rt.Descriptor.ComparisonFlags.EqFlag;
+                        break;
+                    
+                    case "DT_WATERMARK":
+                        inlinedConstant = rt.Descriptor.Data.Watermark;
+                        break;
+                    
+                    case "DT_NAME":
+                        inlinedConstant = rt.Descriptor.Data.StreamName;
+                        break;
+                    
+                    case "RD_IV":
+                        inlinedConstant = rt.Descriptor.Data.Reader_IV;
+                        break;
+                    
+                    case "RD_HANDLER_ROT":
+                        inlinedConstant = rt.Descriptor.Data.Reader_Handler_Shift;
+                        break;
+                    
+                    case "RD_BYTE_ROT":
+                        inlinedConstant = rt.Descriptor.Data.Reader_Normal_Shift;
+                        break;
+                    
+                    default:
+                        inlinedConstant = 0; // default value to inline
+                        
+                        // or maybe a better idea to throw
+
+                        throw new NotImplementedException("No inline constant specified for constant " + field.Name);
+                }
+                
+                
+                // now inline the value
+                
+                if(inlinedConstant is string s)
+                    cilInstruction.ReplaceWith(CilOpCodes.Ldstr, s);
+                
+                if(inlinedConstant is byte b)
+                    cilInstruction.ReplaceWith(CilOpCodes.Ldc_I4, (int)b);
+                
+                if(inlinedConstant is int i)
+                    cilInstruction.ReplaceWith(CilOpCodes.Ldc_I4, i);
+            }
+            
+        }
+
+        rt.RuntimeModule.TopLevelTypes.Remove(constantsType); // constants inlined, now can remove the type
+
     }
     
     

@@ -1,14 +1,18 @@
-using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
-
-    public class Dup : IOpCode
+    public class FlagJmp : IOpCode
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            ctx.Stack.Push(ctx.Stack.Peek().Clone());
+            var loc = ctx.Stack.Pop();
+            var jmpFlag = ctx.Stack.Pop();
+            var flag = ctx.Stack.Pop();
+
+            if(flag == jmpFlag)
+                ctx.Reader.SetValue(loc.I4());
+
             state = ExecutionState.Next;
         }
 

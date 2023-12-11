@@ -15,14 +15,10 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             var v1 = ctx.Stack.Pop();
             var v2 = ctx.Stack.Pop();
             
-            if (BaseVariant.Compare(v1, v2) == (byte)ComparisonFlags.EQ)
-            {
-                ctx.Stack.Push(new IntVariant(1));
-            }
-            else
-            {
-                ctx.Stack.Push(new IntVariant(0));
-            }
+            // could do something cool where we have a custom conditional branch based off of a flag
+            // flag type would be onstack followed by the actual flag
+            
+            ctx.Stack.Push(new IntVariant(BaseVariant.Compare(v1, v2)));
 
             state = ExecutionState.Next;
         }

@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Flags;
 using VirtualGuard.Runtime.Variant.Object;
 using VirtualGuard.Runtime.Variant.ValueType;
@@ -46,7 +47,6 @@ namespace VirtualGuard.Runtime.Variant
         public static byte Compare(BaseVariant firstELement, BaseVariant secondElement)
         {
             byte flags = 0;
-            
 
             if (firstELement.IsNumeral() && secondElement.IsNumeral())
             {
@@ -55,13 +55,13 @@ namespace VirtualGuard.Runtime.Variant
                 // cast to safe int (long in this case, no support for unsigned yet)
 
                 if (firstELement.I8() > secondElement.I8())
-                    flags |= (byte)ComparisonFlags.GT; // i'm not super sure how to use flags, could be &=
+                    flags |= Constants.CMP_GT; // i'm not super sure how to use flags, could be &=
 
                 if (firstELement.I8() < secondElement.I8())
-                    flags |= (byte)ComparisonFlags.LT;
+                    flags |= Constants.CMP_LT;
 
                 if (firstELement.I8() == secondElement.I8())
-                    flags |= (byte)ComparisonFlags.EQ;
+                    flags |= Constants.CMP_EQ;
 
                 return flags;
             }

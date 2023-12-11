@@ -10,7 +10,13 @@ namespace VirtualGuard.Runtime.Dynamic
 
         // data
         public static string DT_WATERMARK;
-        public static string RSRC_NAME;
+        public static string DT_NAME;
+        
+        // flags
+
+        public static byte CMP_GT;
+        public static byte CMP_LT;
+        public static byte CMP_EQ;
 
 
         // msg

@@ -34,6 +34,7 @@ public enum VmCode
     EnterRegion,
     
     Cmp,
+    FlagJmp,
     
     Jmp,
     

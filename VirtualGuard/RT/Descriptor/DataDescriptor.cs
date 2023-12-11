@@ -5,6 +5,13 @@ public class DataDescriptor
     
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
 
+    public string StreamName;
+    public string Watermark;
+
+    public byte Reader_IV;
+    public byte Reader_Normal_Shift;
+    public byte Reader_Handler_Shift;
+        
     private static Random _rnd = new Random();
     public uint AddString(string s)
     {

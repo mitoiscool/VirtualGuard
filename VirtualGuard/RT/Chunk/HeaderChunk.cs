@@ -15,7 +15,7 @@ public class HeaderChunk : IChunk
     public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
         
-        writer.Write(rt.Descriptor.Watermark.Identifier);
+        writer.Write(rt.Descriptor.Data.Watermark);
         
         rt.Descriptor.Data.WriteStrings(writer);
     }

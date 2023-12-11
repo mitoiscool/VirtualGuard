@@ -14,7 +14,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt().I4());
+            var methodBase = ctx.ResolveMethod(ctx.Stack.Pop().I4());
 
 
             // pop args

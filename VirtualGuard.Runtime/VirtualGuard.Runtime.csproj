@@ -54,6 +54,7 @@
         <Compile Include="OpCodes\impl\Div.cs" />
         <Compile Include="OpCodes\impl\Dup.cs" />
         <Compile Include="OpCodes\impl\EnterRegion.cs" />
+        <Compile Include="OpCodes\impl\FlagJmp.cs" />
         <Compile Include="OpCodes\impl\Jmp.cs" />
         <Compile Include="OpCodes\impl\Jz.cs" />
         <Compile Include="OpCodes\impl\Ldc_I4.cs" />
