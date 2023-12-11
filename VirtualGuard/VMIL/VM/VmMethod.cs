@@ -2,15 +2,17 @@ using System.Data;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
+using VirtualGuard.RT;
 
 namespace VirtualGuard.VMIL.VM;
 
 public class VmMethod
 {
-    public VmMethod(MethodDefinition meth, bool export = true)
+    public VmMethod(MethodDefinition meth, VirtualGuardRT rt, bool export = true)
     {
         isExport = export;
         CilMethod = meth;
+        Runtime = rt;
 
         if (isExport && CilMethod == null)
             throw new DataException("VmMethod is an export yet the provided method is null");
@@ -20,6 +22,7 @@ public class VmMethod
     public readonly List<VmBlock> Content = new List<VmBlock>();
     public VmBlock Entry => Content.First();
     public MethodDefinition CilMethod;
+    public VirtualGuardRT Runtime;
 
     private Dictionary<ControlFlowNode<CilInstruction>, VmBlock> _blockMap =
         new Dictionary<ControlFlowNode<CilInstruction>, VmBlock>();

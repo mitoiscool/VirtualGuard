@@ -65,7 +65,7 @@ public class MethodVirtualizer
     
     private void BuildVMIL()
     {
-        var newMethod = new VmMethod(_currentMethod);
+        var newMethod = new VmMethod(_currentMethod, _rt);
         
         foreach (var node in _cfg.Nodes)
         {

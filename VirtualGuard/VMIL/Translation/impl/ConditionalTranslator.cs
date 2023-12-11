@@ -11,7 +11,10 @@ public class ConditionalTranslator : ITranslator
         if (instr.OpCode.Code == CilCode.Brtrue) // inverse flag
             block.WithContent(new VmInstruction(VmCode.Not));
 
-        block.WithContent(new VmInstruction(VmCode.Jz));
+        block.WithContent(
+            new VmInstruction(VmCode.Ldc_I4, instr.Operand),
+            new VmInstruction(VmCode.Jz));
+        
     }
 
     public bool Supports(CilInstruction instr)

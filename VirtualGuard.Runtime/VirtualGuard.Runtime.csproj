@@ -54,7 +54,6 @@
         <Compile Include="OpCodes\impl\Div.cs" />
         <Compile Include="OpCodes\impl\Dup.cs" />
         <Compile Include="OpCodes\impl\EnterRegion.cs" />
-        <Compile Include="OpCodes\impl\FlagJmp.cs" />
         <Compile Include="OpCodes\impl\Jmp.cs" />
         <Compile Include="OpCodes\impl\Jz.cs" />
         <Compile Include="OpCodes\impl\Ldc_I4.cs" />
@@ -71,12 +70,14 @@
         <Compile Include="OpCodes\impl\Mul.cs" />
         <Compile Include="OpCodes\impl\Not.cs" />
         <Compile Include="OpCodes\impl\Pop.cs" />
+        <Compile Include="OpCodes\impl\Rem.cs" />
         <Compile Include="OpCodes\impl\Ret.cs" />
         <Compile Include="OpCodes\impl\Stelem.cs" />
         <Compile Include="OpCodes\impl\Stfld.cs" />
         <Compile Include="OpCodes\impl\Stloc.cs" />
         <Compile Include="OpCodes\impl\Sub.cs" />
         <Compile Include="OpCodes\impl\Vmcall.cs" />
+        <Compile Include="OpCodes\impl\Xor.cs" />
         <Compile Include="OpCodes\IOpCode.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Variant\BaseVariant.cs" />

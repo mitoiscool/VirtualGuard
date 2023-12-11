@@ -8,6 +8,8 @@ public enum VmCode
     Div,
     
     Not,
+    Rem,
+    Xor,
     
     Stloc,
     Ldloc,
