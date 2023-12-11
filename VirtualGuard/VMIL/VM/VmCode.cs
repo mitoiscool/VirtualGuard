@@ -42,6 +42,8 @@ public enum VmCode
     Dup,
     
     Ldelem, // these will be vcalls in special region
+    Ldelema,
+    
     Stelem, // these will be vcalls
 
     Jz,
