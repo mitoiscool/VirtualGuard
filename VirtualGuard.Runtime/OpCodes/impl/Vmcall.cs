@@ -16,7 +16,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             for(int i = 0; i < argCount; i++)
                 args.Add(ctx.Stack.Pop());
 
-            ctx.Stack.Push(BaseVariant.CastVariant(Entry.VMEntry(loc, args.ToArray())));
+            ctx.Stack.Push(BaseVariant.CreateVariant(Entry.VMEntry(loc, args.ToArray())));
 
             state = ExecutionState.Next;
         }

@@ -61,6 +61,7 @@
         <Compile Include="OpCodes\impl\Ldc_R4.cs" />
         <Compile Include="OpCodes\impl\Ldc_R8.cs" />
         <Compile Include="OpCodes\impl\Ldelem.cs" />
+        <Compile Include="OpCodes\impl\Ldelema.cs" />
         <Compile Include="OpCodes\impl\Ldfld.cs" />
         <Compile Include="OpCodes\impl\Ldflda.cs" />
         <Compile Include="OpCodes\impl\Ldloc.cs" />
@@ -85,6 +86,7 @@
         <Compile Include="Variant\Object\NullVariant.cs" />
         <Compile Include="Variant\Object\ObjectVariant.cs" />
         <Compile Include="Variant\Reference\BaseReferenceVariant.cs" />
+        <Compile Include="Variant\Reference\impl\ArrayReferenceVariant.cs" />
         <Compile Include="Variant\Reference\impl\FieldReferenceVariant.cs" />
         <Compile Include="Variant\Reference\impl\LocalReferenceVariant.cs" />
         <Compile Include="Variant\ValueType\Numeric\ByteVariant.cs" />

@@ -29,7 +29,7 @@ namespace VirtualGuard.Runtime.Variant.Object
 
         public BaseVariant LoadDelimeter(BaseVariant index)
         {
-            return BaseVariant.CastVariant(_array.GetValue(index.I4()));
+            return BaseVariant.CreateVariant(_array.GetValue(index.I4()));
         }
 
         public void SetDelimeter(BaseVariant index, BaseVariant obj)

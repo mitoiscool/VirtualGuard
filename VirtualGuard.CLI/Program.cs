@@ -7,12 +7,12 @@ using VirtualGuard.CLI.VG;
 var ctx = new VirtualGuardContext(ModuleDefinition.FromFile("VirtualGuard.TestBinary.dll"));
 var virt = new Virtualizer(ctx);
 
-//virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AddTest"), true);
+virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AddTest"), true);
 
 //virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "CallTest"), true);
 
-virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
+//virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
 
 virt.CommitRuntime();
 
-ctx.Module.Write("out.exe");
+ctx.Module.Write("VirtualGuard.TestBinary.dll");

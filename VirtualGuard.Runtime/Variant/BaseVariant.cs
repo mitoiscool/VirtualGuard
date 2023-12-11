@@ -13,7 +13,7 @@ namespace VirtualGuard.Runtime.Variant
 
     public abstract class BaseVariant
     {
-        public static BaseVariant CastVariant(object obj)
+        public static BaseVariant CreateVariant(object obj)
         {
             // populate with casts
 
