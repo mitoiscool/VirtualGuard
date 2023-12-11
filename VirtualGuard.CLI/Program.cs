@@ -11,7 +11,7 @@ var virt = new Virtualizer(ctx);
 
 //virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "CallTest"), true);
 
-virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "ConditionalTest"), true);
+virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
 
 virt.CommitRuntime();
 

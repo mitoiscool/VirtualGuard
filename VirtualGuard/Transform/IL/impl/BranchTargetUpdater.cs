@@ -10,16 +10,11 @@ public class BranchTargetUpdater : IILTransformer
     {
         var headers = ctx.Nodes.ToDictionary(x => x.Contents.Header);
 
-
         foreach (var instr in node.Contents.Instructions)
         {
             if (instr.Operand is CilInstructionLabel i)
             {
-                var newOperand = headers.Single(
-                    x => x.Key.Equals(i.Instruction)
-                );
-
-                instr.Operand = newOperand.Value;
+                instr.Operand = headers[i.Instruction];
             }
 
             if (instr.Operand is CilInstructionLabel[] ia)
@@ -28,9 +23,7 @@ public class BranchTargetUpdater : IILTransformer
 
                 foreach (var branch in ia)
                     newBranchTable.Add(
-                        headers.Single(
-                            x => x.Key.Equals(branch.Instruction)
-                        ).Value
+                        headers[branch.Instruction]
                     );
 
                 instr.Operand = newBranchTable.ToArray();
