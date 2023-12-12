@@ -9,7 +9,9 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            throw new NotImplementedException();
+            ctx.Locals.SetLocal(ctx.Reader.ReadShort(), ctx.Stack.Pop());
+
+            state = ExecutionState.Next;
         }
 
         public byte GetCode() => 0;

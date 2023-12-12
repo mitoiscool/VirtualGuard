@@ -29,12 +29,13 @@ public class VmChunk : IChunk
         foreach (var instr in Content)
         {
             writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
+            Console.WriteLine("wrote opcode " + instr.OpCode.ToString() + " as " + rt.Descriptor.OpCodes[instr.OpCode]);
             
             if (instr.Operand == null)
                 continue; // write next instr
 
             if(instr.Operand is short s)
-                writer.Write((int)s);
+                writer.Write(s);
             
             if (instr.Operand is int i )
                 writer.Write(i);
@@ -49,16 +50,14 @@ public class VmChunk : IChunk
                 writer.Write(chunk.Offset); // trust this is updated
             
             if(instr.Operand is string str)
-                writer.Write(rt.Descriptor.Data.AddString(str)); // get id for string
+                writer.Write(rt.Descriptor.Data.AddString(str)); // this doesn't work because header is encoded beforehand
             
             if(instr.Operand is IMethodDescriptor mdesc)
                 writer.Write(mdesc.MetadataToken.ToInt32());
             
             if(instr.Operand is IFieldDescriptor fdesc)
                 writer.Write(fdesc.MetadataToken.ToInt32());
-            
-            
-            // need to add logic for members
+
         }
         
         
@@ -84,8 +83,25 @@ public class VmChunk : IChunk
 
             if (instr.Operand is VmVariable)
                 length += sizeof(short);
-            
+
+            if (instr.Operand is VmChunk)
+                length += sizeof(int);
+
+            if (instr.Operand is IMethodDescriptor)
+                length += sizeof(int);
+
+            if (instr.Operand is IFieldDescriptor)
+                length += sizeof(int);
+
+            if (instr.Operand is ITypeDescriptor)
+                length += sizeof(int);
+
+            if (instr.Operand is string)
+                length += sizeof(int);
+
+
             // assume members and strings are already encoded as ints/strings
+            // funny lol
         }
 
         return length;

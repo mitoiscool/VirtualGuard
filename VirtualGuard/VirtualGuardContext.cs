@@ -6,13 +6,14 @@ public class VirtualGuardContext
 {
     public static VirtualGuardContext Load(string path, VirtualGuardSettings settings)
     {
-        return new VirtualGuardContext(ModuleDefinition.FromFile(path));
+        return new VirtualGuardContext(ModuleDefinition.FromFile(path), settings);
     }
 
 
-    public VirtualGuardContext(ModuleDefinition mod)
+    public VirtualGuardContext(ModuleDefinition mod, VirtualGuardSettings settings)
     {
         Module = mod;
+        Settings = settings;
     }
 
     public ModuleDefinition Module;

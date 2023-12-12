@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
 using VirtualGuard.Runtime.Variant;
@@ -35,6 +36,10 @@ namespace VirtualGuard.Runtime
                 case ExecutionState.Catch:
                     // handle _exception, check for finally and potentially jump to that state in the case
 
+                    // no exception handling yet, throw
+
+                    throw _exception;
+                    
                     // if finally, goto case finally
                     break;
 
@@ -57,7 +62,9 @@ namespace VirtualGuard.Runtime
                     var handler = Reader.ReadHandler();
                     
                     Console.WriteLine("executing: {0}", CodeMap.GetCode(handler).GetType().Name);
+                    
                     CodeMap.GetCode(handler).Execute(this, out state);
+                    
 
                     if (state != ExecutionState.Next)
                         break;
@@ -65,8 +72,7 @@ namespace VirtualGuard.Runtime
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
-                    _exception = ex;
+                    _exception = ex; // warning to self, this may suppress vm exceptions
                     return ExecutionState.Catch;
                 }
 

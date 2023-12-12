@@ -3,7 +3,7 @@ namespace VirtualGuard.RT.Mutators.impl;
 public class Renamer : IRuntimeMutator
 {
     private Dictionary<string, string> _abstractNameMap = new Dictionary<string, string>();
-    public void Mutate(VirtualGuardRT rt)
+    public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
         if(rt.isDebug)
             return;

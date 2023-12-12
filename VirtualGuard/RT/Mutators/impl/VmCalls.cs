@@ -6,7 +6,7 @@ namespace VirtualGuard.RT.Mutators.impl;
 
 public class VmCalls : IRuntimeMutator
 {
-    public void Mutate(VirtualGuardRT rt)
+    public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
         foreach (var chunk in rt.VmChunks)
             foreach (var vmInstruction in chunk.Content)

@@ -6,7 +6,7 @@ namespace VirtualGuard.RT.Mutators.impl;
 
 public class InjectConstants : IRuntimeMutator
 {
-    public void Mutate(VirtualGuardRT rt)
+    public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
 
         var opcodes = typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray(); // eliminate transform instrs

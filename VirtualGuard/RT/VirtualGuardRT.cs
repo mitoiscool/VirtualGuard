@@ -71,7 +71,7 @@ public class VirtualGuardRT
     {
         var cloner = new MemberCloner(target);
 
-        cloner.Include(RuntimeModule.TopLevelTypes);
+        cloner.Include(RuntimeModule.TopLevelTypes.Where(x => !x.IsRuntimeSpecialName && !x.IsModuleType));
 
         var res = cloner.Clone();
 
@@ -84,7 +84,7 @@ public class VirtualGuardRT
         Elements.VmEntry = res.GetClonedMember(Elements.VmEntry);
         //Elements.Constants = res.GetClonedMember(Elements.Constants); constants will be inlined, obsolete
 
-        Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
+        //Elements.VmTypes = res.ClonedTopLevelTypes.ToArray(); not needed, populated based off of injectedtypes
     }
     
     public void AddChunk(IChunk chunk) => _allChunks.Add(chunk);
@@ -121,9 +121,9 @@ public class VirtualGuardRT
     {
         // add header chunk
         
-        _allChunks.Insert(0, new HeaderChunk());
+        _allChunks.Insert(0, new HeaderChunk(this));
         
-        MutateChunks();
+        MutateChunks(ctx);
         
         UpdateOffsets();
 
@@ -135,11 +135,11 @@ public class VirtualGuardRT
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 
-    void MutateChunks()
+    void MutateChunks(VirtualGuardContext ctx)
     {
         foreach (var mutator in IRuntimeMutator.GetMutators())
         {
-            mutator.Mutate(this);
+            mutator.Mutate(this, ctx);
         }
     }
 

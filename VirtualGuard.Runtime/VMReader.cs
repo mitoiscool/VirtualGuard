@@ -35,7 +35,7 @@ namespace VirtualGuard.Runtime
             Console.WriteLine("in-file watermark: " + Constants.DT_WATERMARK);
 
             if (watermark != Constants.DT_WATERMARK)
-                throw new InvalidDataException();
+                throw new InvalidDataException(Routines.EncryptDebugMessage("Invalid watermark."));
 
             var stringCount = reader.ReadInt32();
             Console.WriteLine("reading {0} strings", stringCount);
@@ -63,9 +63,12 @@ namespace VirtualGuard.Runtime
         {
             var b = _memoryStream.ReadByte();
 
+            Console.WriteLine(b);
+
             _key += Constants.RD_HANDLER_ROT;
 
-            return new ByteVariant((byte)(b ^ _key));
+            return new ByteVariant((byte)b);
+            //return new ByteVariant((byte)(b ^ _key));
         }
 
         public ByteVariant ReadByte()
@@ -100,6 +103,7 @@ namespace VirtualGuard.Runtime
 
         public void SetValue(int i)
         {
+            Console.WriteLine("set reader to loc " + i);
             _memoryStream.Seek(i, SeekOrigin.Begin);
         }
 
@@ -121,11 +125,20 @@ namespace VirtualGuard.Runtime
 
         private byte ReadByteInternal()
         {
-            var b = _memoryStream.ReadByte();
+            try
+            {
+                var b = _memoryStream.ReadByte();
+                Console.WriteLine(b);
 
-            _key += Constants.RD_BYTE_ROT;
+                _key += Constants.RD_BYTE_ROT;
 
-            return (byte)(b ^ _key);
+                //return (byte)(b ^ _key);
+                return (byte)b; // don't encrypt for dbg
+            }
+            catch
+            {
+                throw new InvalidDataException(Routines.EncryptDebugMessage("Error reading byte."));
+            }
         }
 
     }

@@ -5,7 +5,7 @@ namespace VirtualGuard.RT.Mutators;
 
 public interface IRuntimeMutator
 {
-    public void Mutate(VirtualGuardRT rt);
+    public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx);
 
     static IRuntimeMutator()
     {
@@ -24,6 +24,7 @@ public interface IRuntimeMutator
     { // need to do it manually to preserve order
         new InjectConstants(),
         new VmCalls(),
+        new EncryptDebugSymbols(),
         //new PseudoRegions(),
         //new Renamer()
     };

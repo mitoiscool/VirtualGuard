@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime.OpCodes
@@ -13,7 +14,7 @@ namespace VirtualGuard.Runtime.OpCodes
         static CodeMap()
         {
             _opCodes = new Dictionary<byte, IOpCode>();
-            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            foreach (var type in typeof(CodeMap).Assembly.GetTypes())
                 if (typeof(IOpCode).IsAssignableFrom(type) && !type.IsAbstract)
                 {
                     var opCode = (IOpCode)Activator.CreateInstance(type);
@@ -23,7 +24,11 @@ namespace VirtualGuard.Runtime.OpCodes
 
         public static IOpCode GetCode(ByteVariant code)
         {
-            return _opCodes[code.U1()];
+            
+            if (!_opCodes.TryGetValue(code.U1(), out IOpCode codeobj))
+                throw new Exception(Routines.EncryptDebugMessage("Error resolving handler"));
+            
+            return codeobj;
         }
     }
 }
