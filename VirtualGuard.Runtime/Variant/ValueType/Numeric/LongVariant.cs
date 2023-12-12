@@ -86,5 +86,10 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         {
             return new LongVariant(~_value);
         }
+
+        public override NumeralVariant And(NumeralVariant and)
+        {
+            return new LongVariant(_value & and.I8());
+        }
     }
 }

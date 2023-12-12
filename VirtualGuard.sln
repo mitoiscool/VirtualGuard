@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinary", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinaryTester", "VirtualGuard.TestBinaryTester\VirtualGuard.TestBinaryTester.csproj", "{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

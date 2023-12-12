@@ -25,6 +25,10 @@ public class ArithmeticTranslator : ITranslator
             case CilCode.Div:
                 block.WithContent(new VmInstruction(VmCode.Div));
                 break;
+            
+            case CilCode.Rem:
+                block.WithContent(new VmInstruction(VmCode.Rem));
+                break;
         }
     }
 
@@ -36,6 +40,8 @@ public class ArithmeticTranslator : ITranslator
             CilOpCodes.Sub,
             CilOpCodes.Mul,
             CilOpCodes.Div,
+            
+            CilOpCodes.Rem
         };
 
         return supported.Contains(instr.OpCode);

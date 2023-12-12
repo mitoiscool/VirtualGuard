@@ -19,5 +19,6 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public abstract NumeralVariant Rem(NumeralVariant remfactor);
         public abstract NumeralVariant Or(NumeralVariant or);
         public abstract NumeralVariant Not();
+        public abstract NumeralVariant And(NumeralVariant and);
     }
 }

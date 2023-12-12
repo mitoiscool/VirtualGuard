@@ -78,5 +78,10 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         {
             return new ByteVariant((byte)~_b);
         }
+
+        public override NumeralVariant And(NumeralVariant and)
+        {
+            return new ByteVariant((byte)(_b & and.U1()));
+        }
     }
 }

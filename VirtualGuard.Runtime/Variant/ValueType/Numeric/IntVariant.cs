@@ -106,5 +106,10 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         {
             return new IntVariant(~_value);
         }
+
+        public override NumeralVariant And(NumeralVariant and)
+        {
+            return new IntVariant((int)(_value & and.I4()));
+        }
     }
 }

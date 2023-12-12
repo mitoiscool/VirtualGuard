@@ -11,8 +11,10 @@ public interface IILTransformer
 
     private static readonly IILTransformer[] _transformers =
     {
+        new ConditionalSimplifier(),
         new BlockConnector(),
-        new BranchTargetUpdater(),
+        new BranchUpdater(),
+        //w BranchTargetUpdater(),
         new Nullifier() // needs to be last to not break branches targetting nop instrs
     };
     

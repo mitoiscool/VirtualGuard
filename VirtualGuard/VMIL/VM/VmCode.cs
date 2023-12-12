@@ -10,6 +10,8 @@ public enum VmCode
     Not,
     Rem,
     Xor,
+    And,
+    Or,
     
     Stloc,
     Ldloc,

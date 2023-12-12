@@ -49,6 +49,7 @@
         <Compile Include="LocalStorage.cs" />
         <Compile Include="OpCodes\CodeMap.cs" />
         <Compile Include="OpCodes\impl\Add.cs" />
+        <Compile Include="OpCodes\impl\And.cs" />
         <Compile Include="OpCodes\impl\Call.cs" />
         <Compile Include="OpCodes\impl\Cmp.cs" />
         <Compile Include="OpCodes\impl\Div.cs" />
@@ -70,6 +71,7 @@
         <Compile Include="OpCodes\impl\LoadState.cs" />
         <Compile Include="OpCodes\impl\Mul.cs" />
         <Compile Include="OpCodes\impl\Not.cs" />
+        <Compile Include="OpCodes\impl\Or.cs" />
         <Compile Include="OpCodes\impl\Pop.cs" />
         <Compile Include="OpCodes\impl\Rem.cs" />
         <Compile Include="OpCodes\impl\Ret.cs" />
