@@ -9,6 +9,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         public void Execute(VMContext ctx, out ExecutionState state)
         {
             ctx.Stack.Push(ctx.Stack.Peek().Clone());
+
             state = ExecutionState.Next;
         }
 

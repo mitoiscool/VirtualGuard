@@ -62,9 +62,7 @@ namespace VirtualGuard.Runtime
         public ByteVariant ReadHandler()
         {
             var b = _memoryStream.ReadByte();
-
-            Console.WriteLine(b);
-
+            
             _key += Constants.RD_HANDLER_ROT;
 
             return new ByteVariant((byte)b);
@@ -76,9 +74,9 @@ namespace VirtualGuard.Runtime
             return new ByteVariant(ReadByteInternal());
         }
 
-        public IntVariant ReadShort()
+        public ShortVariant ReadShort()
         {
-            return new IntVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
+            return new ShortVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
         }
 
         public IntVariant ReadInt()
@@ -128,7 +126,6 @@ namespace VirtualGuard.Runtime
             try
             {
                 var b = _memoryStream.ReadByte();
-                Console.WriteLine(b);
 
                 _key += Constants.RD_BYTE_ROT;
 

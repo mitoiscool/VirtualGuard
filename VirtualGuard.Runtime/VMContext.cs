@@ -12,17 +12,9 @@ namespace VirtualGuard.Runtime
 
     public class VMContext
     {
-        public VMContext()
-        {
-            Stack = new VMStack();
-            Reader = new VMReader();
-            Locals = new LocalStorage();
-        }
-
-        public VMStack Stack;
-        public LocalStorage Locals;
-        public VMReader Reader;
-        private Dictionary<short, BaseVariant> _locals = new Dictionary<short, BaseVariant>();
+        public readonly VMStack Stack = new();
+        public readonly LocalStorage Locals = new();
+        public readonly VMReader Reader = new();
 
         private Exception _exception;
 

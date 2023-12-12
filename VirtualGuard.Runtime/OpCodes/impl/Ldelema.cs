@@ -8,10 +8,10 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         public void Execute(VMContext ctx, out ExecutionState state)
         { // need to make arrayreferencevariant
 
+            var delem = ctx.Stack.Pop();
             var arr = ctx.Stack.Pop().ToArray();
-            var index = ctx.Stack.Pop();
 
-            ctx.Stack.Push(new ArrayReferenceVariant(arr, index));
+            ctx.Stack.Push(new ArrayReferenceVariant(arr, delem));
             
             state = ExecutionState.Next;
         }

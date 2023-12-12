@@ -16,13 +16,6 @@ namespace VirtualGuard.Runtime
             _index = 0;
         }
 
-        ~VMStack()
-        {
-            Array.Clear(_array, 0, _array.Length);
-            _array = null;
-            _index = 0;
-        }
-
         internal void Push(BaseVariant val)
         {
             Console.WriteLine("push: " + val.STR());
@@ -49,7 +42,8 @@ namespace VirtualGuard.Runtime
 
         internal BaseVariant Peek()
         {
-            return _array[_index];
+            Console.WriteLine("peeked " + _array[_index - 1].STR());
+            return _array[_index - 1];
         }
 
     }

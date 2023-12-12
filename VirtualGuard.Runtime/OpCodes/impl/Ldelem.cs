@@ -6,9 +6,10 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
+            var delem = ctx.Stack.Pop();
             var arr = ctx.Stack.Pop().ToArray();
             
-            ctx.Stack.Push(arr.LoadDelimeter(ctx.Stack.Pop()));
+            ctx.Stack.Push(arr.LoadDelimeter(delem));
 
             state = ExecutionState.Next;
         }
