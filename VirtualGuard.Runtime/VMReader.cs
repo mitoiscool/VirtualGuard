@@ -20,8 +20,6 @@ namespace VirtualGuard.Runtime
             var stream = assembly.GetManifestResourceStream(Constants.DT_NAME);
 
             _bytes = new byte[stream.Length];
-            
-            Console.WriteLine("read stream of length " + _bytes.Length);
 
             stream.Read(_bytes, 0, _bytes.Length);
 
@@ -30,14 +28,10 @@ namespace VirtualGuard.Runtime
 
             var watermark = reader.ReadString();
             
-            Console.WriteLine("read watermark: " + watermark);
-            Console.WriteLine("in-file watermark: " + Constants.DT_WATERMARK);
-
             if (watermark != Constants.DT_WATERMARK)
                 throw new InvalidDataException(Routines.EncryptDebugMessage("Invalid watermark."));
 
             var stringCount = reader.ReadInt32();
-            Console.WriteLine("reading {0} strings", stringCount);
 
             for (int i = 0; i < stringCount; i++)
             {
