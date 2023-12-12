@@ -49,8 +49,8 @@ namespace VirtualGuard.Runtime
 
             do
             {
-                try
-                {
+                //try
+                //{
                     var handler = Reader.ReadHandler();
                     
                     Console.WriteLine("executing: {0}", CodeMap.GetCode(handler).GetType().Name);
@@ -61,12 +61,12 @@ namespace VirtualGuard.Runtime
                     if (state != ExecutionState.Next)
                         break;
 
-                }
-                catch (Exception ex)
-                {
-                    _exception = ex; // warning to self, this may suppress vm exceptions
-                    return ExecutionState.Catch;
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    _exception = ex; // warning to self, this may suppress vm exceptions
+                //    return ExecutionState.Catch;
+                //}
 
             } while (true);
 

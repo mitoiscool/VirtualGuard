@@ -19,14 +19,14 @@ public class DataDescriptor
     public byte Reader_Handler_Shift = 0;
         
     private static Random _rnd = new Random();
-    public uint AddString(string s)
+    public int AddString(string s)
     {
-        uint id = (uint)_rnd.Next(int.MaxValue);
+        int id = _rnd.Next(int.MaxValue);
 
-        while(_stringMap.ContainsKey((int)id))
-            id = (uint)_rnd.Next(int.MaxValue);
+        while(_stringMap.ContainsKey(id))
+            id = _rnd.Next(int.MaxValue);
         
-        _stringMap.Add((int)id, s);
+        _stringMap.Add(id, s);
 
         return id;
     }

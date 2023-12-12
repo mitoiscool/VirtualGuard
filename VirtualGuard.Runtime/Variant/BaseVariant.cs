@@ -45,8 +45,6 @@ namespace VirtualGuard.Runtime.Variant
 
         public static byte Compare(BaseVariant firstELement, BaseVariant secondElement)
         {
-            byte flags = 0;
-
             if (firstELement.IsNumeral() && secondElement.IsNumeral())
             {
                 // gt lt eq comparisons
@@ -54,15 +52,14 @@ namespace VirtualGuard.Runtime.Variant
                 // cast to safe int (long in this case, no support for unsigned yet)
 
                 if (firstELement.I8() > secondElement.I8())
-                    flags |= Constants.CMP_GT; // i'm not super sure how to use flags, could be &=
+                    return Constants.CMP_GT; // i'm not super sure how to use flags, could be &=
 
                 if (firstELement.I8() < secondElement.I8())
-                    flags |= Constants.CMP_LT;
+                    return Constants.CMP_LT;
 
                 if (firstELement.I8() == secondElement.I8())
-                    flags |= Constants.CMP_EQ;
-
-                return flags;
+                    return Constants.CMP_EQ;
+                
             }
 
             if (firstELement.GetObject().Equals(secondElement.GetObject()))
@@ -87,22 +84,22 @@ namespace VirtualGuard.Runtime.Variant
         
         public virtual sbyte I1()
         {
-            return (sbyte)GetObject();
+            return Convert.ToSByte(GetObject());
         }
 
         public virtual short I2()
         {
-            return (short)GetObject();
+            return Convert.ToInt16(GetObject());
         }
 
         public virtual int I4()
         {
-            return (int)GetObject();
+            return Convert.ToInt32(GetObject());
         }
 
         public virtual long I8()
         {
-            return (long)GetObject();
+            return Convert.ToInt64(GetObject());
         }
 
         public virtual byte U1()
@@ -112,17 +109,17 @@ namespace VirtualGuard.Runtime.Variant
 
         public virtual ushort U2()
         {
-            return (ushort)GetObject();
+            return Convert.ToUInt16(GetObject());
         }
 
         public virtual uint U4()
         {
-            return (uint)GetObject();
+            return Convert.ToUInt32(GetObject());
         }
 
         public virtual ulong U8()
         {
-            return (ulong)GetObject();
+            return Convert.ToUInt64(GetObject());
         }
 
         public virtual string STR()

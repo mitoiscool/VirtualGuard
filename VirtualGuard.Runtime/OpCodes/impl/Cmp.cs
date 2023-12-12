@@ -17,7 +17,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             // could do something cool where we have a custom conditional branch based off of a flag
             // flag type would be onstack followed by the actual flag
             
-            ctx.Stack.Push(new IntVariant(BaseVariant.Compare(v1, v2)));
+            ctx.Stack.Push(new IntVariant(BaseVariant.Compare(v2, v1)));
 
             state = ExecutionState.Next;
         }

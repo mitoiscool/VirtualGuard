@@ -25,6 +25,7 @@ public interface IRuntimeMutator
         new InjectConstants(),
         new VmCalls(),
         new EncryptDebugSymbols(),
+        new EncodeStrings()
         //new PseudoRegions(),
         //new Renamer()
     };
