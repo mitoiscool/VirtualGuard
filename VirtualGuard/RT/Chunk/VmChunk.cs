@@ -87,31 +87,7 @@ public class VmChunk : IChunk
 
         foreach (var instr in Content)
         {
-            length += sizeof(VmCode);
-
-            if (instr.Operand == null)
-                continue; // stop execution, length should not be updated and it should move to the next instr
-
-            if (instr.Operand is short)
-                length += sizeof(short);
-            
-            if (instr.Operand is int)
-                length += sizeof(int);
-
-            if (instr.Operand is long)
-                length += sizeof(long);
-
-            if (instr.Operand is VmVariable)
-                length += sizeof(short);
-
-            if (instr.Operand is VmChunk)
-                length += sizeof(int);
-
-            if (instr.Operand is IMetadataMember)
-                length += sizeof(int);
-
-            // assume members and strings are already encoded as ints/strings
-            // funny lol
+            length += instr.GetSize();
         }
 
         return length;

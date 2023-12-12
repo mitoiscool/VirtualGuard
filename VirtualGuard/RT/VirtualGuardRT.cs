@@ -206,12 +206,16 @@ public class VirtualGuardRT
         sb.AppendLine("------");
 
         int i = 0;
+        int offset = 0;
         foreach (var chunk in _allChunks)
         {
             if(chunk is VmChunk vchunk)
-                AppendVmChunk(sb, vchunk, i);
+                AppendVmChunk(sb, vchunk, i, ref offset);
             else
+            {
                 sb.AppendLine(chunk.GetType().Name + " " + i + " - length: " + chunk.Length);
+                offset += chunk.Length;
+            }
 
             sb.AppendLine();
             i++;
@@ -220,7 +224,7 @@ public class VirtualGuardRT
         Console.WriteLine(sb.ToString());
     }
 
-    void AppendVmChunk(StringBuilder sb, VmChunk chunk, int index)
+    void AppendVmChunk(StringBuilder sb, VmChunk chunk, int index, ref int offset)
     {
         sb.AppendLine("Chunk " + index + " - Offset: " + chunk.Offset + " Length: " + chunk.Length);
 
@@ -228,7 +232,9 @@ public class VirtualGuardRT
         {
             var operandString = instr.Operand == null ? "" : instr.Operand.ToString();
 
-            sb.AppendLine(instr.OpCode + " " + instr.Operand);
+            offset += instr.GetSize();
+            
+            sb.AppendLine(offset + " - " + instr.OpCode + " " + operandString);
         }
         
         

@@ -1,6 +1,6 @@
 namespace VirtualGuard.VMIL.VM;
 
-public enum VmCode
+public enum VmCode : byte
 {
     Add,
     Sub,
