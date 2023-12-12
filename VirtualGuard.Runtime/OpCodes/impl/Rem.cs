@@ -6,8 +6,10 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            var res = ctx.Stack.Pop().ToNumeral().Rem(ctx.Stack.Pop().ToNumeral());
-            ctx.Stack.Push(res);
+            var i2 = ctx.Stack.Pop().ToNumeral();
+            var i1 = ctx.Stack.Pop().ToNumeral();
+
+            ctx.Stack.Push(i1.Rem(i2));
             
             state = ExecutionState.Next;
         }

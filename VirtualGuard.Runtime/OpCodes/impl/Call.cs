@@ -15,9 +15,6 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         public void Execute(VMContext ctx, out ExecutionState state)
         {
             var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt().I4());
-
-            // pop args
-
             
             var args = methodBase.GetParameters();
             var vmVariantArgs = new BaseVariant[args.Length];
@@ -27,7 +24,6 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             for (int i = 0; i < args.Length; i++)
             {
-                // this doesn't support ref args
                 vmVariantArgs[i] = ctx.Stack.Pop();
 
                 if (vmVariantArgs[i].IsReference())
@@ -41,7 +37,6 @@ namespace VirtualGuard.Runtime.OpCodes.impl
                 {
                     argsCasted[i] = vmVariantArgs[i].GetObject();
                 }
-                
             }
 
             object inst = null;
