@@ -9,7 +9,7 @@ public class CallTranslator : ITranslator
     public void Translate(CilInstruction instr, VmBlock block, VmMethod meth)
     {
         //if(method.Resolve())
-            
+        
         block.WithContent(new VmInstruction(VmCode.Call, instr.Operand));
     }
 

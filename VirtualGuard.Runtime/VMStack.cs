@@ -32,8 +32,11 @@ namespace VirtualGuard.Runtime
 
         internal BaseVariant Pop()
         {
+            if (_index == 0)
+                return new NullVariant();
+            
             var res = _array[--_index];
-            _array[_index] = new NullVariant();
+            _array[_index] = null;
             
             Console.WriteLine("pop: " + res.STR());
             return res;

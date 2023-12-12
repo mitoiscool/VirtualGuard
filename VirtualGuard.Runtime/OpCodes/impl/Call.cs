@@ -14,22 +14,56 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            var methodBase = ctx.ResolveMethod(ctx.Stack.Pop().I4());
-
+            var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt().I4());
 
             // pop args
 
+            
             var args = methodBase.GetParameters();
+            var vmVariantArgs = new BaseVariant[args.Length];
             var argsCasted = new object[args.Length];
+
+            var refIndexes = new HashSet<int>();
 
             for (int i = 0; i < args.Length; i++)
             {
                 // this doesn't support ref args
-                argsCasted[i] = Convert.ChangeType(ctx.Stack.Pop().GetObject(), args[i].ParameterType);
+                vmVariantArgs[i] = ctx.Stack.Pop();
+
+                if (vmVariantArgs[i].IsReference())
+                    refIndexes.Add(i); // mark as reference to set value to after
+
+                if (vmVariantArgs[i].GetObject().GetType() is IConvertible conv)
+                {
+                    argsCasted[i] = Convert.ChangeType(conv, args[i].ParameterType);
+                }
+                else
+                {
+                    argsCasted[i] = vmVariantArgs[i].GetObject();
+                }
+                
             }
 
-            throw new NotImplementedException();
+            object inst = null;
+
+            if (!methodBase.IsStatic && argsCasted.Length > 0)
+            {
+                // if inst, use first arg as inst
+                inst = argsCasted[0];
+
+                // this should preserve the refs
+                argsCasted = argsCasted.Skip(1).ToArray();
+            }
+
+            object ret = methodBase.Invoke(inst, argsCasted);
             
+            // update ref vars
+            foreach (var refIndex in refIndexes) 
+                vmVariantArgs[refIndex].SetValue(argsCasted[refIndex]); // set value of associated reference variant to that of the new variable
+            
+            
+            if(methodBase.IsConstructor || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))
+                ctx.Stack.Push(BaseVariant.CreateVariant(ret));
 
             state = ExecutionState.Next;
         }

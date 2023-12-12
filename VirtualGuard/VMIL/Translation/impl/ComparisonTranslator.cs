@@ -14,17 +14,17 @@ public class ComparisonTranslator : ITranslator
         switch (instr.OpCode.Code)
         {
             case CilCode.Ceq:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, meth.Runtime.Descriptor.ComparisonFlags.EqFlag));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, (int)meth.Runtime.Descriptor.ComparisonFlags.EqFlag));
                 break;
             
             case CilCode.Cgt:
             case CilCode.Cgt_Un:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, meth.Runtime.Descriptor.ComparisonFlags.GtFlag));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, (int)meth.Runtime.Descriptor.ComparisonFlags.GtFlag));
                 break;
             
             case CilCode.Clt:
             case CilCode.Clt_Un:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, meth.Runtime.Descriptor.ComparisonFlags.LtFlag));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, (int)meth.Runtime.Descriptor.ComparisonFlags.LtFlag));
                 break;
         }
         

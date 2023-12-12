@@ -23,9 +23,8 @@ namespace VirtualGuard.Runtime
             
             Console.WriteLine("read stream of length " + _bytes.Length);
 
-            stream.Read(_bytes, 0, _bytes.Length - 1);
+            stream.Read(_bytes, 0, _bytes.Length);
 
-            
 
             var reader = new BinaryReader(new MemoryStream(_bytes));
 
@@ -81,7 +80,7 @@ namespace VirtualGuard.Runtime
 
         public IntVariant ReadInt()
         {
-            return new IntVariant(BitConverter.ToInt16(ReadPrimitive(4), 0));
+            return new IntVariant(BitConverter.ToInt32(ReadPrimitive(4), 0));
         }
 
         public LongVariant ReadLong()

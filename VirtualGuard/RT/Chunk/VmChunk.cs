@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text;
 using AsmResolver.DotNet;
 using VirtualGuard.VMIL.VM;
@@ -24,40 +25,56 @@ public class VmChunk : IChunk
     public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
         // encryption should be done here
-        
-        
+
         foreach (var instr in Content)
         {
             writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
-            Console.WriteLine("wrote opcode " + instr.OpCode.ToString() + " as " + rt.Descriptor.OpCodes[instr.OpCode]);
+            Console.WriteLine(instr.OpCode);
             
             if (instr.Operand == null)
                 continue; // write next instr
 
-            if(instr.Operand is short s)
+            if (instr.Operand is short s)
+            {
                 writer.Write(s);
-            
-            if (instr.Operand is int i )
+                continue;
+            }
+
+            if (instr.Operand is int i)
+            {
                 writer.Write(i);
+                continue;
+            }
 
             if (instr.Operand is long l)
+            {
                 writer.Write(l);
+                continue;
+            }
+
 
             if (instr.Operand is VmVariable vv)
+            {
                 writer.Write(vv.Id);
-            
-            if(instr.Operand is VmChunk chunk)
-                writer.Write(chunk.Offset); // trust this is updated
-            
-            if(instr.Operand is string str)
-                writer.Write(rt.Descriptor.Data.AddString(str)); // this doesn't work because header is encoded beforehand
-            
-            if(instr.Operand is IMethodDescriptor mdesc)
-                writer.Write(mdesc.MetadataToken.ToInt32());
-            
-            if(instr.Operand is IFieldDescriptor fdesc)
-                writer.Write(fdesc.MetadataToken.ToInt32());
+                continue;
+            }
 
+
+            if (instr.Operand is VmChunk chunk)
+            {
+                writer.Write(chunk.Offset); // trust this is updated
+                continue;
+            }
+
+            if (instr.Operand is IMetadataMember mem)
+            {
+                writer.Write(mem.MetadataToken.ToInt32());
+                Console.WriteLine(string.Join(", ", BitConverter.GetBytes(mem.MetadataToken.ToInt32())));
+                continue;
+            }
+                
+
+            throw new DataException(instr.Operand.GetType().FullName);
         }
         
         
@@ -75,6 +92,9 @@ public class VmChunk : IChunk
             if (instr.Operand == null)
                 continue; // stop execution, length should not be updated and it should move to the next instr
 
+            if (instr.Operand is short)
+                length += sizeof(short);
+            
             if (instr.Operand is int)
                 length += sizeof(int);
 
@@ -87,18 +107,8 @@ public class VmChunk : IChunk
             if (instr.Operand is VmChunk)
                 length += sizeof(int);
 
-            if (instr.Operand is IMethodDescriptor)
+            if (instr.Operand is IMetadataMember)
                 length += sizeof(int);
-
-            if (instr.Operand is IFieldDescriptor)
-                length += sizeof(int);
-
-            if (instr.Operand is ITypeDescriptor)
-                length += sizeof(int);
-
-            if (instr.Operand is string)
-                length += sizeof(int);
-
 
             // assume members and strings are already encoded as ints/strings
             // funny lol

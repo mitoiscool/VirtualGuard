@@ -117,17 +117,19 @@ public class VirtualGuardRT
         return true;
     }
     
-    public void Commit(VirtualGuardContext ctx)
+    public void BuildData(VirtualGuardContext ctx)
     {
         // add header chunk
-        
-        _allChunks.Insert(0, new HeaderChunk(this));
+        var headerChunk = new HeaderChunk(this);
+        _allChunks.Insert(0, headerChunk);
         
         MutateChunks(ctx);
         
         UpdateOffsets();
 
-        var bytes = SerializeChunks();
+        var bytes = SerializeChunks(ctx);
+        
+        Console.WriteLine(string.Join(',', bytes.Skip(headerChunk.Length)));
         
         Print();
         
@@ -143,7 +145,7 @@ public class VirtualGuardRT
         }
     }
 
-    byte[] SerializeChunks()
+    byte[] SerializeChunks(VirtualGuardContext ctx)
     {
         var ms = new MemoryStream();
         var binaryWriter = new BinaryWriter(ms);

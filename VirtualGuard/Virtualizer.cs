@@ -37,7 +37,7 @@ public class Virtualizer
 
     public void CommitRuntime()
     {
-        _rt.Commit(_ctx);
+        _rt.BuildData(_ctx);
 
         // clone runtime module into target module
         _rt.Inject(_ctx.Module);
