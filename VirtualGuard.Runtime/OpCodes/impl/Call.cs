@@ -35,8 +35,5 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         }
 
         public byte GetCode() => 0;
-
-        private static Dictionary<MethodBase, DynamicMethod> _dynamicMethodCache =
-            new Dictionary<MethodBase, DynamicMethod>();
     }
 }

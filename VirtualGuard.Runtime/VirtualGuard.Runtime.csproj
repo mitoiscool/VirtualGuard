@@ -1,123 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>VirtualGuard.Runtime</RootNamespace>
-        <AssemblyName>VirtualGuard.Runtime</AssemblyName>
-        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-        <LangVersion>9</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DebugSymbols>false</DebugSymbols>
+      <DebugType>none</DebugType>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Dynamic\Constants.cs" />
-        <Compile Include="Dynamic\Routine.cs" />
-        <Compile Include="Entry.cs" />
-        <Compile Include="Execution\ExecutionState.cs" />
-        <Compile Include="IElement.cs" />
-        <Compile Include="LocalStorage.cs" />
-        <Compile Include="OpCodes\CodeMap.cs" />
-        <Compile Include="OpCodes\impl\Add.cs" />
-        <Compile Include="OpCodes\impl\And.cs" />
-        <Compile Include="OpCodes\impl\Call.cs" />
-        <Compile Include="OpCodes\impl\Cmp.cs" />
-        <Compile Include="OpCodes\impl\Div.cs" />
-        <Compile Include="OpCodes\impl\Dup.cs" />
-        <Compile Include="OpCodes\impl\EnterRegion.cs" />
-        <Compile Include="OpCodes\impl\Jmp.cs" />
-        <Compile Include="OpCodes\impl\Jz.cs" />
-        <Compile Include="OpCodes\impl\Ldc_I4.cs" />
-        <Compile Include="OpCodes\impl\Ldc_I8.cs" />
-        <Compile Include="OpCodes\impl\Ldc_R4.cs" />
-        <Compile Include="OpCodes\impl\Ldc_R8.cs" />
-        <Compile Include="OpCodes\impl\Ldelem.cs" />
-        <Compile Include="OpCodes\impl\Ldelema.cs" />
-        <Compile Include="OpCodes\impl\Ldfld.cs" />
-        <Compile Include="OpCodes\impl\Ldflda.cs" />
-        <Compile Include="OpCodes\impl\Ldloc.cs" />
-        <Compile Include="OpCodes\impl\Ldloca.cs" />
-        <Compile Include="OpCodes\impl\Ldstr.cs" />
-        <Compile Include="OpCodes\impl\LoadState.cs" />
-        <Compile Include="OpCodes\impl\Mul.cs" />
-        <Compile Include="OpCodes\impl\Not.cs" />
-        <Compile Include="OpCodes\impl\Or.cs" />
-        <Compile Include="OpCodes\impl\Pop.cs" />
-        <Compile Include="OpCodes\impl\Rem.cs" />
-        <Compile Include="OpCodes\impl\Ret.cs" />
-        <Compile Include="OpCodes\impl\Stelem.cs" />
-        <Compile Include="OpCodes\impl\Stfld.cs" />
-        <Compile Include="OpCodes\impl\Stloc.cs" />
-        <Compile Include="OpCodes\impl\Sub.cs" />
-        <Compile Include="OpCodes\impl\Vmcall.cs" />
-        <Compile Include="OpCodes\impl\Xor.cs" />
-        <Compile Include="OpCodes\IOpCode.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Variant\BaseVariant.cs" />
-        <Compile Include="Variant\Object\ArrayVariant.cs" />
-        <Compile Include="Variant\Object\NullVariant.cs" />
-        <Compile Include="Variant\Object\ObjectVariant.cs" />
-        <Compile Include="Variant\Reference\BaseReferenceVariant.cs" />
-        <Compile Include="Variant\Reference\impl\ArrayReferenceVariant.cs" />
-        <Compile Include="Variant\Reference\impl\FieldReferenceVariant.cs" />
-        <Compile Include="Variant\Reference\impl\LocalReferenceVariant.cs" />
-        <Compile Include="Variant\ValueType\Numeric\ByteVariant.cs" />
-        <Compile Include="Variant\ValueType\Numeric\IntVariant.cs" />
-        <Compile Include="Variant\ValueType\Numeric\LongVariant.cs" />
-        <Compile Include="Variant\ValueType\Numeric\NumeralVariant.cs" />
-        <Compile Include="Variant\ValueType\StringVariant.cs" />
-        <Compile Include="VMContext.cs" />
-        <Compile Include="VMReader.cs" />
-        <Compile Include="VMStack.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Flags\" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <Import Project="..\packages\Microsoft.NETFramework.ReferenceAssemblies.net48.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net48.targets" Condition="Exists('..\packages\Microsoft.NETFramework.ReferenceAssemblies.net48.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net48.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('..\packages\Microsoft.NETFramework.ReferenceAssemblies.net48.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net48.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NETFramework.ReferenceAssemblies.net48.1.0.3\build\Microsoft.NETFramework.ReferenceAssemblies.net48.targets'))" />
-    </Target>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
 
 </Project>

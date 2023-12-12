@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.CLI", "Virtual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinary", "VirtualGuard.TestBinary\VirtualGuard.TestBinary.csproj", "{AB0BA665-ED14-475A-91EE-BC06C2E66749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.TestBinaryTester", "VirtualGuard.TestBinaryTester\VirtualGuard.TestBinaryTester.csproj", "{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Runtime", "VirtualGuard.Runtime\VirtualGuard.Runtime.csproj", "{306D13A9-9B8B-4D39-8AE8-2870EC0C23A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,13 +28,13 @@ Global
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0BA665-ED14-475A-91EE-BC06C2E66749}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B44C9D7A-D139-47DC-846E-A1DA4BE4BA9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C47ACC86-919A-4506-AB1C-BF9EFDDE19A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{306D13A9-9B8B-4D39-8AE8-2870EC0C23A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306D13A9-9B8B-4D39-8AE8-2870EC0C23A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306D13A9-9B8B-4D39-8AE8-2870EC0C23A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306D13A9-9B8B-4D39-8AE8-2870EC0C23A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
