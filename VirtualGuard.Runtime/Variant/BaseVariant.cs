@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using VirtualGuard.Runtime.Dynamic;
-using VirtualGuard.Runtime.Flags;
 using VirtualGuard.Runtime.Variant.Object;
 using VirtualGuard.Runtime.Variant.ValueType;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
@@ -67,9 +66,9 @@ namespace VirtualGuard.Runtime.Variant
             }
 
             if (firstELement.GetObject().Equals(secondElement.GetObject()))
-                return (byte)ComparisonFlags.EQ;
+                return Constants.CMP_EQ;
 
-            return (byte)ComparisonFlags.NEQ;
+            return 0;
         }
 
         public virtual bool IsReference()

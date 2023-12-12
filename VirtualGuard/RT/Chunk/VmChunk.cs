@@ -1,4 +1,5 @@
 using System.Text;
+using AsmResolver.DotNet;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
@@ -30,8 +31,11 @@ public class VmChunk : IChunk
             writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
             
             if (instr.Operand == null)
-                continue; // stop execution
+                continue; // write next instr
 
+            if(instr.Operand is short s)
+                writer.Write((int)s);
+            
             if (instr.Operand is int i )
                 writer.Write(i);
 
@@ -44,8 +48,15 @@ public class VmChunk : IChunk
             if(instr.Operand is VmChunk chunk)
                 writer.Write(chunk.Offset); // trust this is updated
             
-            if(instr.Operand is string s)
-                writer.Write(rt.Descriptor.Data.AddString(s)); // get id for string
+            if(instr.Operand is string str)
+                writer.Write(rt.Descriptor.Data.AddString(str)); // get id for string
+            
+            if(instr.Operand is IMethodDescriptor mdesc)
+                writer.Write(mdesc.MetadataToken.ToInt32());
+            
+            if(instr.Operand is IFieldDescriptor fdesc)
+                writer.Write(fdesc.MetadataToken.ToInt32());
+            
             
             // need to add logic for members
         }

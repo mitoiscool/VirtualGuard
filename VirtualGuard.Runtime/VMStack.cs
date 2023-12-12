@@ -25,6 +25,8 @@ namespace VirtualGuard.Runtime
 
         internal void Push(BaseVariant val)
         {
+            Console.WriteLine("push: " + val.STR());
+            
             if (_index == _array.Length)
             {
                 var arr = new BaseVariant[2 * _array.Length];
@@ -42,6 +44,8 @@ namespace VirtualGuard.Runtime
 
             var res = _array[--_index];
             _array[_index] = null;
+            
+            Console.WriteLine("pop: " + res.STR());
             return res;
         }
 

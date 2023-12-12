@@ -119,16 +119,19 @@ public class VirtualGuardRT
     
     public void Commit(VirtualGuardContext ctx)
     {
+        // add header chunk
+        
+        _allChunks.Insert(0, new HeaderChunk());
         
         MutateChunks();
         
         UpdateOffsets();
 
-        //var bytes = SerializeChunks();
+        var bytes = SerializeChunks();
         
         Print();
         
-        //ctx.Module.Resources.Add(new ManifestResource("test", ManifestResourceAttributes.Private, new DataSegment(bytes)));
+        ctx.Module.Resources.Add(new ManifestResource(Descriptor.Data.StreamName, ManifestResourceAttributes.Private, new DataSegment(bytes)));
         //ctx.Module.ToPEImage().DotNetDirectory.Metadata.Streams.Add(new CustomMetadataStream("#vg", bytes));
     }
 

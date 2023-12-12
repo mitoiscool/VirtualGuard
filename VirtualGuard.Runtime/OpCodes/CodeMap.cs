@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime.OpCodes
@@ -12,7 +13,7 @@ namespace VirtualGuard.Runtime.OpCodes
         static CodeMap()
         {
             _opCodes = new Dictionary<byte, IOpCode>();
-            foreach (var type in typeof(VMContext).Assembly.GetTypes())
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
                 if (typeof(IOpCode).IsAssignableFrom(type) && !type.IsAbstract)
                 {
                     var opCode = (IOpCode)Activator.CreateInstance(type);
