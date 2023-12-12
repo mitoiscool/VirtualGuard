@@ -11,8 +11,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            var v1 = ctx.Stack.Pop();
             var v2 = ctx.Stack.Pop();
+            var v1 = ctx.Stack.Pop();
             
             // could do something cool where we have a custom conditional branch based off of a flag
             // flag type would be onstack followed by the actual flag

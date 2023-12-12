@@ -22,6 +22,7 @@ var virt = new Virtualizer(ctx);
 //virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
 
 virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:BranchingInstructions"), true);
+virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:LoopingInstructions"), true);
 
 virt.CommitRuntime();
 

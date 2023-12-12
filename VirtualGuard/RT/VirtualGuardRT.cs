@@ -220,6 +220,11 @@ public class VirtualGuardRT
             sb.AppendLine();
             i++;
         }
+
+        sb.AppendLine("flags:");
+        sb.AppendLine("gt: " + Descriptor.ComparisonFlags.GtFlag);
+        sb.AppendLine("lt: " + Descriptor.ComparisonFlags.LtFlag);
+        sb.AppendLine("eq: " + Descriptor.ComparisonFlags.EqFlag);
         
         Console.WriteLine(sb.ToString());
     }

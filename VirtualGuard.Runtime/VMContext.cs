@@ -53,6 +53,7 @@ namespace VirtualGuard.Runtime
                 //{
                     var handler = Reader.ReadHandler();
 
+                    Console.WriteLine(CodeMap.GetCode(handler).GetType().Name);
                     CodeMap.GetCode(handler).Execute(this, out state);
                     
 

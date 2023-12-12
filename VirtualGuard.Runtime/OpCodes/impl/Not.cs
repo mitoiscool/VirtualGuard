@@ -1,4 +1,5 @@
 using VirtualGuard.Runtime.Execution;
+using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
