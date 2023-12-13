@@ -14,7 +14,7 @@ public class ShortVariant : NumeralVariant
             return _value;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _value = (short)obj;
         }
@@ -22,11 +22,6 @@ public class ShortVariant : NumeralVariant
         public override BaseVariant Clone()
         {
             return new ShortVariant(_value);
-        }
-
-        public override void SetFlags(int flag)
-        {
-            throw new NotImplementedException();
         }
 
         public override NumeralVariant Add(NumeralVariant addend)

@@ -79,7 +79,7 @@ namespace VirtualGuard.Runtime.Variant
         }
 
         public abstract object GetObject();
-        public abstract void SetValue(object obj);
+        public abstract void SetVariantValue(object obj);
         public abstract BaseVariant Clone();
         
         public virtual sbyte I1()

@@ -24,7 +24,7 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
             return _array.LoadDelimeter(_index);
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _array.SetDelimeter(_index, CreateVariant(obj));
         }

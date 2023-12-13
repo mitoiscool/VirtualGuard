@@ -29,8 +29,7 @@ public class VmChunk : IChunk
         foreach (var instr in Content)
         {
             writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
-            Console.WriteLine(instr.OpCode);
-            
+
             if (instr.Operand == null)
                 continue; // write next instr
 
@@ -69,7 +68,6 @@ public class VmChunk : IChunk
             if (instr.Operand is IMetadataMember mem)
             {
                 writer.Write(mem.MetadataToken.ToInt32());
-                Console.WriteLine(string.Join(", ", BitConverter.GetBytes(mem.MetadataToken.ToInt32())));
                 continue;
             }
                 

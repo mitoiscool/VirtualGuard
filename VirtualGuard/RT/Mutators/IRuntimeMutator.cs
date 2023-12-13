@@ -22,12 +22,21 @@ public interface IRuntimeMutator
 
     private static readonly IRuntimeMutator[] _mutators =
     { // need to do it manually to preserve order
+        
         new InjectConstants(),
+        
         new VmCalls(),
+        
         new EncryptDebugSymbols(),
-        new EncodeStrings()
+        
+        new EncodeStrings(),
+        
         //new PseudoRegions(),
-        //new Renamer()
+        new Renamer(),
+        
+        // vmcode obfuscations
+        
+        //new ConstantMutation()
     };
 
     public static IRuntimeMutator[] GetMutators() => _mutators;

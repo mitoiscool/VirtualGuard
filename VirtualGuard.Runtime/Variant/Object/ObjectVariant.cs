@@ -15,7 +15,7 @@ namespace VirtualGuard.Runtime.Variant.Object
             return _obj;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _obj = obj;
         }

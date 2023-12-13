@@ -10,7 +10,7 @@ namespace VirtualGuard.Runtime.Variant.Object
             return null;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             throw new InvalidOperationException();
         }

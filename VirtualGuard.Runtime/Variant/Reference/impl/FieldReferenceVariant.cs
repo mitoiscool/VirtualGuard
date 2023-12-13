@@ -14,7 +14,7 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
             throw new System.NotImplementedException();
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             throw new System.NotImplementedException();
         }

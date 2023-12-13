@@ -18,7 +18,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return _value;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _value = (long)obj;
         }
@@ -27,12 +27,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         {
             return new LongVariant(_value);
         }
-
-        public override void SetFlags(int flag)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override NumeralVariant Add(NumeralVariant addend)
         {
             var sum = _value + addend.I8();

@@ -17,7 +17,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return _value;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _value = (int)obj;
         }
@@ -25,11 +25,6 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override BaseVariant Clone()
         {
             return new IntVariant(_value);
-        }
-
-        public override void SetFlags(int flag)
-        {
-            throw new NotImplementedException();
         }
 
         public override NumeralVariant Add(NumeralVariant addend)

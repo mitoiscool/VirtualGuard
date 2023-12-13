@@ -14,6 +14,32 @@ public static class Util
             list[n] = value;
         }
     }
+    
+    public static void ReplaceRange<T>(this List<T> list, T existingItem, params T[] newItems)
+    { // chatgpt ftw
+        if (list == null)
+        {
+            throw new ArgumentNullException(nameof(list));
+        }
+
+        if (existingItem == null)
+        {
+            throw new ArgumentNullException(nameof(existingItem));
+        }
+
+        int index = list.IndexOf(existingItem);
+
+        if (index == -1)
+        {
+            throw new ArgumentException("The specified item does not exist in the list.", nameof(existingItem));
+        }
+
+        // Remove the existing item
+        list.RemoveAt(index);
+
+        // Insert new items at the removed item's index
+        list.InsertRange(index, newItems);
+    }
 
     public static TypeDefinition LookupType(this ModuleDefinition mod, string name)
     {

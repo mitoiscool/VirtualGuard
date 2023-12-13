@@ -8,8 +8,6 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return true;
         }
 
-        public abstract void SetFlags(int flag);
-
         public abstract NumeralVariant Add(NumeralVariant addend);
         public abstract NumeralVariant Sub(NumeralVariant subtraend);
         public abstract NumeralVariant Mul(NumeralVariant factor);

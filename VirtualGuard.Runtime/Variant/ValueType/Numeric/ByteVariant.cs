@@ -17,7 +17,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return _b;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _b = (byte)obj;
         }
@@ -26,12 +26,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         {
             return new ByteVariant(_b);
         }
-
-        public override void SetFlags(int flag)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override NumeralVariant Add(NumeralVariant addend)
         {
             var sum = this.U1() + addend.U1();

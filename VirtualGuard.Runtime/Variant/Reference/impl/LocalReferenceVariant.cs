@@ -16,9 +16,9 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
             return _variant.GetObject();
         }
         
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
-            _variant.SetValue(obj);
+            _variant.SetVariantValue(obj);
         }
 
         public override BaseVariant Clone()

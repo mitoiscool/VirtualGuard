@@ -19,8 +19,6 @@ public class VmInstruction
 
     public int GetSize()
     {
-        Console.WriteLine(sizeof(byte));
-        
         if (this.Operand == null)
             return sizeof(VmCode); // stop execution, length should not be updated and it should move to the next instr
 

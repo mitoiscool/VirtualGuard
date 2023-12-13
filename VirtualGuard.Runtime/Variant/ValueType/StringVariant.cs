@@ -15,7 +15,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType
             return _str;
         }
 
-        public override void SetValue(object obj)
+        public override void SetVariantValue(object obj)
         {
             _str = (string)obj;
         }

@@ -54,7 +54,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             
             // update ref vars
             foreach (var refIndex in refIndexes) 
-                vmVariantArgs[refIndex].SetValue(argsCasted[refIndex]); // set value of associated reference variant to that of the new variable
+                vmVariantArgs[refIndex].SetVariantValue(argsCasted[refIndex]); // set value of associated reference variant to that of the new variable
             
             
             if(methodBase.IsConstructor || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))

@@ -8,7 +8,7 @@ using VirtualGuard.CLI.VG;
 
 var ctx = new VirtualGuardContext(ModuleDefinition.FromFile("VirtualGuard.Tests.exe"), new VirtualGuardSettings()
 {
-    DebugMessageKey = 0, // makes it not encrypted
+    DebugMessageKey = 121, // makes it not encrypted
     License = LicenseType.Plus,
     Version = "v1.0"
 });
