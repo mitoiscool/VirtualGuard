@@ -4,7 +4,7 @@ namespace VirtualGuard.RT.Mutators.impl;
 
 public class Renamer : IRuntimeMutator
 {
-    private Dictionary<MethodSignature, string> _abstractNameMap = new Dictionary<MethodSignature, string>();
+    private Dictionary<string, string> _abstractNameMap = new Dictionary<string, string>();
 
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
@@ -14,19 +14,17 @@ public class Renamer : IRuntimeMutator
         var random = new Random();
 
         // establish names for all abstract methods
-        foreach (var type in rt.RuntimeModule.GetAllTypes())
+        foreach (var type in rt.RuntimeModule.GetAllTypes().Where(x => !x.IsModuleType && !x.IsRuntimeSpecialName))
         {
             foreach (var method in type.Methods)
             {
 
-                if (method.IsAbstract || method.IsVirtual)
+                if (method.IsAbstract || method.IsVirtual || method.DeclaringType.IsInterface && method.CilMethodBody != null && method.CilMethodBody.Instructions.Count == 0)
                 {
-                    if (!_abstractNameMap.ContainsKey(method.Signature))
+                    if (!_abstractNameMap.ContainsKey(method.Name))
                     {
-                        string name =
-                            method.Name +
-                            random.Next(int.MaxValue).ToString("x"); // Use a different prefix for abstract methods
-                        _abstractNameMap.Add(method.Signature, name);
+                        string name = random.Next(int.MaxValue).ToString("x"); // Use a different prefix for abstract methods
+                        _abstractNameMap.Add(method.Name, name);
                         method.Name = name;
                     }
                 }
@@ -34,20 +32,20 @@ public class Renamer : IRuntimeMutator
         }
 
 
-        foreach (var type in rt.RuntimeModule.GetAllTypes())
+        foreach (var type in rt.RuntimeModule.GetAllTypes().Where(x => !x.IsModuleType && !x.IsRuntimeSpecialName))
         {
-            type.Namespace = "vg";
+            type.Namespace = random.Next(int.MaxValue).ToString("x");
             type.Name = "vg" + random.Next(int.MaxValue).ToString("x");
 
             foreach (var method in type.Methods)
             {
                 foreach (var def in method.ParameterDefinitions)
-                    def.Name = "vg" + random.Next(int.MaxValue).ToString("x");
+                    def.Name = random.Next(int.MaxValue).ToString("x");
 
                 if (method.IsConstructor || method.IsRuntimeSpecialName)
                     continue;
 
-                if (_abstractNameMap.TryGetValue(method.Signature, out string sharedName))
+                if (_abstractNameMap.TryGetValue(method.Name, out string sharedName))
                 {
                     // rename abstract shared
                     method.Name = sharedName;
@@ -60,14 +58,18 @@ public class Renamer : IRuntimeMutator
                     // rename normally
                     method.Name =
                         random.Next(int.MaxValue)
-                            .ToString("x"); // Use a different prefix for non-abstract methods
+                           .ToString("x"); // Use a different prefix for non-abstract methods
                 }
             }
 
+            var fieldName = random.Next(int.MaxValue)
+                .ToString("x");
+            
             foreach (var field in type.Fields)
             {
-                field.Name = random.Next(int.MaxValue).ToString("x"); // Use a different prefix for fields
+                field.Name = fieldName; // Use a different prefix for fields
             }
         }
     }
 }
+
