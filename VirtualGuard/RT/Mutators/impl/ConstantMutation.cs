@@ -21,7 +21,7 @@ public class ConstantMutation : IRuntimeMutator
                 
                 // do different behaviors for the significance
 
-                /*if (vmInstruction.Operand is int i && rnd.Next(4) == 0) // mutate 1/5
+                if (vmInstruction.Operand is int i && rnd.Next(4) == 0) // mutate 1/5
                 {
                     var mutatorKey = rnd.Next(100000000);
 
@@ -37,7 +37,7 @@ public class ConstantMutation : IRuntimeMutator
                         new VmInstruction(VmCode.Add)
                     );
                     
-                }*/
+                }
 
                 if (vmInstruction.Operand is VmChunk chunk)
                 {

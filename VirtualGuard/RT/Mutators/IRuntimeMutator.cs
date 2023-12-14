@@ -36,7 +36,7 @@ public interface IRuntimeMutator
         
         // vmcode obfuscations
         
-        //new ConstantMutation()
+        new ConstantMutation()
     };
 
     public static IRuntimeMutator[] GetMutators() => _mutators;

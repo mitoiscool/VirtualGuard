@@ -6,7 +6,7 @@ using AsmResolver.PE.DotNet.Builder;
 using VirtualGuard;
 using VirtualGuard.CLI.VG;
 
-var ctx = new VirtualGuardContext(ModuleDefinition.FromFile("VirtualGuard.Tests.exe"), new VirtualGuardSettings()
+var ctx = new VirtualGuardContext(ModuleDefinition.FromFile("VirtualGuard.TestBinary.dll"), new VirtualGuardSettings()
 {
     DebugMessageKey = 121, // makes it not encrypted
     License = LicenseType.Plus,
@@ -15,14 +15,14 @@ var ctx = new VirtualGuardContext(ModuleDefinition.FromFile("VirtualGuard.Tests.
 
 var virt = new Virtualizer(ctx);
 
-//virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AddTest"), true);
+virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AddTest"), true);
 
-//virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "CallTest"), true);
+virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "CallTest"), true);
 
-//virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
+virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == "AdvancedTest"), true);
 
-virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:BranchingInstructions"), true);
-virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:LoopingInstructions"), true);
+//virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:BranchingInstructions"), true);
+//virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:LoopingInstructions"), true);
 
 virt.CommitRuntime();
 

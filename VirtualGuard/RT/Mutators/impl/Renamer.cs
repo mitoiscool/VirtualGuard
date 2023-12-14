@@ -1,8 +1,10 @@
+using AsmResolver.DotNet.Signatures;
+
 namespace VirtualGuard.RT.Mutators.impl;
 
 public class Renamer : IRuntimeMutator
 {
-    private Dictionary<string, string> _abstractNameMap = new Dictionary<string, string>();
+    private Dictionary<MethodSignature, string> _abstractNameMap = new Dictionary<MethodSignature, string>();
 
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
@@ -19,12 +21,12 @@ public class Renamer : IRuntimeMutator
 
                 if (method.IsAbstract || method.IsVirtual)
                 {
-                    if (!_abstractNameMap.ContainsKey(method.Name))
+                    if (!_abstractNameMap.ContainsKey(method.Signature))
                     {
                         string name =
                             method.Name +
                             random.Next(int.MaxValue).ToString("x"); // Use a different prefix for abstract methods
-                        _abstractNameMap.Add(method.Name, name);
+                        _abstractNameMap.Add(method.Signature, name);
                         method.Name = name;
                     }
                 }
@@ -45,7 +47,7 @@ public class Renamer : IRuntimeMutator
                 if (method.IsConstructor || method.IsRuntimeSpecialName)
                     continue;
 
-                if (_abstractNameMap.TryGetValue(method.Name, out string sharedName))
+                if (_abstractNameMap.TryGetValue(method.Signature, out string sharedName))
                 {
                     // rename abstract shared
                     method.Name = sharedName;
