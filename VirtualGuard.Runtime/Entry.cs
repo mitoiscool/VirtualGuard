@@ -1,3 +1,6 @@
+using VirtualGuard.Runtime.Variant;
+using VirtualGuard.Runtime.Variant.Object;
+
 namespace VirtualGuard.Runtime
 {
 
@@ -5,9 +8,13 @@ namespace VirtualGuard.Runtime
     {
         public static object VMEntry(int loc, object[] args)
         {
-            return new VMContext().Dispatch(loc, args);
+            return VMEntry(loc, VMReader.GetEntryKey(loc), args);
         }
 
+        public static object VMEntry(int loc, byte entryKey, object[] args)
+        {
+            return new VMContext(entryKey).Dispatch(loc, args);
+        }
 
     }
 }

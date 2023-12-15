@@ -106,7 +106,7 @@ namespace VirtualGuard.Runtime
             return new StringVariant(_stringMap[id.U4()]);
         }
 
-        public byte GetEntryKey(int loc)
+        public static byte GetEntryKey(int loc)
         {
             return _exportKeyMap[loc];
         }

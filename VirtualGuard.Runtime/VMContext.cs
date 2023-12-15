@@ -12,6 +12,12 @@ namespace VirtualGuard.Runtime
 
     public class VMContext
     {
+        public VMContext(byte entryKey)
+        {
+            _entryKey = entryKey;
+        }
+
+        private byte _entryKey;
         public readonly VMStack Stack = new();
         public readonly LocalStorage Locals = new();
         public readonly VMReader Reader = new();
@@ -21,7 +27,7 @@ namespace VirtualGuard.Runtime
         public object Dispatch(int loc, object[] args)
         {
             Reader.SetValue(loc);
-            Reader.SetKey(Reader.GetEntryKey(loc));
+            Reader.SetKey(_entryKey);
             
             Stack.Push(new ArrayVariant(args));
 

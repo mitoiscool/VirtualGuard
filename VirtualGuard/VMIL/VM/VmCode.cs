@@ -33,8 +33,7 @@ public enum VmCode : byte
     Stfld,
     Ldfld,
     Ldflda,
-    
-    LoadState,
+        
     EnterRegion,
     
     Cmp,

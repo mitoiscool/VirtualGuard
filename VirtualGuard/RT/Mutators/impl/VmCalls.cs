@@ -26,8 +26,9 @@ public class VmCalls : IRuntimeMutator
                 if (rt.IsMethodVirtualized(def, out VmChunk inlineTarget))
                 {
                     chunk.Content.ReplaceRange(vmInstruction,
-                        new VmInstruction(VmCode.Ldc_I4, (int)rt.Descriptor.Data.GetStartKey(inlineTarget)),
-                                      new VmInstruction(VmCode.Vmcall, inlineTarget)
+                        new VmInstruction(VmCode.Ldc_I4, def.Parameters.Count),
+                                        new VmInstruction(VmCode.Ldc_I4, inlineTarget),
+                                        new VmInstruction(VmCode.Vmcall, rt.Descriptor.Data.GetStartKey(inlineTarget))
                         );
                 }
 

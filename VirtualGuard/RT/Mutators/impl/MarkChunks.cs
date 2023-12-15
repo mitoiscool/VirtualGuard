@@ -31,7 +31,7 @@ public class MarkChunks : IRuntimeMutator
 
                     // set operand to key start
 
-                    instr.Operand = (int)rt.Descriptor.Data.GetStartKey(targetChunk);
+                    instr.Operand = rt.Descriptor.Data.GetStartKey(targetChunk);
                 }
                 
             }
