@@ -4,6 +4,12 @@ namespace VirtualGuard.Runtime.Dynamic
     public static class Constants
     {
         // reader
+        public static byte HEADER_IV = 0;
+        
+        public static byte HEADER_ROTATION_FACTOR1 = 0;
+        public static byte HEADER_ROTATION_FACTOR2 = 0;
+        public static byte HEADER_ROTATION_FACTOR3 = 0;
+        
         public static byte HANDLER_ROT1 = 0;
         public static byte BYTE_ROT1 = 0;
 

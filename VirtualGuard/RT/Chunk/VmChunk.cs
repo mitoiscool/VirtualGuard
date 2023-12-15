@@ -38,7 +38,7 @@ public class VmChunk : IChunk
             
             var handler = rt.Descriptor.OpCodes[instr.OpCode];
 
-            Console.WriteLine("dec: {0} enc: {1} key: {2}", handler, handler ^ key, key);
+            //Console.WriteLine("dec: {0} enc: {1} key: {2}", handler, handler ^ key, key);
             writer.Write((byte)(handler ^ key));
 
             // shift key for handler
@@ -59,7 +59,6 @@ public class VmChunk : IChunk
             // so we need to use set start keys for blocks to map things out instead
             // start keys will be passed into jmp instructions to help fix instructions
             // vmcalls will also require start keys but they will also need current keys passed in to return jmp
-            
         }
         
         

@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Reflection;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Variant;
@@ -13,7 +11,7 @@ namespace VirtualGuard.Runtime
 
     public class VMReader : IElement
     {
-        static VMReader()
+        /*static VMReader()
         {
             var assembly = Assembly.GetExecutingAssembly();
 
@@ -44,18 +42,98 @@ namespace VirtualGuard.Runtime
                 _exportKeyMap.Add(reader.ReadInt32(), reader.ReadByte());
             }
             
+        }*/ // old
+
+        static VMReader()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var stream = assembly.GetManifestResourceStream(Constants.DT_NAME);
+
+            _bytes = new byte[stream.Length];
+            int key = Constants.HEADER_IV;
+
+            if (stream.Read(_bytes, 0, _bytes.Length) != stream.Length)
+                throw new DataException(Routines.EncryptDebugMessage("Read less bytes than bytes available"));
+            
+            var ms = new MemoryStream(_bytes);
+            
+            // read watermark
+            var watermarkLength = BitConverter.ToInt16(ReadBytes(ref key, 2, ms), 0);
+            var hardcodedHeader = Constants.DT_WATERMARK.ToCharArray();
+            
+            for (int i = 0; i < watermarkLength; i++)
+            {
+                //Console.WriteLine(BitConverter.ToChar(ReadBytes(ref key, 2, ms), 0).ToString());
+                if (BitConverter.ToChar(ReadBytes(ref key, 2, ms), 0) != hardcodedHeader[i])
+                    throw new InvalidDataException(Routines.EncryptDebugMessage("Invalid watermark."));
+            }
+
+            var stringCount = BitConverter.ToInt16(ReadBytes(ref key, 2, ms), 0);
+            var exportCount = BitConverter.ToInt16(ReadBytes(ref key, 2, ms), 0);
+
+            for (int i = 0; i < stringCount; i++)
+            {
+                // read int and string
+                var stringId = BitConverter.ToInt32(ReadBytes(ref key, 4, ms), 0);
+                
+                var stringLength = BitConverter.ToInt16(ReadBytes(ref key, 2, ms), 0);
+                var chars = new char[stringLength];
+
+                for (int i2 = 0; i2 < stringLength; i2++)
+                    chars[i2] = BitConverter.ToChar(ReadBytes(ref key, 2, ms), 0);
+                
+                // build and add string
+                _stringMap.Add((uint)stringId, new string(chars));
+            }
+
+            for (int i = 0; i < exportCount; i++)
+            {
+                // read int and byte
+                var offset = BitConverter.ToInt32(ReadBytes(ref key, 4, ms), 0);
+                var entryKey = ReadBytes(ref key, 1, ms)[0];
+                _exportKeyMap.Add(offset, entryKey);
+            }
+
+            Console.WriteLine("strings:");
+            foreach (var kvp in _stringMap)
+            {
+                Console.WriteLine(kvp.Key + " : " + kvp.Value);
+            }
+
+            Console.WriteLine("exports:");
+            foreach (var export in _exportKeyMap)
+            {
+                Console.WriteLine(export.Key + " : " + export.Value);
+            }
+            
         }
 
-        private static byte[] _bytes;
-        private static Dictionary<uint, string> _stringMap = new Dictionary<uint, string>();
-        private static Dictionary<int, byte> _exportKeyMap = new Dictionary<int, byte>();
+        static byte[] ReadBytes(ref int key, int count, MemoryStream ms)
+        {
+            byte[] bytes = new byte[count];
+            for (int i = 0; i < count; i++)
+            {
+                byte decByte = (byte)(ms.ReadByte() ^ key);
+                //Console.WriteLine("dec {0} key {1}", decByte, key);
+                key = (byte)((key * Constants.HEADER_ROTATION_FACTOR1) - Constants.HEADER_ROTATION_FACTOR2 + (decByte ^ Constants.HEADER_ROTATION_FACTOR3));
+                bytes[i] = decByte;
+            }
+
+            return bytes;
+        }
+        
+
+        private static readonly byte[] _bytes;
+        private static readonly Dictionary<uint, string> _stringMap = new Dictionary<uint, string>();
+        private static readonly Dictionary<int, byte> _exportKeyMap = new Dictionary<int, byte>();
 
         public VMReader()
         {
             _memoryStream = new MemoryStream(_bytes);
         }
 
-        private MemoryStream _memoryStream;
+        private readonly MemoryStream _memoryStream;
         private byte _key;
 
         public void SetKey(byte i)
@@ -103,7 +181,7 @@ namespace VirtualGuard.Runtime
             if (id.U4() == 0)
                 return new NullVariant();
 
-            // read from vmdata dict
+            // read from vm data dict
             return new StringVariant(_stringMap[id.U4()]);
         }
 

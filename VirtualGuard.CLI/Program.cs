@@ -28,6 +28,6 @@ virt.AddMethod(ctx.Module.GetAllTypes().SelectMany(x => x.Methods).Single(x => x
 virt.CommitRuntime();
 
 
-ctx.Module.Write("VirtualGuard.Tests-virt.exe", new ManagedPEImageBuilder(MetadataBuilderFlags.PreserveAll));
+ctx.Module.Write("VirtualGuard.TestBinary.dll", new ManagedPEImageBuilder(MetadataBuilderFlags.PreserveAll));
 
 

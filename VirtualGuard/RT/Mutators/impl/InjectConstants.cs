@@ -128,6 +128,22 @@ public class InjectConstants : IRuntimeMutator
                         inlinedConstant = rt.Descriptor.Data.ByteShifts[4];
                         break;
                     
+                    case "HEADER_IV":
+                        inlinedConstant = rt.Descriptor.Data.InitialHeaderKey;
+                        break;
+                    
+                    case "HEADER_ROTATION_FACTOR1":
+                        inlinedConstant = rt.Descriptor.Data.HeaderRotationFactors[0];
+                        break;
+                    
+                    case "HEADER_ROTATION_FACTOR2":
+                        inlinedConstant = rt.Descriptor.Data.HeaderRotationFactors[1];
+                        break;
+                    
+                    case "HEADER_ROTATION_FACTOR3":
+                        inlinedConstant = rt.Descriptor.Data.HeaderRotationFactors[2];
+                        break;
+                    
                     default:
                         inlinedConstant = 0; // default value to inline
                         

@@ -41,8 +41,7 @@ namespace VirtualGuard.Runtime
             //Console.WriteLine("pop: " + res.STR());
             return res;
         }
-
-
+        
         internal BaseVariant Peek()
         {
             //Console.WriteLine("peeked " + _array[_index - 1].STR());
