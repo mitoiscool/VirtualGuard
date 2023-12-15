@@ -30,6 +30,8 @@ public class VmChunk : IChunk
         // get previous key
 
         byte key = rt.Descriptor.Data.GetStartKey(this);
+        var handlerShifts = rt.Descriptor.Data.HandlerShifts;
+        
 
         foreach (var instr in Content)
         {
@@ -40,7 +42,10 @@ public class VmChunk : IChunk
             writer.Write((byte)(handler ^ key));
 
             // shift key for handler
-            key = (byte)(key + handler); // don't use custom rotating values yet
+            //key = (byte)(key + handler); // don't use custom rotating values yet
+            key = (byte)((key * handlerShifts[0]) + handler +
+                         (handlerShifts[1] >> (handlerShifts[2] ^ handlerShifts[3])) * handlerShifts[4]);
+            // _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
             
             
             foreach (var b in GetOperandBytes(instr.Operand))

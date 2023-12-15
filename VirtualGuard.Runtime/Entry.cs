@@ -6,7 +6,7 @@ namespace VirtualGuard.Runtime
 
     public class Entry
     {
-        public static object VMEntry(int loc, object[] args)
+        public static object VMEntryBasic(int loc, object[] args)
         {
             return VMEntry(loc, VMReader.GetEntryKey(loc), args);
         }

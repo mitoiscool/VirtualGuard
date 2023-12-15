@@ -6,11 +6,13 @@ public class DataDescriptor
 {
     public DataDescriptor(Random rnd)
     { // debug
+        byte[] randomBytes1 = new byte[10];
         
-        Reader_IV = (byte)rnd.Next(byte.MaxValue);
-        Reader_Normal_Shift = (byte)rnd.Next(byte.MaxValue);
-        Reader_Handler_Shift = (byte)rnd.Next(byte.MaxValue);
+        rnd.NextBytes(randomBytes1);
+        HandlerShifts = randomBytes1;
         
+        rnd.NextBytes(randomBytes1);
+        ByteShifts = randomBytes1;
     }
     
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
@@ -19,7 +21,6 @@ public class DataDescriptor
 
     public byte GetStartKey(VmChunk chunk)
     {
-        
         return _chunkKeyMap[chunk];
     }
 
@@ -36,10 +37,9 @@ public class DataDescriptor
 
     public string StreamName;
     public string Watermark;
-
-    public byte Reader_IV = 0;
-    public byte Reader_Normal_Shift = 0;
-    public byte Reader_Handler_Shift = 0;
+    
+    public byte[] ByteShifts;
+    public byte[] HandlerShifts;
         
     private static Random _rnd = new Random();
     public int AddString(string s)

@@ -4,10 +4,21 @@ namespace VirtualGuard.Runtime.Dynamic
     public static class Constants
     {
         // reader
-        public static byte RD_IV = 0; // dbg
-        public static byte RD_HANDLER_ROT = 0;
-        public static byte RD_BYTE_ROT = 0;
+        public static byte HANDLER_ROT1 = 0;
+        public static byte BYTE_ROT1 = 0;
 
+        public static byte HANDLER_ROT2 = 0;
+        public static byte BYTE_ROT2 = 0;
+        
+        public static byte HANDLER_ROT3 = 0;
+        public static byte BYTE_ROT3 = 0;
+        
+        public static byte HANDLER_ROT4 = 0;
+        public static byte BYTE_ROT4 = 0;
+        
+        public static byte HANDLER_ROT5 = 0;
+        public static byte BYTE_ROT5 = 0;
+        
         // data
         public static string DT_WATERMARK;
         public static string DT_NAME;

@@ -11,7 +11,7 @@ public class InjectConstants : IRuntimeMutator
 
         var opcodes = typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray(); // eliminate transform instrs
         var opcodeMap = new Dictionary<VmCode, TypeDefinition>();
-
+        
         
         foreach (var name in opcodes)
         {
@@ -92,16 +92,40 @@ public class InjectConstants : IRuntimeMutator
                         inlinedConstant = rt.Descriptor.Data.StreamName;
                         break;
                     
-                    case "RD_IV":
-                        inlinedConstant = rt.Descriptor.Data.Reader_IV;
+                    case "HANDLER_ROT1":
+                        inlinedConstant = rt.Descriptor.Data.HandlerShifts[0];
                         break;
                     
-                    case "RD_HANDLER_ROT":
-                        inlinedConstant = rt.Descriptor.Data.Reader_Handler_Shift;
+                    case "HANDLER_ROT2":
+                        inlinedConstant = rt.Descriptor.Data.HandlerShifts[1];
                         break;
                     
-                    case "RD_BYTE_ROT":
-                        inlinedConstant = rt.Descriptor.Data.Reader_Normal_Shift;
+                    case "HANDLER_ROT3":
+                        inlinedConstant = rt.Descriptor.Data.HandlerShifts[2];
+                        break;
+                    
+                    case "HANDLER_ROT4":
+                        inlinedConstant = rt.Descriptor.Data.HandlerShifts[3];
+                        break;
+                    
+                    case "HANDLER_ROT5":
+                        inlinedConstant = rt.Descriptor.Data.HandlerShifts[4];
+                        break;
+                    
+                    case "BYTE_ROT1":
+                        inlinedConstant = rt.Descriptor.Data.ByteShifts[0];
+                        break;
+                    case "BYTE_ROT2":
+                        inlinedConstant = rt.Descriptor.Data.ByteShifts[1];
+                        break;
+                    case "BYTE_ROT3":
+                        inlinedConstant = rt.Descriptor.Data.ByteShifts[2];
+                        break;
+                    case "BYTE_ROT4":
+                        inlinedConstant = rt.Descriptor.Data.ByteShifts[3];
+                        break;
+                    case "BYTE_ROT5":
+                        inlinedConstant = rt.Descriptor.Data.ByteShifts[4];
                         break;
                     
                     default:

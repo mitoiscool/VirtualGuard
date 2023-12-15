@@ -9,5 +9,5 @@ public static class RuntimeConfig
     
     public const string BaseHandler = "VirtualGuard.Runtime.OpCodes.impl";
     
-    public const string VmEntry = "VirtualGuard.Runtime.Entry:VMEntry";
+    public const string VmEntry = "VirtualGuard.Runtime.Entry:VMEntryBasic";
 }

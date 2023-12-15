@@ -53,7 +53,6 @@ namespace VirtualGuard.Runtime
         public VMReader()
         {
             _memoryStream = new MemoryStream(_bytes);
-            _key = Constants.RD_IV;
         }
 
         private MemoryStream _memoryStream;
@@ -72,7 +71,7 @@ namespace VirtualGuard.Runtime
             
             Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
             
-            _key = (byte)(_key + dec);
+            _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
 
             return new ByteVariant(dec);
             //return new ByteVariant((byte)(b ^ _key));
