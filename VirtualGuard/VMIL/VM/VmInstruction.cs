@@ -20,8 +20,11 @@ public class VmInstruction
     public int GetSize()
     {
         if (this.Operand == null)
-            return 1; // stop execution, length should not be updated and it should move to the next instr
+            return sizeof(VmCode); // stop execution, length should not be updated and it should move to the next instr
 
+        if (this.Operand is byte)
+            return sizeof(VmCode) + sizeof(byte);
+        
         if (this.Operand is short)
             return sizeof(VmCode) + sizeof(short);
             

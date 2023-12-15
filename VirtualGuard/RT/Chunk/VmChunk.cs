@@ -66,6 +66,9 @@ public class VmChunk : IChunk
         if (operand == null)
             return Array.Empty<byte>(); // write next instr
 
+        if (operand is byte b)
+            return new[] { b };
+        
         if (operand is short s)
         {
             return BitConverter.GetBytes(s);
