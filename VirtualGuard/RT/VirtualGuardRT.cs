@@ -197,7 +197,7 @@ public class VirtualGuardRT
 
         foreach (var export in _exportMap)
         {
-            sb.AppendLine($"Method: {export.Value.FullName} Offset: {export.Key.Offset}");
+            sb.AppendLine($"Method: {export.Value.FullName} Offset: {export.Key.Offset} Entry: {Descriptor.Data.GetStartKey(export.Key)}");
         }
 
         sb.AppendLine();
@@ -246,10 +246,10 @@ public class VirtualGuardRT
         foreach (var instr in chunk.Content)
         {
             var operandString = instr.Operand == null ? "" : instr.Operand.ToString();
-
-            offset += instr.GetSize();
             
             sb.AppendLine(offset + " - " + instr.OpCode + " " + operandString);
+            
+            offset += instr.GetSize();
         }
         
         

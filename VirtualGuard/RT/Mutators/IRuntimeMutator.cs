@@ -26,7 +26,7 @@ public interface IRuntimeMutator
         // Runtime
         new InjectConstants(),
         new EncryptDebugSymbols(),
-        new Renamer(),
+        //new Renamer(),
         
         // vmcode
         new EncodeStrings(),

@@ -14,10 +14,7 @@ namespace VirtualGuard.Runtime.OpCodes
         static CodeMap()
         {
             _opCodes = new Dictionary<byte, IOpCode>();
-
-            try
-            {
-                var types = typeof(CodeMap).Assembly.GetTypes();
+            var types = typeof(CodeMap).Assembly.GetTypes();
 
                 foreach (var type in types)
                 {
@@ -27,18 +24,6 @@ namespace VirtualGuard.Runtime.OpCodes
                         _opCodes[opCode.GetCode()] = opCode;
                     }
                 }
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                foreach (var loaderException in ex.LoaderExceptions)
-                {
-                    Console.WriteLine($"Loader Exception: {loaderException.Message}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Unexpected Exception: {ex.Message}");
-            }
         }
 
         public static IOpCode LookupCode(ByteVariant code)
