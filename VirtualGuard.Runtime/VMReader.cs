@@ -66,13 +66,15 @@ namespace VirtualGuard.Runtime
 
         public ByteVariant ReadHandler()
         {
-            var b = _memoryStream.ReadByte();
+            var b = (byte)_memoryStream.ReadByte();
 
-            b ^= _key;
+            var dec = (byte)(b ^ _key);
             
-            _key = (byte)(_key + b);
+            Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
+            
+            _key = (byte)(_key + dec);
 
-            return new ByteVariant((byte)b);
+            return new ByteVariant(dec);
             //return new ByteVariant((byte)(b ^ _key));
         }
 

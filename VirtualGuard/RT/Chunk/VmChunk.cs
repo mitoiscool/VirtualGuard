@@ -35,15 +35,17 @@ public class VmChunk : IChunk
         {
             
             var handler = rt.Descriptor.OpCodes[instr.OpCode];
-            
-            writer.Write(handler ^ key);
+
+            Console.WriteLine("dec: {0} enc: {1} key: {2}", handler, handler ^ key, key);
+            writer.Write((byte)(handler ^ key));
 
             // shift key for handler
             key = (byte)(key + handler); // don't use custom rotating values yet
             
+            
             foreach (var b in GetOperandBytes(instr.Operand))
             {
-                writer.Write(b ^ key);
+                writer.Write((byte)(b ^ key));
                 
                 key = (byte)(key + b);
             }
