@@ -41,7 +41,6 @@ public enum VmCode : byte
     
     Jmp,
     Jz,
-    Jnz,
     
     Dup,
     

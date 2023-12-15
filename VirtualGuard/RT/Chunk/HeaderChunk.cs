@@ -19,10 +19,26 @@ public class HeaderChunk : IChunk
 
     public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
+        var strings = rt.Descriptor.Data.GetStrings();
+        var exports = rt.Descriptor.Data.GetExports();
         
         writer.Write(rt.Descriptor.Data.Watermark);
         
-        rt.Descriptor.Data.WriteStrings(writer);
+        writer.Write(strings.Count);
+        writer.Write(exports.Count);
+
+        foreach (var s in strings)
+        {
+            writer.Write(s.Key);
+            writer.Write(s.Value);
+        }
+
+        foreach (var export in exports)
+        {
+            writer.Write(export.Key.Offset);
+            writer.Write(export.Value);
+        }
+        
     }
 
     int CalculateLength()

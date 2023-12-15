@@ -32,16 +32,23 @@ namespace VirtualGuard.Runtime
                 throw new InvalidDataException(Routines.EncryptDebugMessage("Invalid watermark."));
 
             var stringCount = reader.ReadInt32();
+            var exportCount = reader.ReadInt32();
 
             for (int i = 0; i < stringCount; i++)
             {
                 _stringMap.Add((uint)reader.ReadInt32(), reader.ReadString());
             }
 
+            for (int i = 0; i < exportCount; i++)
+            {
+                _exportKeyMap.Add(reader.ReadInt32(), reader.ReadByte());
+            }
+            
         }
 
         private static byte[] _bytes;
         private static Dictionary<uint, string> _stringMap = new Dictionary<uint, string>();
+        private static Dictionary<int, byte> _exportKeyMap = new Dictionary<int, byte>();
 
         public VMReader()
         {
@@ -50,13 +57,20 @@ namespace VirtualGuard.Runtime
         }
 
         private MemoryStream _memoryStream;
-        private int _key;
+        private byte _key;
+
+        public void SetKey(byte i)
+        {
+            _key = i;
+        }
 
         public ByteVariant ReadHandler()
         {
             var b = _memoryStream.ReadByte();
+
+            b ^= _key;
             
-            _key += Constants.RD_HANDLER_ROT;
+            _key = (byte)(_key + b);
 
             return new ByteVariant((byte)b);
             //return new ByteVariant((byte)(b ^ _key));
@@ -92,6 +106,11 @@ namespace VirtualGuard.Runtime
             return new StringVariant(_stringMap[id.U4()]);
         }
 
+        public byte GetEntryKey(int loc)
+        {
+            return _exportKeyMap[loc];
+        }
+
         public void SetValue(int i)
         {
             Console.WriteLine("set reader to loc " + i);
@@ -120,10 +139,13 @@ namespace VirtualGuard.Runtime
             {
                 var b = _memoryStream.ReadByte();
 
-                _key += Constants.RD_BYTE_ROT;
+                //_key ;
 
-                //return (byte)(b ^ _key);
-                return (byte)b; // don't encrypt for dbg
+                b ^= _key;
+
+                _key = (byte)(_key + b);
+                
+                return (byte)b;
             }
             catch
             {

@@ -1,15 +1,38 @@
+using VirtualGuard.RT.Chunk;
+
 namespace VirtualGuard.RT.Descriptor;
 
 public class DataDescriptor
 {
     public DataDescriptor(Random rnd)
     { // debug
-        //Reader_IV = (byte)rnd.Next(byte.MaxValue);
-        //Reader_Normal_Shift = (byte)rnd.Next(byte.MaxValue);
-        //Reader_Handler_Shift = (byte)rnd.Next(byte.MaxValue);
+        
+        Reader_IV = (byte)rnd.Next(byte.MaxValue);
+        Reader_Normal_Shift = (byte)rnd.Next(byte.MaxValue);
+        Reader_Handler_Shift = (byte)rnd.Next(byte.MaxValue);
+        
     }
     
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
+
+    private Dictionary<VmChunk, byte> _chunkKeyMap = new Dictionary<VmChunk, byte>();
+
+    public byte GetStartKey(VmChunk chunk)
+    {
+        
+        return _chunkKeyMap[chunk];
+    }
+
+    public void BuildStartKey(VmChunk chunk)
+    {
+        var startKey = (byte)_rnd.Next(255);
+        _chunkKeyMap.Add(chunk, startKey);
+    }
+
+    public Dictionary<VmChunk, byte> GetExports()
+    {
+        return _chunkKeyMap;
+    }
 
     public string StreamName;
     public string Watermark;
@@ -30,17 +53,10 @@ public class DataDescriptor
 
         return id;
     }
-    public void WriteStrings(BinaryWriter writer)
-    {
-        writer.Write(_stringMap.Count);
 
-        foreach (var kvp in _stringMap)
-        {
-            writer.Write((uint)kvp.Key);
-            writer.Write(kvp.Value);
-        }
-        
+    public Dictionary<int, string> GetStrings()
+    {
+        return _stringMap;
     }
-    
     
 }

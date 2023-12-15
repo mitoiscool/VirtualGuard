@@ -12,6 +12,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             
             if (flag == 0)
             {
+                ctx.Reader.SetKey(ctx.Reader.ReadByte().U1());
                 ctx.Reader.SetValue(loc.I4());
             }
 

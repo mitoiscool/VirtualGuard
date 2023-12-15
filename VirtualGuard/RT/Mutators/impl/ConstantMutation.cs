@@ -12,6 +12,7 @@ public class ConstantMutation : IRuntimeMutator
         
         foreach (var vmChunk in rt.VmChunks)
         {
+            
 
             foreach (var vmInstruction in vmChunk.Content.ToArray())
             {

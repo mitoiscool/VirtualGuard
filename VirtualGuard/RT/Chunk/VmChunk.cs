@@ -21,62 +21,81 @@ public class VmChunk : IChunk
     {
         Offset = offset;
     }
+    
 
     public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
         // encryption should be done here
+        
+        // get previous key
+
+        byte key = rt.Descriptor.Data.GetStartKey(this);
 
         foreach (var instr in Content)
         {
-            writer.Write(rt.Descriptor.OpCodes[instr.OpCode]);
+            
+            var handler = rt.Descriptor.OpCodes[instr.OpCode];
+            
+            writer.Write(handler ^ key);
 
-            if (instr.Operand == null)
-                continue; // write next instr
-
-            if (instr.Operand is short s)
+            // shift key for handler
+            key = (byte)(key + handler); // don't use custom rotating values yet
+            
+            foreach (var b in GetOperandBytes(instr.Operand))
             {
-                writer.Write(s);
-                continue;
-            }
-
-            if (instr.Operand is int i)
-            {
-                writer.Write(i);
-                continue;
-            }
-
-            if (instr.Operand is long l)
-            {
-                writer.Write(l);
-                continue;
-            }
-
-
-            if (instr.Operand is VmVariable vv)
-            {
-                writer.Write(vv.Id);
-                continue;
-            }
-
-
-            if (instr.Operand is VmChunk chunk)
-            {
-                writer.Write(chunk.Offset); // trust this is updated
-                continue;
-            }
-
-            if (instr.Operand is IMetadataMember mem)
-            {
-                writer.Write(mem.MetadataToken.ToInt32());
-                continue;
-            }
+                writer.Write(b ^ key);
                 
+                key = (byte)(key + b);
+            }
 
-            throw new DataException(instr.Operand.GetType().FullName);
+            // calculating initially will be difficult because everything depends on the key,
+            // so we need to use set start keys for blocks to map things out instead
+            // start keys will be passed into jmp instructions to help fix instructions
+            // vmcalls will also require start keys but they will also need current keys passed in to return jmp
+            
         }
         
         
         
+    }
+    
+    byte[] GetOperandBytes(object operand)
+    {
+        if (operand == null)
+            return Array.Empty<byte>(); // write next instr
+
+        if (operand is short s)
+        {
+            return BitConverter.GetBytes(s);
+        }
+
+        if (operand is int i)
+        {
+            return BitConverter.GetBytes(i);
+        }
+
+        if (operand is long l)
+        {
+            return BitConverter.GetBytes(l);
+        }
+
+        if (operand is VmVariable vv)
+        {
+            return BitConverter.GetBytes(vv.Id);
+        }
+
+
+        if (operand is VmChunk chunk)
+        {
+            return BitConverter.GetBytes(chunk.Offset); // trust this is updated
+        }
+
+        if (operand is IMetadataMember mem)
+        {
+            return BitConverter.GetBytes(mem.MetadataToken.ToInt32());
+        }
+
+        throw new DataException(operand.GetType().FullName);
     }
 
     int CalculateLength()

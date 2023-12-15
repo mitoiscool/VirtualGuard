@@ -9,7 +9,7 @@ public class VmCalls : IRuntimeMutator
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
         foreach (var chunk in rt.VmChunks)
-            foreach (var vmInstruction in chunk.Content)
+            foreach (var vmInstruction in chunk.Content.ToArray())
             {
                 if (vmInstruction.OpCode != VmCode.Call)
                     continue;
@@ -25,8 +25,10 @@ public class VmCalls : IRuntimeMutator
 
                 if (rt.IsMethodVirtualized(def, out VmChunk inlineTarget))
                 {
-                    vmInstruction.OpCode = VmCode.Vmcall;
-                    vmInstruction.Operand = inlineTarget;
+                    chunk.Content.ReplaceRange(vmInstruction,
+                        new VmInstruction(VmCode.Ldc_I4, (int)rt.Descriptor.Data.GetStartKey(inlineTarget)),
+                                      new VmInstruction(VmCode.Vmcall, inlineTarget)
+                        );
                 }
 
             }

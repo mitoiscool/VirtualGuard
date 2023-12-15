@@ -21,6 +21,8 @@ namespace VirtualGuard.Runtime
         public object Dispatch(int loc, object[] args)
         {
             Reader.SetValue(loc);
+            Reader.SetKey(Reader.GetEntryKey(loc));
+            
             Stack.Push(new ArrayVariant(args));
 
             switch (DispatchInternal())

@@ -23,20 +23,20 @@ public interface IRuntimeMutator
     private static readonly IRuntimeMutator[] _mutators =
     { // need to do it manually to preserve order
         
+        // Runtime
         new InjectConstants(),
-        
-        new VmCalls(),
-        
         new EncryptDebugSymbols(),
-        
-        new EncodeStrings(),
-        
-        //new PseudoRegions(),
         new Renamer(),
         
-        // vmcode obfuscations
+        // vmcode
+        new EncodeStrings(),
+        new MarkChunks(),
+        new VmCalls(),
         
+        
+        //new PseudoRegions(),
         //new ConstantMutation()
+
     };
 
     public static IRuntimeMutator[] GetMutators() => _mutators;

@@ -15,7 +15,6 @@ public class VirtualGuardRT
 {
     public VirtualGuardRT(ModuleDefinition rtModule, bool debug = false)
     {
-        
         RuntimeModule = rtModule;
         isDebug = debug;
 
@@ -43,12 +42,23 @@ public class VirtualGuardRT
 
     private readonly Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
     private readonly Dictionary<VmChunk, MethodDefinition> _importMap = new Dictionary<VmChunk, MethodDefinition>();
+
+    private Dictionary<VmChunk, byte> _chunkKeyMap = new Dictionary<VmChunk, byte>();
     
     public VmElements Elements;
     public readonly bool isDebug = false;
     public readonly VMDescriptor Descriptor;
     
     private readonly List<IChunk> _allChunks = new List<IChunk>();
+
+    public byte GetLastKey() => _chunkKeyMap.Values.Last();
+
+    public byte CalculateChunkKey(VmChunk chunk)
+    {
+        // this would assume all keys have been calculated, so maybe do that before properly writing
+
+        return _chunkKeyMap[chunk];
+    }
     
     public int GetExportLocation(MethodDefinition def)
     {
