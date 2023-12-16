@@ -13,5 +13,10 @@ namespace VirtualGuard.Runtime.Dynamic
             return null;
         }
 
+        public static void PrintDebug(string message)
+        { // this will be removed if built in release
+            Console.WriteLine(message);
+        }
+
     }
 }

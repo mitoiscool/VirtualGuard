@@ -123,7 +123,7 @@ namespace VirtualGuard.Runtime
             return bytes;
         }
         
-
+        
         private static readonly byte[] _bytes;
         private static readonly Dictionary<uint, string> _stringMap = new Dictionary<uint, string>();
         private static readonly Dictionary<int, byte> _exportKeyMap = new Dictionary<int, byte>();
