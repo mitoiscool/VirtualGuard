@@ -31,6 +31,7 @@ public class VmChunk : IChunk
 
         byte key = rt.Descriptor.Data.GetStartKey(this);
         var handlerShifts = rt.Descriptor.Data.HandlerShifts;
+        var operandShifts = rt.Descriptor.Data.ByteShifts;
         
 
         foreach (var instr in Content)
@@ -51,8 +52,8 @@ public class VmChunk : IChunk
             foreach (var b in GetOperandBytes(instr.Operand))
             {
                 writer.Write((byte)(b ^ key));
-                
-                key = (byte)(key + b);
+
+                key = (byte)((operandShifts[0] ^ operandShifts[1]) - (b + (operandShifts[2] * key)) ^ (operandShifts[3] + operandShifts[4]));
             }
 
             // calculating initially will be difficult because everything depends on the key,
@@ -60,8 +61,6 @@ public class VmChunk : IChunk
             // start keys will be passed into jmp instructions to help fix instructions
             // vmcalls will also require start keys but they will also need current keys passed in to return jmp
         }
-        
-        
         
     }
     

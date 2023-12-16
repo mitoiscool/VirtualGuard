@@ -51,6 +51,9 @@ public class VirtualGuardRT
     
     private readonly List<IChunk> _allChunks = new List<IChunk>();
 
+    public HeaderChunk HeaderChunk;
+    public List<IChunk> GetChunkList() => _allChunks;
+    
     public byte GetLastKey() => _chunkKeyMap.Values.Last();
 
     public byte CalculateChunkKey(VmChunk chunk)
@@ -131,7 +134,7 @@ public class VirtualGuardRT
     {
         // add header chunk
         var headerChunk = new HeaderChunk(this);
-        _allChunks.Insert(0, headerChunk);
+        HeaderChunk = headerChunk;
         
         MutateChunks(ctx);
         
@@ -162,6 +165,8 @@ public class VirtualGuardRT
         
         // add all chunks together
 
+        HeaderChunk.WriteBytes(binaryWriter, this);
+
         foreach (var chunk in _allChunks)
         {
             chunk.WriteBytes(binaryWriter, this);
@@ -173,6 +178,8 @@ public class VirtualGuardRT
     public void UpdateOffsets() // keep in mind this uses all chunks, so do this when the bytes are requested
     {
         int offset = 0;
+
+        offset += HeaderChunk.Length;
         
         foreach (var chunk in _allChunks)
         {
@@ -241,7 +248,7 @@ public class VirtualGuardRT
 
     void AppendVmChunk(StringBuilder sb, VmChunk chunk, int index, ref int offset)
     {
-        sb.AppendLine("Chunk " + index + " - Offset: " + chunk.Offset + " Length: " + chunk.Length);
+        sb.AppendLine("Chunk " + index + " - Offset: " + chunk.Offset + " Length: " + chunk.Length + " StartKey: " + + Descriptor.Data.GetStartKey(chunk));
 
         foreach (var instr in chunk.Content)
         {

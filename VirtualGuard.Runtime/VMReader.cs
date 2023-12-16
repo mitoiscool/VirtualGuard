@@ -95,27 +95,15 @@ namespace VirtualGuard.Runtime
                 _exportKeyMap.Add(offset, entryKey);
             }
 
-            Console.WriteLine("strings:");
-            foreach (var kvp in _stringMap)
-            {
-                Console.WriteLine(kvp.Key + " : " + kvp.Value);
-            }
-
-            Console.WriteLine("exports:");
-            foreach (var export in _exportKeyMap)
-            {
-                Console.WriteLine(export.Key + " : " + export.Value);
-            }
-            
         }
 
+        
         static byte[] ReadBytes(ref int key, int count, MemoryStream ms)
         {
             byte[] bytes = new byte[count];
             for (int i = 0; i < count; i++)
             {
                 byte decByte = (byte)(ms.ReadByte() ^ key);
-                //Console.WriteLine("dec {0} key {1}", decByte, key);
                 key = (byte)((key * Constants.HEADER_ROTATION_FACTOR1) - Constants.HEADER_ROTATION_FACTOR2 + (decByte ^ Constants.HEADER_ROTATION_FACTOR3));
                 bytes[i] = decByte;
             }
@@ -147,7 +135,7 @@ namespace VirtualGuard.Runtime
 
             var dec = (byte)(b ^ _key);
             
-            Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
+            //Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
             
             _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
 
@@ -221,8 +209,10 @@ namespace VirtualGuard.Runtime
                 //_key ;
 
                 b ^= _key;
+                
+                // key = (operandShifts[0] ^ operandShifts[1]) >> (operandShifts[2] << (operandShifts[3] * key)) + (operandShifts[4] * b);
 
-                _key = (byte)(_key + b);
+                _key = (byte)((Constants.BYTE_ROT1 ^ Constants.BYTE_ROT2) - (b + (Constants.BYTE_ROT3 * _key)) ^ (Constants.BYTE_ROT4 + Constants.BYTE_ROT5));
                 
                 return (byte)b;
             }

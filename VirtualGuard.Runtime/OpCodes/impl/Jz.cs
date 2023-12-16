@@ -9,10 +9,11 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         {
             var loc = ctx.Stack.Pop();
             var flag = ctx.Stack.Pop().I2();
+            var key = ctx.Reader.ReadByte();
             
             if (flag == 0)
             {
-                ctx.Reader.SetKey(ctx.Reader.ReadByte().U1());
+                ctx.Reader.SetKey(key.U1());
                 ctx.Reader.SetValue(loc.I4());
             }
 

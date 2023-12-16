@@ -27,12 +27,12 @@ public interface IRuntimeMutator
         new InjectConstants(),
         new EncryptExceptions(),
         new Renamer(),
-        new RemoveDebug(),
-        
+
         // vmcode
         new EncodeStrings(),
         new MarkChunks(),
         new VmCalls(),
+        new ChunkShuffler(),
         
         
         //new PseudoRegions(),

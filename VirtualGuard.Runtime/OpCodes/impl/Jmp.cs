@@ -8,7 +8,9 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx, out ExecutionState state)
         {
-            ctx.Reader.SetKey(ctx.Reader.ReadByte().U1());
+            var key = ctx.Reader.ReadByte();
+            
+            ctx.Reader.SetKey(key.U1());
             ctx.Reader.SetValue(ctx.Stack.Pop().I4());
             
             state = ExecutionState.Next;

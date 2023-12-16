@@ -16,7 +16,7 @@ public class Virtualizer
     public Virtualizer(VirtualGuardContext ctx)
     {
         _ctx = ctx;
-        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath));
+        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), true);
         _methodVirtualizer = new MethodVirtualizer(_rt);
     }
 

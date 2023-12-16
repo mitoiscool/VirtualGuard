@@ -19,8 +19,7 @@ public class MarkChunks : IRuntimeMutator
             {
                 if (instr.OpCode == VmCode.Jmp || instr.OpCode == VmCode.Jz)
                 {
-
-
+                    
                     // locate instruction before to find the target
                     var index = chunk.Content.IndexOf(instr) - 1;
 
