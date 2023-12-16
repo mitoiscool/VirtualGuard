@@ -21,6 +21,7 @@ public enum VmCode : byte
     Ldc_I8,
         
     Ldstr,
+    Ldtoken,
     
     Ldc_R4,
     Ldc_R8,
@@ -45,6 +46,8 @@ public enum VmCode : byte
     
     Ldelem, // these will be vcalls in special region
     Ldelema,
+    Newarr,
+    Ldlen,
     
     Stelem, // these will be vcalls
 

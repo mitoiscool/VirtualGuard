@@ -36,6 +36,14 @@ public class ArrayTranslator : ITranslator
             case CilCode.Ldelema:
                 block.WithContent(new VmInstruction(VmCode.Ldelema));
                 break;
+            
+            case CilCode.Newarr:
+                block.WithContent(new VmInstruction(VmCode.Newarr, instr.Operand));
+                break;
+            
+            case CilCode.Ldlen:
+                block.WithContent(new VmInstruction(VmCode.Ldlen));
+                break;
         }
         
         
@@ -64,6 +72,9 @@ public class ArrayTranslator : ITranslator
             CilCode.Ldelem_R4,
             CilCode.Ldelem_R8,
             CilCode.Ldelema,
+            
+            CilCode.Newarr,
+            CilCode.Ldlen
         }.Contains(instr.OpCode.Code);
     }
 }

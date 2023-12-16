@@ -136,7 +136,7 @@ namespace VirtualGuard.Runtime.Variant
         {
             return (ArrayVariant)this;
         }
-        
+
 
     }
 }

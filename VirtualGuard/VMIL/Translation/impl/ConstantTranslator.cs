@@ -46,7 +46,7 @@ public class ConstantTranslator : ITranslator
             CilCode.Ldc_R8,
             
             CilCode.Ldstr,
-            CilCode.Ldnull
+            CilCode.Ldnull,
         }.Contains(instr.OpCode.Code);
     }
 }

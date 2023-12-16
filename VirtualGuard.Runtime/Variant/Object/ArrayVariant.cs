@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.InteropServices;
+using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime.Variant.Object
 {
@@ -35,6 +37,11 @@ namespace VirtualGuard.Runtime.Variant.Object
         public void SetDelimeter(BaseVariant index, BaseVariant obj)
         {
             _array.SetValue(obj.GetObject(), index.I4());
+        }
+
+        public IntVariant GetLength()
+        {
+            return new IntVariant(_array.Length);
         }
 
     }

@@ -90,5 +90,15 @@ namespace VirtualGuard.Runtime
             return (FieldInfo)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
         }
 
+        public Type ResolveType(int i)
+        {
+            return Assembly.GetExecutingAssembly().ManifestModule.ResolveType(i);
+        }
+
+        public MemberInfo ResolveMember(int i)
+        { 
+            return Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);
+        }
+
     }
 }

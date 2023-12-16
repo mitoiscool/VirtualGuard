@@ -24,6 +24,7 @@ var virt = new Virtualizer(ctx);
 
 virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:BranchingInstructions"), true);
 virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:LoopingInstructions"), true);
+virt.AddMethod(ctx.Module.LookupMethod("VirtualGuard.Tests.MSILExample:ArrayInstructions"), true);
 
 virt.CommitRuntime();
 
