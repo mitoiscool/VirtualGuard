@@ -6,7 +6,7 @@ namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ArgumentTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth)
+    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         var param = instr.Operand as Parameter;
 

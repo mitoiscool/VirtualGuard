@@ -5,7 +5,7 @@ namespace VirtualGuard.VMIL.Translation.impl;
 
 public class RetTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth)
+    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         block.WithContent(
             new VmInstruction(VmCode.Ret));

@@ -42,6 +42,8 @@ public enum VmCode : byte
     Jmp,
     Jz,
     
+    Conv,
+    
     Dup,
     
     Ldelem, // these will be vcalls in special region

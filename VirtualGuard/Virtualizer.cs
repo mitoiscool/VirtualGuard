@@ -17,7 +17,7 @@ public class Virtualizer
     {
         _ctx = ctx;
         _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), true);
-        _methodVirtualizer = new MethodVirtualizer(_rt);
+        _methodVirtualizer = new MethodVirtualizer(_rt, _ctx);
     }
 
     public void AddMethod(MethodDefinition def, bool exportMethod)

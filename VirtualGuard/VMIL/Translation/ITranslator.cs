@@ -6,7 +6,7 @@ namespace VirtualGuard.VMIL.Translation;
 public interface ITranslator
 {
     
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth);
+    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx);
     public bool Supports(CilInstruction instr);
 
 

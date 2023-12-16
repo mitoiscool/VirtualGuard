@@ -43,6 +43,11 @@ namespace VirtualGuard.Runtime.Variant
             return new ObjectVariant(obj);
         }
 
+        public static BaseVariant Cast(BaseVariant var, Type t)
+        {
+            throw new NotImplementedException(); // cast to type
+        }
+        
         public static byte Compare(BaseVariant firstELement, BaseVariant secondElement)
         {
             if (firstELement.IsNumeral() && secondElement.IsNumeral())

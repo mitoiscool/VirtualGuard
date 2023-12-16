@@ -12,13 +12,15 @@ namespace VirtualGuard;
 
 public class MethodVirtualizer
 {
-    public MethodVirtualizer(VirtualGuardRT rt)
+    public MethodVirtualizer(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
         _rt = rt;
+        _ctx = ctx;
     }
 
     private VirtualGuardRT _rt;
-    
+
+    private VirtualGuardContext _ctx;
     private bool _exported;
     private MethodDefinition _currentMethod;
     private ControlFlowGraph<CilInstruction> _cfg;
@@ -72,7 +74,7 @@ public class MethodVirtualizer
             var block = newMethod.GetBlock(node); // providing node implicitly adds it to blockMap
 
             foreach (var instruction in node.Contents.Instructions)
-                ITranslator.Lookup(instruction).Translate(instruction, block, newMethod);
+                ITranslator.Lookup(instruction).Translate(instruction, block, newMethod, _ctx);
         }
 
         

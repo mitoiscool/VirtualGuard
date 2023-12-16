@@ -6,7 +6,7 @@ namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ConditionalTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth)
+    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
 
         if (instr.OpCode.Code == CilCode.Brfalse) // my brain still cannot wrap my head around why this works this way, all signs pooint to not being used for brtrue, but debugging prevails
