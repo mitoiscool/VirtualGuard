@@ -27,6 +27,9 @@ public class ArrayTranslator : ITranslator
             case CilCode.Ldelem_I2:
             case CilCode.Ldelem_I4:
             case CilCode.Ldelem_I8:
+            case CilCode.Ldelem_U1:
+            case CilCode.Ldelem_U2:
+            case CilCode.Ldelem_U4:
             case CilCode.Ldelem_R4:
             case CilCode.Ldelem_R8:
             case CilCode.Ldelem_Ref:
@@ -69,6 +72,9 @@ public class ArrayTranslator : ITranslator
             CilCode.Ldelem_I2,
             CilCode.Ldelem_I4,
             CilCode.Ldelem_I8,
+            CilCode.Ldelem_U1,
+            CilCode.Ldelem_U2,
+            CilCode.Ldelem_U4,
             CilCode.Ldelem_R4,
             CilCode.Ldelem_R8,
             CilCode.Ldelema,
