@@ -21,6 +21,10 @@ public class SerializedConfig
         return Members.Where(x => x.Exclude).Select(x => x.Resolve(ctx)).Contains(def);
     }
     
+    public bool IsMemberVirtualized(IMemberDefinition def, Context ctx)
+    {
+        return Members.Where(x => x.Virtualize).Select(x => x.Resolve(ctx)).Contains(def);
+    }
     
     
 }
