@@ -5,7 +5,7 @@ namespace VirtualGuard.RT.Descriptor;
 
 public class DataDescriptor
 {
-    public DataDescriptor(Random rnd)
+    public DataDescriptor(Random rnd, int debugKey)
     { // debug
         byte[] randomBytes1 = new byte[5];
         byte[] randomBytes2 = new byte[5];
@@ -21,10 +21,14 @@ public class DataDescriptor
         HeaderRotationFactors = randomBytes3;
         
         InitialHeaderKey = (byte)_rnd.Next(255);
+
+        DebugKey = debugKey;
     }
 
     public byte InitialHeaderKey;
     public byte[] HeaderRotationFactors;
+
+    public int DebugKey;
     
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
 

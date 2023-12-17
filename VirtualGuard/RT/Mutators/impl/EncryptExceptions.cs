@@ -30,7 +30,7 @@ public class EncryptExceptions : IRuntimeMutator
 
                     var str = instr.Operand.ToString();
 
-                    instr.Operand = Encrypt(str, ctx.Settings.DebugMessageKey);
+                    instr.Operand = Encrypt(str, rt.Descriptor.Data.DebugKey);
                     
                     foundInstance = false; // set to false again
                 }

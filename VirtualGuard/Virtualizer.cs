@@ -12,11 +12,13 @@ public class Virtualizer
 
     private MethodVirtualizer _methodVirtualizer;
     private VirtualGuardRT _rt;
+
+    private bool _rtCommitted = false;
     
-    public Virtualizer(VirtualGuardContext ctx)
+    public Virtualizer(VirtualGuardContext ctx, int debugKey)
     {
         _ctx = ctx;
-        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), true);
+        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), debugKey, true);
         _methodVirtualizer = new MethodVirtualizer(_rt, _ctx);
     }
 
@@ -44,10 +46,17 @@ public class Virtualizer
 
         var processor = new RuntimeProcessor(_rt, _ctx);
         processor.FinalizeMethods();
+
+        _rtCommitted = true;
     }
-    
-    
-    
+
+    public VmElements GetVmElements()
+    {
+        if(!_rtCommitted)
+            _ctx.Logger.LogFatal("Runtime has not been committed before requesting VmElements.");
+            
+        return _rt.Elements;
+    }
     
     
 }

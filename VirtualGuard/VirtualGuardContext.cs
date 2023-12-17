@@ -4,20 +4,14 @@ namespace VirtualGuard;
 
 public class VirtualGuardContext
 {
-    public static VirtualGuardContext Load(string path, VirtualGuardSettings settings)
-    {
-        return new VirtualGuardContext(ModuleDefinition.FromFile(path), settings);
-    }
-
-
-    public VirtualGuardContext(ModuleDefinition mod, VirtualGuardSettings settings)
+    public VirtualGuardContext(ModuleDefinition mod, ILogger logger)
     {
         Module = mod;
-        Settings = settings;
+        Logger = logger;
     }
 
+    public ILogger Logger;
     public ModuleDefinition Module;
-    public VirtualGuardSettings Settings;
     public Dictionary<MethodDefinition, bool> VirtualizedMethods = new Dictionary<MethodDefinition, bool>(); // populated once methods added
 
 }

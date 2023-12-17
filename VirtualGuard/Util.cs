@@ -52,5 +52,18 @@ public static class Util
         
         return mod.GetAllTypes().Single(x => x.FullName == split[0]).Methods.Single(x => x.Name == split[1]);
     }
+
+    public static IMemberDefinition LookupMember(this ModuleDefinition mod, string name)
+    {
+        string[] split = name.Split(":");
+        var targetType = mod.LookupType(split[0]);
+
+        var members = new List<IMemberDefinition>();
+        
+        members.AddRange(targetType.Methods);
+        members.AddRange(targetType.Fields);
+        
+        return members.Single(x => x.Name == split[1]);
+    }
     
 }

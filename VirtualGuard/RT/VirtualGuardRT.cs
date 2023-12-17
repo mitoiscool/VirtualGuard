@@ -13,7 +13,7 @@ namespace VirtualGuard.RT;
 
 public class VirtualGuardRT
 {
-    public VirtualGuardRT(ModuleDefinition rtModule, bool debug = false)
+    public VirtualGuardRT(ModuleDefinition rtModule, int debugKey, bool debug = false)
     {
         RuntimeModule = rtModule;
         isDebug = debug;
@@ -27,7 +27,7 @@ public class VirtualGuardRT
 
         Descriptor = new VMDescriptor()
         {
-            Data = new DataDescriptor(rnd)
+            Data = new DataDescriptor(rnd, debugKey)
             {
                 StreamName = "vg",
                 Watermark = "virtualguard"
