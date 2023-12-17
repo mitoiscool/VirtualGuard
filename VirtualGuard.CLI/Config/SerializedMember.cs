@@ -10,12 +10,20 @@ public class SerializedMember
     public bool Virtualize;
     public bool Exclude;
 
-    public IMemberDefinition Resolve(ModuleDefinition mod)
+    public IMemberDefinition Resolve(Context ctx)
     {
-        if (!Member.Contains(":")) // is type
-            return mod.LookupType(Member);
+        try
+        {
+            if (!Member.Contains(":")) // is type
+                return ctx.Module.LookupType(Member);
 
-        return mod.LookupMember(Member);
+            return ctx.Module.LookupMember(Member);
+        }
+        catch
+        {
+            ctx.Logger.LogFatal("Could not resolve member " + Member);
+            return null;
+        }
     }
     
 }

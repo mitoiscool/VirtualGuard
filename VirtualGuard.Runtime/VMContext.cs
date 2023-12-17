@@ -48,7 +48,7 @@ namespace VirtualGuard.Runtime
                     break;
             }
 
-            return Stack.Pop();
+            return Stack.Pop().GetObject();
         }
 
         ExecutionState DispatchInternal()

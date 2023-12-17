@@ -1,23 +1,32 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Text.Json;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Builder;
 using AsmResolver.PE.DotNet.Builder;
+using Newtonsoft.Json;
 using VirtualGuard;
 using VirtualGuard.CLI;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 // arg format <path> <output_path>
 
-if (args.Length != 4)
-    throw new ArgumentException("Expected 4 args.");
+//if (args.Length != 4)
+//    throw new ArgumentException("Expected 4 args.");
 
-string path = args[0];
-string outputPath = args[1];
-string settingsPath = args[2];
+//string path = args[0];
+//string outputPath = args[1];
+//string settingsPath = args[2];
+//int debugKey = int.Parse(args[3]);
+
+string path = "VirtualGuard.Tests.exe";
+string outputPath = "VirtualGuard.Tests-virt.exe";
+string settingsPath = "config.json";
+int debugKey = 0; // debug
+
+var logger = new ConsoleLogger();
 
 var module = ModuleDefinition.FromFile(path);
 
@@ -44,10 +53,11 @@ if (!File.Exists(settingsPath))
         }
     };
     
-    File.WriteAllText("config.json", JsonSerializer.Serialize(cfg));
+    File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg, Formatting.Indented));
+    logger.LogFatal("Couldn't find config, created example @ config.json.");
 }
 
-int debugKey = int.Parse(args[3]);
+
 
 var processors = new IProcessor[]
 {
@@ -58,10 +68,9 @@ var processors = new IProcessor[]
     
 };
 
-var ctx = new Context(module, JsonSerializer.Deserialize<SerializedConfig>(File.ReadAllText(settingsPath)));
-var logger = new ConsoleLogger();
+var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger);
 
-ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey);
+ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, false);
 
 foreach (var processor in processors)
 {
@@ -71,3 +80,5 @@ foreach (var processor in processors)
 
 // save file
 ctx.Module.Write(outputPath, new ManagedPEImageBuilder(MetadataBuilderFlags.PreserveTableIndices));
+
+ctx.Logger.LogSuccess("Wrote file at " + outputPath);

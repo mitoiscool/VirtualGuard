@@ -15,10 +15,10 @@ public class Virtualizer
 
     private bool _rtCommitted = false;
     
-    public Virtualizer(VirtualGuardContext ctx, int debugKey)
+    public Virtualizer(VirtualGuardContext ctx, int debugKey, bool debug)
     {
         _ctx = ctx;
-        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), debugKey, true);
+        _rt = new VirtualGuardRT(ModuleDefinition.FromFile(RuntimeConfig.RuntimePath), debugKey, debug);
         _methodVirtualizer = new MethodVirtualizer(_rt, _ctx);
     }
 

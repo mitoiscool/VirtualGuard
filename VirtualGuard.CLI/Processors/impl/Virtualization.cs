@@ -8,7 +8,7 @@ public class Virtualization : IProcessor
         
         // mark methods
 
-        foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx.Module))
+        foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
         {
             ctx.Virtualizer.AddMethod(virtualizedMethod, true); // should probably setup exports
         }

@@ -11,14 +11,14 @@ public class SerializedConfig
     public bool UseDataEncryption;
     
     
-    public MethodDefinition[] ResolveVirtualizedMethods(ModuleDefinition mod)
+    public MethodDefinition[] ResolveVirtualizedMethods(Context ctx)
     {
-        return Members.Where(x => x is { Virtualize: true, Exclude: false }).Select(x => x.Resolve(mod)).Cast<MethodDefinition>().ToArray();
+        return Members.Where(x => x is { Virtualize: true, Exclude: false }).Select(x => x.Resolve(ctx)).Cast<MethodDefinition>().ToArray();
     }
 
-    public bool IsMemberExcluded(IMemberDefinition def, ModuleDefinition mod)
+    public bool IsMemberExcluded(IMemberDefinition def, Context ctx)
     {
-        return Members.Where(x => x.Exclude).Select(x => x.Resolve(mod)).Contains(def);
+        return Members.Where(x => x.Exclude).Select(x => x.Resolve(ctx)).Contains(def);
     }
     
     

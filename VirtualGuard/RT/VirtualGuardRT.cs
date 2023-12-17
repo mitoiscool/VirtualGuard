@@ -54,14 +54,6 @@ public class VirtualGuardRT
     public HeaderChunk HeaderChunk;
     public List<IChunk> GetChunkList() => _allChunks;
     
-    public byte GetLastKey() => _chunkKeyMap.Values.Last();
-
-    public byte CalculateChunkKey(VmChunk chunk)
-    {
-        // this would assume all keys have been calculated, so maybe do that before properly writing
-
-        return _chunkKeyMap[chunk];
-    }
     
     public int GetExportLocation(MethodDefinition def)
     {

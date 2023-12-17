@@ -22,7 +22,7 @@ public class DataEncryption : IProcessor
         var rnd = new Random();
         
         foreach (var type in ctx.Module.GetAllTypes())
-        foreach (var method in type.Methods.Where(x => !ctx.Configuration.IsMemberExcluded(x, ctx.Module)))
+        foreach (var method in type.Methods.Where(x => !ctx.Configuration.IsMemberExcluded(x, ctx)).ToArray())
         {
             if(method.CilMethodBody == null || !method.CilMethodBody.Instructions.Any())
                 continue;
@@ -40,9 +40,7 @@ public class DataEncryption : IProcessor
 
                 if (!_stringCache.TryGetValue((string)instruction.Operand, out var cachedMethod))
                 { // if it can't get the cached value, create new one
-
-                    var allTypes = ctx.Module.GetAllTypes().ToArray();
-                    var randomType = allTypes[rnd.Next(allTypes.Length)];
+                    
 
                     var newMethod = new MethodDefinition(rnd.Next().ToString("x"),
                         MethodAttributes.Static | MethodAttributes.Public,
@@ -59,7 +57,7 @@ public class DataEncryption : IProcessor
                     body.Instructions.Add(CilOpCodes.Ldstr, (string)instruction.Operand);
                     body.Instructions.Add(CilOpCodes.Ret);
                     
-                    randomType.Methods.Add(newMethod);
+                    type.Methods.Add(newMethod);
 
                     cachedMethod = newMethod;
                     
