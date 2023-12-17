@@ -18,5 +18,7 @@ public class Context
     public Virtualizer Virtualizer;
     public SerializedConfig Configuration;
 
+    public LicenseType License;
+
     public VmElements GetVm() => Virtualizer.GetVmElements();
 }
