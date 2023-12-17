@@ -1,5 +1,6 @@
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.RT.Descriptor;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
@@ -47,7 +48,6 @@ public class InjectConstants : IRuntimeMutator
 
         var constantsType = rt.RuntimeModule.LookupType(RuntimeConfig.Constants);
 
-        
 
         foreach (var method in rt.RuntimeModule.GetAllTypes().SelectMany(x => x.Methods).Where(x => x.CilMethodBody != null && x.CilMethodBody.Instructions.Count > 0))
         { // iterate through all instructions in vm type (is there a faster way to do this?)
@@ -142,6 +142,46 @@ public class InjectConstants : IRuntimeMutator
                     
                     case "HEADER_ROTATION_FACTOR3":
                         inlinedConstant = rt.Descriptor.Data.HeaderRotationFactors[2];
+                        break;
+                    
+                    case "CorlibID_I":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.I;
+                        break;
+                    
+                    case "CorlibID_I1":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.I1;
+                        break;
+                    
+                    case "CorlibID_I2":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.I2;
+                        break;
+                    
+                    case "CorlibID_I4":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.I4;
+                        break;
+                    
+                    case "CorlibID_I8":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.I8;
+                        break;
+                    
+                    case "CorlibID_U":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        break;
+                    
+                    case "CorlibID_U1":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        break;
+                    
+                    case "CorlibID_U2":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        break;
+                    
+                    case "CorlibID_U4":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        break;
+                    
+                    case "CorlibID_U8":
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
                         break;
                     
                     default:

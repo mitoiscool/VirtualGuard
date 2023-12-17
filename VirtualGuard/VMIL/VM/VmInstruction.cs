@@ -1,5 +1,6 @@
 using System.Data;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Signatures.Types;
 using VirtualGuard.RT.Chunk;
 
 namespace VirtualGuard.VMIL.VM;
@@ -41,6 +42,9 @@ public class VmInstruction
             return sizeof(VmCode) + sizeof(int);
 
         if (this.Operand is IMetadataMember)
+            return sizeof(VmCode) + sizeof(int);
+        
+        if(this.Operand is TypeSignature)
             return sizeof(VmCode) + sizeof(int);
 
         throw new DataException(this.Operand.GetType().FullName);

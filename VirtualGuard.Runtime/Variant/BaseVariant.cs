@@ -16,17 +16,25 @@ namespace VirtualGuard.Runtime.Variant
         {
             // populate with casts
 
-            var type = Type.GetTypeCode(obj.GetType());
+            return CreateVariant(obj, obj.GetType());
+        }
 
-            switch (type)
-            { // simple types
+        public static BaseVariant CreateVariant(object obj, Type t)
+        {
+            switch (Type.GetTypeCode(t))
+            { // corlib
                 case TypeCode.Byte:
                     return new ByteVariant((byte)obj);
                 
+                case TypeCode.Char:
                 case TypeCode.SByte:
                 case TypeCode.Int16:
                 case TypeCode.Int32:
-                    return new IntVariant((int)obj);
+                    return new IntVariant(Convert.ToInt32(obj));
+                
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                    return new UIntVariant((uint)obj);
                 
                 case TypeCode.Int64:
                     return new LongVariant((long)obj);
@@ -39,13 +47,7 @@ namespace VirtualGuard.Runtime.Variant
                 return new ArrayVariant(arr);
             
             
-            
             return new ObjectVariant(obj);
-        }
-
-        public static BaseVariant Cast(BaseVariant var, Type t)
-        {
-            throw new NotImplementedException(); // cast to type
         }
         
         public static byte Compare(BaseVariant firstELement, BaseVariant secondElement)
@@ -86,12 +88,16 @@ namespace VirtualGuard.Runtime.Variant
         public abstract object GetObject();
         public abstract void SetVariantValue(object obj);
         public abstract BaseVariant Clone();
-        
+
+        public virtual BaseVariant GetLength()
+        {
+            throw new InvalidOperationException(Routines.EncryptDebugMessage("Could not get length of basevariant."));
+        }
         public virtual sbyte I1()
         {
             return Convert.ToSByte(GetObject());
         }
-
+        
         public virtual short I2()
         {
             return Convert.ToInt16(GetObject());

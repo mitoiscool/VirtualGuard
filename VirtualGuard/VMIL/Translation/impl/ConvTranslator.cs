@@ -7,46 +7,47 @@ public class ConvTranslator : ITranslator
 {
     public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
+        Console.WriteLine(instr);
         switch (instr.OpCode.Code)
         {
             case CilCode.Conv_I:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.IntPtr.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.I));
                 break;
             
             case CilCode.Conv_I1:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.SByte.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.I1));
                 break;
             
             case CilCode.Conv_I2:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.Int16.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.I2));
                 break;
             
             case CilCode.Conv_I4:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.Int32.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.I4));
                 break;
             
             case CilCode.Conv_I8:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.Int64.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.I8));
                 break;
             
             case CilCode.Conv_U:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.UIntPtr.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U));
                 break;
             
             case CilCode.Conv_U1:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.Byte.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U1));
                 break;
             
             case CilCode.Conv_U2:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.UInt16.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U2));
                 break;
             
             case CilCode.Conv_U4:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.UInt32.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U4));
                 break;
             
             case CilCode.Conv_U8:
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Module.CorLibTypeFactory.UInt64.ToTypeDefOrRef()));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U8));
                 break;
         }
 

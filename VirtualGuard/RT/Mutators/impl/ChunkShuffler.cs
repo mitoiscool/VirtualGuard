@@ -8,6 +8,8 @@ public class ChunkShuffler : IRuntimeMutator
             return;
         
         rt.GetChunkList().Shuffle();
+        
+        rt.UpdateOffsets();
     }
     
 }

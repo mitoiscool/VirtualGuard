@@ -33,7 +33,8 @@ public class VirtualGuardRT
                 Watermark = rnd.Next().ToString("x")
             },
             OpCodes = new OpCodeDescriptor(rnd),
-            ComparisonFlags = new ComparisonDescriptor(rnd)
+            ComparisonFlags = new ComparisonDescriptor(rnd),
+            CorLibTypeDescriptor = new CorLibTypeDescriptor(rnd)
         };
         
     }
@@ -215,7 +216,8 @@ public class VirtualGuardRT
         sb.AppendLine("------");
 
         int i = 0;
-        int offset = 0;
+        int offset = HeaderChunk.Length;
+        
         foreach (var chunk in _allChunks)
         {
             if(chunk is VmChunk vchunk)

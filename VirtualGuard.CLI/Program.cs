@@ -72,7 +72,7 @@ var processors = new IProcessor[]
 // note: license is not initialized as of 12/17/23
 var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger);
 
-ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, false);
+ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, true);
 
 var pipeline = new Queue<IProcessor>();
 

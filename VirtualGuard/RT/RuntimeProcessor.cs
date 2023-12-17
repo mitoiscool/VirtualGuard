@@ -24,7 +24,7 @@ public class RuntimeProcessor
             
             if(meth == null)
                 _ctx.Logger.LogFatal("Method was null in RuntimeProcessor");
-            
+
             if(export)
                 PatchMethod(meth);
             else

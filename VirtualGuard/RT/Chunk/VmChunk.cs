@@ -1,6 +1,7 @@
 using System.Data;
 using System.Text;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Signatures.Types;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
@@ -102,6 +103,9 @@ public class VmChunk : IChunk
         {
             return BitConverter.GetBytes(mem.MetadataToken.ToInt32());
         }
+
+        if (operand is TypeSignature sig)
+            return BitConverter.GetBytes(sig.MakeStandAloneSignature().MetadataToken.ToInt32());
 
         throw new DataException(operand.GetType().FullName);
     }

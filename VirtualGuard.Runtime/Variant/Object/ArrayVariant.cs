@@ -31,7 +31,7 @@ namespace VirtualGuard.Runtime.Variant.Object
 
         public BaseVariant LoadDelimeter(BaseVariant index)
         {
-            return BaseVariant.CreateVariant(_array.GetValue(index.I4()));
+            return CreateVariant(_array.GetValue(index.I4()), _array.GetType().GetElementType());
         }
 
         public void SetDelimeter(BaseVariant index, BaseVariant obj)
@@ -39,7 +39,7 @@ namespace VirtualGuard.Runtime.Variant.Object
             _array.SetValue(obj.GetObject(), index.I4());
         }
 
-        public IntVariant GetLength()
+        public override BaseVariant GetLength()
         {
             return new IntVariant(_array.Length);
         }

@@ -21,8 +21,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             var argsCasted = new object[args.Length];
 
             var refIndexes = new HashSet<int>();
-
-            for (int i = 0; i < args.Length; i++)
+            
+            for (int i = args.Length - 1; i >= 0; i--)
             {
                 vmVariantArgs[i] = ctx.Stack.Pop();
 
@@ -39,15 +39,23 @@ namespace VirtualGuard.Runtime.OpCodes.impl
                 }
             }
 
+            // calculate inst
+            
             object inst = null;
+            bool isInstReference = false;
+            BaseVariant instVariant = null;
 
-            if (!methodBase.IsStatic && argsCasted.Length > 0)
-            {
-                // if inst, use first arg as inst
-                inst = argsCasted[0];
+            if (!methodBase.IsStatic)
+            { // if it is inst
+                
+                instVariant = ctx.Stack.Pop();
 
-                // this should preserve the refs
-                argsCasted = argsCasted.Skip(1).ToArray();
+                if (instVariant.IsReference())
+                    isInstReference = true;
+                
+                // get object for inst
+
+                inst = instVariant.GetObject();
             }
 
             object ret = methodBase.Invoke(inst, argsCasted);
@@ -56,6 +64,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             foreach (var refIndex in refIndexes) 
                 vmVariantArgs[refIndex].SetVariantValue(argsCasted[refIndex]); // set value of associated reference variant to that of the new variable
             
+            if(isInstReference)
+                instVariant.SetVariantValue(inst); // update inst ref
             
             if(methodBase.IsConstructor || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))
                 ctx.Stack.Push(BaseVariant.CreateVariant(ret));

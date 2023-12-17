@@ -34,9 +34,17 @@ namespace VirtualGuard.Runtime.Dynamic
         public static byte CMP_GT;
         public static byte CMP_LT;
         public static byte CMP_EQ;
-
-
-        // msg
-        public static string MSG_INVALID;
+        
+        public static int CorlibID_I;
+        public static int CorlibID_I1;
+        public static int CorlibID_I2;
+        public static int CorlibID_I4;
+        public static int CorlibID_I8;
+        
+        public static int CorlibID_U;
+        public static int CorlibID_U1;
+        public static int CorlibID_U2;
+        public static int CorlibID_U4;
+        public static int CorlibID_U8;
     }
 }
