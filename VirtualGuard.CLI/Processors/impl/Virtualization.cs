@@ -10,7 +10,7 @@ public class Virtualization : IProcessor
 
         foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
         {
-            ctx.Virtualizer.AddMethod(virtualizedMethod, true); // should probably setup exports
+            ctx.Virtualizer.AddMethod(virtualizedMethod.Item1, virtualizedMethod.Item2); // should probably setup exports properly
         }
         
         ctx.Virtualizer.CommitRuntime();

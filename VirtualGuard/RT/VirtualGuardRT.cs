@@ -29,8 +29,8 @@ public class VirtualGuardRT
         {
             Data = new DataDescriptor(rnd, debugKey)
             {
-                StreamName = "vg",
-                Watermark = "virtualguard"
+                StreamName = rnd.Next().ToString("x"),
+                Watermark = rnd.Next().ToString("x")
             },
             OpCodes = new OpCodeDescriptor(rnd),
             ComparisonFlags = new ComparisonDescriptor(rnd)

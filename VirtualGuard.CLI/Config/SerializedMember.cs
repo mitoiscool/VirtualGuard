@@ -8,6 +8,7 @@ public class SerializedMember
     public string Member;
 
     public bool Virtualize;
+    public bool VirtualInlining;
     public bool Exclude;
 
     public IMemberDefinition Resolve(Context ctx)

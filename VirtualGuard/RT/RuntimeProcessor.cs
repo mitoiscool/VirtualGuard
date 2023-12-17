@@ -22,6 +22,9 @@ public class RuntimeProcessor
         {
             virtualizedMethodKvp.Deconstruct(out MethodDefinition meth, out bool export);
             
+            if(meth == null)
+                _ctx.Logger.LogFatal("Method was null in RuntimeProcessor");
+            
             if(export)
                 PatchMethod(meth);
             else
@@ -100,7 +103,8 @@ public class RuntimeProcessor
 
     void RemoveMethod(MethodDefinition def)
     {
-        
+        // does this work?
+        def.DeclaringType.Methods.Remove(def);
     }
     
     
