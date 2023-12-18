@@ -6,11 +6,12 @@ namespace VirtualGuard.CLI;
 
 public class Context
 {
-    public Context(ModuleDefinition mod, SerializedConfig cfg, ILogger logger)
+    public Context(ModuleDefinition mod, SerializedConfig cfg, ILogger logger, LicenseType license)
     {
         Module = mod;
         Configuration = cfg;
         Logger = logger;
+        License = license;
     }
 
     public ILogger Logger;

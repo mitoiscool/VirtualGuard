@@ -129,7 +129,7 @@ namespace VirtualGuard.Runtime
             _key = i;
         }
 
-        public ByteVariant ReadHandler()
+        public UIntVariant ReadHandler()
         {
             var b = (byte)_memoryStream.ReadByte();
 
@@ -139,18 +139,18 @@ namespace VirtualGuard.Runtime
             
             _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
 
-            return new ByteVariant(dec);
+            return new UIntVariant(dec);
             //return new ByteVariant((byte)(b ^ _key));
         }
 
-        public ByteVariant ReadByte()
+        public UIntVariant ReadByte()
         {
-            return new ByteVariant(ReadByteInternal());
+            return new UIntVariant(ReadByteInternal());
         }
 
-        public ShortVariant ReadShort()
+        public IntVariant ReadShort()
         {
-            return new ShortVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
+            return new IntVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
         }
 
         public IntVariant ReadInt()
@@ -180,7 +180,7 @@ namespace VirtualGuard.Runtime
 
         public void SetValue(int i)
         {
-            Console.WriteLine("set reader to loc " + i);
+            //Console.WriteLine("set reader to loc " + i);
             _memoryStream.Seek(i, SeekOrigin.Begin);
         }
 

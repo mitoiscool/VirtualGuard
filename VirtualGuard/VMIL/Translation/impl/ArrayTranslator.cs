@@ -36,6 +36,12 @@ public class ArrayTranslator : ITranslator
                 block.WithContent(new VmInstruction(VmCode.Ldelem));
                 break;
             
+            // this might be necessary, not sure yet
+                block.WithContent(new VmInstruction(VmCode.Ldelem),
+                    new VmInstruction(VmCode.Ldc_I4, ctx.Runtime.Descriptor.CorLibTypeDescriptor.U2),
+                    new VmInstruction(VmCode.Conv));
+                break;
+            
             case CilCode.Ldelema:
                 block.WithContent(new VmInstruction(VmCode.Ldelema));
                 break;

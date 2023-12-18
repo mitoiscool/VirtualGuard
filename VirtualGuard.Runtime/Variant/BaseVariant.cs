@@ -23,15 +23,13 @@ namespace VirtualGuard.Runtime.Variant
         {
             switch (Type.GetTypeCode(t))
             { // corlib
-                case TypeCode.Byte:
-                    return new ByteVariant((byte)obj);
-                
                 case TypeCode.Char:
                 case TypeCode.SByte:
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                     return new IntVariant(Convert.ToInt32(obj));
                 
+                case TypeCode.Byte:
                 case TypeCode.UInt16:
                 case TypeCode.UInt32:
                     return new UIntVariant((uint)obj);
@@ -115,7 +113,7 @@ namespace VirtualGuard.Runtime.Variant
 
         public virtual byte U1()
         {
-            return (byte)GetObject();
+            return Convert.ToByte(GetObject());
         }
 
         public virtual ushort U2()

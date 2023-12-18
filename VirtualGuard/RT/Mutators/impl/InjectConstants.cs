@@ -169,19 +169,19 @@ public class InjectConstants : IRuntimeMutator
                         break;
                     
                     case "CorlibID_U1":
-                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U1;
                         break;
                     
                     case "CorlibID_U2":
-                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U2;
                         break;
                     
                     case "CorlibID_U4":
-                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U4;
                         break;
                     
                     case "CorlibID_U8":
-                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U;
+                        inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U8;
                         break;
                     
                     default:

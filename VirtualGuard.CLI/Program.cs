@@ -26,6 +26,7 @@ string path = "VirtualGuard.Tests.exe";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
 int debugKey = 0; // debug
+var license = LicenseType.Plus;
 
 var logger = new ConsoleLogger();
 
@@ -66,13 +67,12 @@ var processors = new IProcessor[]
     
     new Virtualization(), // populates vm elements
     
-    
 };
 
 // note: license is not initialized as of 12/17/23
-var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger);
+var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
 
-ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, true);
+ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, false);
 
 var pipeline = new Queue<IProcessor>();
 

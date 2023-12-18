@@ -57,23 +57,22 @@ namespace VirtualGuard.Runtime
 
             do
             {
-                //try
-                //{
+                try
+                {
                     var handler = Reader.ReadHandler();
                     
-                    Console.WriteLine(CodeMap.LookupCode(handler).GetType().Name);
+                    //Console.WriteLine(CodeMap.LookupCode(handler).GetType().Name);
                     CodeMap.LookupCode(handler).Execute(this, out state);
                     
-
                     if (state != ExecutionState.Next)
                         break;
 
-                //}
-                //catch (Exception ex)
-                //{
-                //    _exception = ex; // warning to self, this may suppress vm exceptions
-                //    return ExecutionState.Catch;
-                //}
+                }
+                catch (Exception ex)
+                {
+                    _exception = ex; // warning to self, this may suppress vm exceptions
+                    return ExecutionState.Catch;
+                }
 
             } while (true);
 
