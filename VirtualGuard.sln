@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.CLI", "Virtual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard", "VirtualGuard\VirtualGuard.csproj", "{0034D005-420A-4ACE-8086-F02B17C6C670}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.SDK", "VirtualGuard.SDK\VirtualGuard.SDK.csproj", "{0887E1C7-C674-4F8D-BAFE-756A17E6290B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{0034D005-420A-4ACE-8086-F02B17C6C670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0034D005-420A-4ACE-8086-F02B17C6C670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0034D005-420A-4ACE-8086-F02B17C6C670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0887E1C7-C674-4F8D-BAFE-756A17E6290B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0887E1C7-C674-4F8D-BAFE-756A17E6290B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0887E1C7-C674-4F8D-BAFE-756A17E6290B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0887E1C7-C674-4F8D-BAFE-756A17E6290B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
