@@ -30,14 +30,17 @@ public interface IRuntimeMutator
 
         // vmcode
         new EncodeStrings(),
-        new MarkChunks(),
+        new BuildChunkKeys(),
         new VmCalls(),
         new ChunkShuffler(),
         
         
         //new PseudoRegions(),
         //new ConstantMutation()
-
+        
+        new BranchMutator(),
+        
+        new FinalizeMutations()
     };
 
     public static IRuntimeMutator[] GetMutators() => _mutators;

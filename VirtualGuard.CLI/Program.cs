@@ -69,10 +69,18 @@ var processors = new IProcessor[]
     
 };
 
+#if DEBUG
+Console.WriteLine("DEBUG");
+#endif
+
 // note: license is not initialized as of 12/17/23
 var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
 
+#if DEBUG
+ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, true);
+#else
 ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, false);
+#endif
 
 var pipeline = new Queue<IProcessor>();
 

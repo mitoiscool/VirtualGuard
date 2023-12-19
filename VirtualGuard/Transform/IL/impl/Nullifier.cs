@@ -1,5 +1,6 @@
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
+using VirtualGuard.Handlers;
 
 namespace VirtualGuard.Transform.IL.impl;
 
@@ -12,7 +13,7 @@ public class Nullifier : IILTransformer
         for (int i = instructions.Count - 1; i >= 0; i--)
         {
             var instruction = instructions[i];
-            if (instruction.OpCode.Code == CilCode.Nop)
+            if (instruction.OpCode.Code == CilCode.Nop && instruction is not Marker)
             {
                 instructions.RemoveAt(i);
             }

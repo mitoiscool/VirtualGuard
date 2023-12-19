@@ -1,5 +1,6 @@
 using AsmResolver.Patching;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Descriptor;
 

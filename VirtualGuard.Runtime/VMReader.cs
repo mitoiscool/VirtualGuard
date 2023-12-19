@@ -180,7 +180,10 @@ namespace VirtualGuard.Runtime
 
         public void SetValue(int i)
         {
-            //Console.WriteLine("set reader to loc " + i);
+            #if DEBUG
+            Console.WriteLine("set reader to loc " + i);
+            #endif
+            
             _memoryStream.Seek(i, SeekOrigin.Begin);
         }
 

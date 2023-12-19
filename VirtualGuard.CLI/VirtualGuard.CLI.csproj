@@ -7,6 +7,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DefineConstants>TRACE, DEBUG</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="AsmResolver" Version="5.5.0" />
       <PackageReference Include="AsmResolver.DotNet" Version="5.5.0" />

@@ -46,9 +46,9 @@ public class VmBlock
         var thisChunk = chunkMap[this];
 
         foreach (var content in thisChunk.Content)
-        { // update jmps to use chunks; it's in ldc.i4 which is kinda ew
+        { // update jmps to use chunks; it's in ldc.i4 which is kinda ew edit: entertry contains block offset of handler
             
-            if (content.OpCode != VmCode.Ldc_I4) // 
+            if (content.OpCode != VmCode.Ldc_I4 || content.OpCode != VmCode.Entertry) // 
                 continue;
 
             if(content.Operand is not VmBlock)

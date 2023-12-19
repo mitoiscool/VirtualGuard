@@ -1,13 +1,17 @@
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
+using Echo;
 using Echo.ControlFlow;
+using Echo.ControlFlow.Regions.Detection;
 using Echo.Platforms.AsmResolver;
+using VirtualGuard.Handlers;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.Transform.IL;
 using VirtualGuard.VMIL.Translation;
 using VirtualGuard.VMIL.VM;
 
+#pragma warning disable CS8602
 namespace VirtualGuard;
 
 public class MethodVirtualizer
@@ -31,27 +35,63 @@ public class MethodVirtualizer
         _exported = exported;
         _currentMethod = def;
         
-        BuildCFG();
+        MarkExceptionHandlers();
         
-        TransformIL();
+        BuildCfg();
         
-        BuildVMIL();
+        TransformIl();
         
-        TransformVMIL();
+        BuildVmil();
+        
+        TransformVmil();
         
         BuildChunks();
         
         Finish();
     }
 
-    private void BuildCFG()
+
+    private void MarkExceptionHandlers()
+    {
+        var body = _currentMethod.CilMethodBody;
+        
+        if(body == null)
+            _ctx.Logger.LogFatal(_currentMethod.FullName + " has no method body.");
+        
+        foreach (var exceptionHandler in body.ExceptionHandlers)
+        {
+            // add markers for try
+            
+            // resolve instructions for offsets
+            var tryStartInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.TryStart.Offset);
+
+            var handlerStartInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.HandlerStart.Offset);
+            var handlerEndInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.HandlerEnd.Offset);
+
+            body.Instructions.ReplaceRange(tryStartInstr,
+                new Marker(CilOpCodes.Nop, MarkerType.TryStart),
+                tryStartInstr);
+
+            body.Instructions.ReplaceRange(handlerStartInstr,
+                new Marker(CilOpCodes.Nop, MarkerType.HandlerStart),
+                handlerStartInstr);
+            
+            body.Instructions.ReplaceRange(handlerEndInstr,
+                new Marker(CilOpCodes.Nop, MarkerType.HandlerEnd),
+                handlerEndInstr);
+        }
+        
+        
+    }
+    
+    
+    private void BuildCfg()
     {
         _currentMethod.CilMethodBody.Instructions.ExpandMacros();
         _cfg = _currentMethod.CilMethodBody.ConstructStaticFlowGraph();
-        
     }
 
-    private void TransformIL()
+    private void TransformIl()
     {
         foreach (var node in _cfg.Nodes)
         {
@@ -65,7 +105,7 @@ public class MethodVirtualizer
         
     }
     
-    private void BuildVMIL()
+    private void BuildVmil()
     {
         var newMethod = new VmMethod(_currentMethod, _rt);
         
@@ -81,7 +121,7 @@ public class MethodVirtualizer
         _virtualizedMethod = newMethod;
     }
 
-    private void TransformVMIL()
+    private void TransformVmil()
     {
         // maybe use abstraction or something here, but tbh not entirely sure what other transforms besides updating branches I'd need
 

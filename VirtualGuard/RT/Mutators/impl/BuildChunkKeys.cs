@@ -3,7 +3,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class MarkChunks : IRuntimeMutator
+public class BuildChunkKeys : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

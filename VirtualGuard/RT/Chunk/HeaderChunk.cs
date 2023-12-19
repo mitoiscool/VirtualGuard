@@ -56,7 +56,7 @@ public class HeaderChunk : IChunk
             var og = finalizedBytes[i];
             finalizedBytes[i] = (byte)(og ^ key);
             
-            Console.WriteLine("dec: {0} key: {1}", og, key);
+            //Console.WriteLine("dec: {0} key: {1}", og, key);
 
             key = (byte)((key * keys[0]) - keys[1] + (og ^ keys[2]));
             // key = (byte)((key * Constants.HEADER_ROTATION_FACTOR1) - Constants.HEADER_ROTATION_FACTOR2 + (decByte ^ Constants.HEADER_ROTATION_FACTOR3));
