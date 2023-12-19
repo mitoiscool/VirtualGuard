@@ -4,6 +4,7 @@ using System.Reflection;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
+using VirtualGuard.Runtime.Regions;
 using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
 
@@ -22,7 +23,9 @@ namespace VirtualGuard.Runtime
         public readonly LocalStorage Locals = new();
         public readonly VMReader Reader = new();
 
-        private Exception _exception;
+        public Exception Exception;
+
+        public Stack<BaseRegion> CatchStack = new Stack<BaseRegion>();
 
         public object Dispatch(int loc, object[] args)
         {
@@ -31,57 +34,52 @@ namespace VirtualGuard.Runtime
             
             Stack.Push(new ArrayVariant(args));
 
-            switch (DispatchInternal())
-            {
-                case ExecutionState.Catch:
-                    // handle _exception, check for finally and potentially jump to that state in the case
-
-                    // no exception handling yet, throw
-
-                    throw _exception;
-                    
-                    // if finally, goto case finally
-                    break;
-
-                case ExecutionState.Finally:
-                    // jump to handler location 
-                    break;
-            }
-
-            return Stack.Pop().GetObject();
-        }
-
-        ExecutionState DispatchInternal()
-        {
-            ExecutionState state;
-
             do
             {
-                //try
-                //{
+                try
+                {
                     var handler = Reader.ReadHandler();
                     
-                    #if DEBUG
+#if DEBUG
                     Console.WriteLine(CodeMap.LookupCode(handler).GetType().Name);
 #endif
-                
-                    CodeMap.LookupCode(handler).Execute(this, out state);
+                    
+                    CodeMap.LookupCode(handler).Execute(this, out ExecutionState state);
                     
                     if (state != ExecutionState.Next)
                         break;
 
-                //}
-                //catch (Exception ex)
-                //{
-                //    _exception = ex; // warning to self, this may suppress vm exceptions
-                //    return ExecutionState.Catch;
-                //}
+                }
+                catch (Exception ex)
+                {
+                    if (CatchStack.Count == 0)
+                        throw ex;
+                    
+                    Unwind();
+                }
 
             } while (true);
+            
 
-            return state;
+            return Stack.Pop().GetObject();
         }
 
+
+        void Unwind()
+        {
+            var handler = CatchStack.Pop();
+            
+            Stack.SetValue(0); // reset stack ptr
+            
+            // handler needs to jump to finally if we want finally to work
+            
+            Reader.SetKey(handler.EntryKey);
+            Reader.SetValue(handler.Position);
+            
+            Stack.Push(new ObjectVariant(Exception));
+        }
+        
+        
         public MethodBase ResolveMethod(int i)
         {
             return (MethodBase)Assembly.GetExecutingAssembly().ManifestModule.ResolveMember(i);

@@ -34,9 +34,7 @@ public enum VmCode : byte
     Stfld,
     Ldfld,
     Ldflda,
-        
-    EnterRegion,
-    
+
     Cmp,
     
     Jmp,
@@ -56,9 +54,6 @@ public enum VmCode : byte
     Vmcall, // can be a sick ass vcall, jmp to region, push all args and relativize ctx
     
     Entertry,
-    Leavetry,
-    
-    Leave,
-    
-    
+
+    Leave
 }

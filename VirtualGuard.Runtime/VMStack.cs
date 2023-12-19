@@ -5,7 +5,7 @@ using VirtualGuard.Runtime.Variant.Object;
 namespace VirtualGuard.Runtime
 {
 
-    public class VMStack
+    public class VMStack : IElement
     {
         BaseVariant[] _array;
         uint _index;
@@ -48,5 +48,14 @@ namespace VirtualGuard.Runtime
             return _array[_index - 1];
         }
 
+        public void SetValue(int i)
+        {
+            _index = (uint)i;
+        }
+
+        public int GetValue()
+        {
+            return (int)_index;
+        }
     }
 }

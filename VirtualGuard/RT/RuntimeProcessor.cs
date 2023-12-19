@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Emit;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 
 namespace VirtualGuard.RT;
@@ -42,9 +43,10 @@ public class RuntimeProcessor
     {
         var loc = _runtime.GetExportLocation(meth);
 
+        meth.CilMethodBody = new CilMethodBody(meth);
+
         var instrs = meth.CilMethodBody.Instructions;
-        
-        
+
         instrs.Clear();
         
         // VMEntry(loc, args)
