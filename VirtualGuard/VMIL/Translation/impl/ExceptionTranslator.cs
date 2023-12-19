@@ -12,7 +12,9 @@ public class ExceptionTranslator : ITranslator
         {
             case CilCode.Leave:
             case CilCode.Leave_S:
-                block.WithContent(new VmInstruction(VmCode.Leave, instr.Operand));
+                block.WithContent(new VmInstruction(VmCode.Ldc_I4, instr.Operand),
+                    new VmInstruction(VmCode.Leave)
+                    );
                 break;
         }
     }

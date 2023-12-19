@@ -12,10 +12,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Downloads\Echo-master\src\Core\Echo.ControlFlow\Echo.ControlFlow.csproj" />
-      <ProjectReference Include="..\..\..\Downloads\Echo-master\src\Core\Echo\Echo.csproj" />
-      <ProjectReference Include="..\..\..\Downloads\Echo-master\src\Platforms\Echo.Platforms.AsmResolver\Echo.Platforms.AsmResolver.csproj" />
       <ProjectReference Include="..\VirtualGuard.Runtime\VirtualGuard.Runtime.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Echo">
+        <HintPath>..\Deps\Echo.dll</HintPath>
+      </Reference>
+      <Reference Include="Echo.ControlFlow">
+        <HintPath>..\Deps\Echo.ControlFlow.dll</HintPath>
+      </Reference>
+      <Reference Include="Echo.Platforms.AsmResolver">
+        <HintPath>..\Deps\Echo.Platforms.AsmResolver.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

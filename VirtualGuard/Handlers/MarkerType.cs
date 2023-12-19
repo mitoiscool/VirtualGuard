@@ -3,7 +3,5 @@
 public enum MarkerType
 {
     TryStart,
-    TryEnd,
     HandlerStart,
-    HandlerEnd
 }

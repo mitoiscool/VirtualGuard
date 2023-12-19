@@ -1,6 +1,5 @@
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
-using Echo.Platforms.AsmResolver;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;

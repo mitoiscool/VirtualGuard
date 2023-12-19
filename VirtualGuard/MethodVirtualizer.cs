@@ -2,6 +2,7 @@ using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using Echo;
 using Echo.ControlFlow;
+using Echo.ControlFlow.Regions;
 using Echo.ControlFlow.Regions.Detection;
 using Echo.Platforms.AsmResolver;
 using VirtualGuard.Handlers;
@@ -53,7 +54,7 @@ public class MethodVirtualizer
 
     private void MarkExceptionHandlers()
     {
-        var body = _currentMethod.CilMethodBody;
+        /*var body = _currentMethod.CilMethodBody;
         
         if(body == null)
             _ctx.Logger.LogFatal(_currentMethod.FullName + " has no method body.");
@@ -79,7 +80,8 @@ public class MethodVirtualizer
             body.Instructions.ReplaceRange(handlerEndInstr,
                 new Marker(CilOpCodes.Nop, MarkerType.HandlerEnd),
                 handlerEndInstr);
-        }
+        }*/
+
         
         
     }
@@ -89,6 +91,19 @@ public class MethodVirtualizer
     {
         _currentMethod.CilMethodBody.Instructions.ExpandMacros();
         _cfg = _currentMethod.CilMethodBody.ConstructStaticFlowGraph();
+        
+        foreach (var region in _cfg.Regions)
+        {
+            if(region is not ExceptionHandlerRegion<CilInstruction> exceptionHandlerRegion)
+                continue;
+            
+            exceptionHandlerRegion.ProtectedRegion.Entrypoint.Contents.Instructions.Insert(0, new Marker(CilOpCodes.Nop, MarkerType.TryStart));
+            
+            if(exceptionHandlerRegion.Handlers.Count > 1)
+                _ctx.Logger.LogFatal("Virtualizer does not support multiple handlers on exception handler.");
+            
+            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
+        }
     }
 
     private void TransformIl()

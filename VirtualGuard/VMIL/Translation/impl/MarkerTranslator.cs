@@ -18,13 +18,11 @@ public class MarkerTranslator : ITranslator
             case MarkerType.TryStart:
                 var unknownLink = new UnknownBlockLink(i++);
                 _exceptionHandlers.Push(unknownLink);
-                block.WithContent(new VmInstruction(VmCode.Entertry, unknownLink));
+                block.WithContent(
+                    new VmInstruction(VmCode.Ldc_I4, unknownLink),
+                    new VmInstruction(VmCode.Entertry));
                 break;
-            
-            case MarkerType.TryEnd:
-                block.WithContent(new VmInstruction(VmCode.Leavetry)); // this would normally be popped in practice
-                break;
-            
+
             case MarkerType.HandlerStart: // we can resolve the block
                 var reference = _exceptionHandlers.Pop();
                 reference.LinkedBlock = block; // link block

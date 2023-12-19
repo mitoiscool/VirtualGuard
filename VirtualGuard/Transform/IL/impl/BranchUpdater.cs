@@ -11,7 +11,7 @@ public class BranchUpdater : IILTransformer
         
         foreach (var instr in node.Contents.Instructions)
         {
-            if (instr.OpCode.Code == CilCode.Br)
+            if (instr.OpCode.Code == CilCode.Br || instr.OpCode.Code == CilCode.Leave)
                 instr.Operand = node.UnconditionalEdge.Target;
 
             if (instr.OpCode.Code == CilCode.Brtrue || instr.OpCode.Code == CilCode.Brfalse)

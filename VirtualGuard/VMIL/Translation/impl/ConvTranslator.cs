@@ -7,7 +7,6 @@ public class ConvTranslator : ITranslator
 {
     public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
-        Console.WriteLine(instr);
         switch (instr.OpCode.Code)
         {
             case CilCode.Conv_I:

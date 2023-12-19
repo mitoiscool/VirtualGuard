@@ -1,6 +1,7 @@
-using System.Diagnostics;
+using System.Data;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.VMIL.Translation.impl;
 
 namespace VirtualGuard.VMIL.VM;
 
@@ -48,8 +49,18 @@ public class VmBlock
         foreach (var content in thisChunk.Content)
         { // update jmps to use chunks; it's in ldc.i4 which is kinda ew edit: entertry contains block offset of handler
             
-            if (content.OpCode != VmCode.Ldc_I4 || content.OpCode != VmCode.Entertry) // 
+            if (content.OpCode != VmCode.Ldc_I4 && content.OpCode != VmCode.Entertry) // 
                 continue;
+
+            if(content.Operand is UnknownBlockLink ubl)
+                if (ubl.Linked == false)
+                {
+                    throw new DataException("Provided block link is not linked.");
+                }
+                else
+                {
+                    content.Operand = ubl.LinkedBlock;
+                }
 
             if(content.Operand is not VmBlock)
                 continue;
