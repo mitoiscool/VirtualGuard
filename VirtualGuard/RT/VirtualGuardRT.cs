@@ -34,7 +34,8 @@ public class VirtualGuardRT
             },
             OpCodes = new OpCodeDescriptor(rnd),
             ComparisonFlags = new ComparisonDescriptor(rnd),
-            CorLibTypeDescriptor = new CorLibTypeDescriptor(rnd)
+            CorLibTypeDescriptor = new CorLibTypeDescriptor(rnd),
+            ExceptionHandlers = new ExceptionHandlerDescriptor(rnd)
         };
         
     }

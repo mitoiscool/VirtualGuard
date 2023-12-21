@@ -46,5 +46,10 @@ namespace VirtualGuard.Runtime.Dynamic
         public static int CorlibID_U2;
         public static int CorlibID_U4;
         public static int CorlibID_U8;
+
+        public static byte CatchFL;
+        public static byte FaultFL;
+        public static byte FilterFL;
+        public static byte FinallyFL;
     }
 }

@@ -36,8 +36,6 @@ public class MethodVirtualizer
         _exported = exported;
         _currentMethod = def;
         
-        MarkExceptionHandlers();
-        
         BuildCfg();
         
         TransformIl();
@@ -49,41 +47,6 @@ public class MethodVirtualizer
         BuildChunks();
         
         Finish();
-    }
-
-
-    private void MarkExceptionHandlers()
-    {
-        /*var body = _currentMethod.CilMethodBody;
-        
-        if(body == null)
-            _ctx.Logger.LogFatal(_currentMethod.FullName + " has no method body.");
-        
-        foreach (var exceptionHandler in body.ExceptionHandlers)
-        {
-            // add markers for try
-            
-            // resolve instructions for offsets
-            var tryStartInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.TryStart.Offset);
-
-            var handlerStartInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.HandlerStart.Offset);
-            var handlerEndInstr = body.Instructions.Single(x => x.Offset == exceptionHandler.HandlerEnd.Offset);
-
-            body.Instructions.ReplaceRange(tryStartInstr,
-                new Marker(CilOpCodes.Nop, MarkerType.TryStart),
-                tryStartInstr);
-
-            body.Instructions.ReplaceRange(handlerStartInstr,
-                new Marker(CilOpCodes.Nop, MarkerType.HandlerStart),
-                handlerStartInstr);
-            
-            body.Instructions.ReplaceRange(handlerEndInstr,
-                new Marker(CilOpCodes.Nop, MarkerType.HandlerEnd),
-                handlerEndInstr);
-        }*/
-
-        
-        
     }
     
     
@@ -102,7 +65,10 @@ public class MethodVirtualizer
             if(exceptionHandlerRegion.Handlers.Count > 1)
                 _ctx.Logger.LogFatal("Virtualizer does not support multiple handlers on exception handler.");
             
-            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
+            // somehow get the exception handler type
+            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new CilInstruction(CilOpCodes.Ldc_I4, _rt.Descriptor.ExceptionHandlers.GetFlag(region.)));
+            
+            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(1, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
         }
     }
 

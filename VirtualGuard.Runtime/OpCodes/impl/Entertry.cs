@@ -9,9 +9,10 @@ public class Entertry : IOpCode
     {
 
         var loc = ctx.Stack.Pop();
+        var type = ctx.Stack.Pop();
         var entry = ctx.Reader.ReadByte();
         
-        ctx.CatchStack.Push(new CatchRegion(loc.I4(), entry.U1()));
+        ctx.HandlerStack.Push(new ExceptionHandler(type.U1(), entry.U1(), loc.I4()));
 
         state = ExecutionState.Next;
     }

@@ -6,4 +6,5 @@ public class VMDescriptor
     public DataDescriptor Data;
     public ComparisonDescriptor ComparisonFlags;
     public CorLibTypeDescriptor CorLibTypeDescriptor;
+    public ExceptionHandlerDescriptor ExceptionHandlers;
 }

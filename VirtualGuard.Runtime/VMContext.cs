@@ -15,22 +15,20 @@ namespace VirtualGuard.Runtime
     {
         public VMContext(byte entryKey)
         {
-            _entryKey = entryKey;
+            Reader.SetKey(entryKey);
         }
 
-        private byte _entryKey;
         public readonly VMStack Stack = new();
         public readonly LocalStorage Locals = new();
         public readonly VMReader Reader = new();
 
         public Exception Exception;
 
-        public Stack<BaseRegion> CatchStack = new Stack<BaseRegion>();
+        public Stack<ExceptionHandler> HandlerStack = new Stack<ExceptionHandler>();
 
         public object Dispatch(int loc, object[] args)
         {
             Reader.SetValue(loc);
-            Reader.SetKey(_entryKey);
             
             Stack.Push(new ArrayVariant(args));
 
@@ -52,10 +50,12 @@ namespace VirtualGuard.Runtime
                 }
                 catch (Exception ex)
                 {
-                    if (CatchStack.Count == 0)
+                    if (HandlerStack.Count == 0)
                         throw ex;
+
+                    Exception = ex;
                     
-                    Unwind();
+                    Unwind(); // could be a bug here regarding the exception variable
                 }
 
             } while (true);
@@ -67,14 +67,18 @@ namespace VirtualGuard.Runtime
 
         void Unwind()
         {
-            var handler = CatchStack.Pop();
+            var handler = HandlerStack.Pop();
+
+            if (handler.Type != Constants.CatchFL)
+                throw new InvalidOperationException(
+                    Routines.EncryptDebugMessage("Unwinding exception handler was not a catch"));
             
             Stack.SetValue(0); // reset stack ptr
             
             // handler needs to jump to finally if we want finally to work
             
-            Reader.SetKey(handler.EntryKey);
-            Reader.SetValue(handler.Position);
+            Reader.SetKey(handler.HandlerStartKey);
+            Reader.SetValue(handler.HandlerPos);
             
             Stack.Push(new ObjectVariant(Exception));
         }
