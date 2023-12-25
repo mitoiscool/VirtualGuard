@@ -35,9 +35,13 @@ public class VmMethod
 
     private List<VmVariable> _variables = new List<VmVariable>();
     
-    public Dictionary<AstExpression, List<VmInstruction>> _translationMap =
+    private Dictionary<AstExpression, List<VmInstruction>> _translationMap =
         new Dictionary<AstExpression, List<VmInstruction>>();
 
+    public void MarkTranslatedInstructions(VmInstruction[] instrs)
+    {
+        _translationMap.Last().Value.AddRange(instrs);
+    }
     public ITranslator Begin(AstExpression expr)
     {
         _translationMap.Add(expr, new List<VmInstruction>());

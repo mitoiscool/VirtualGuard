@@ -1,7 +1,11 @@
 using System.Data;
+using System.Diagnostics;
+using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.AST;
+using VirtualGuard.RT;
 using VirtualGuard.RT.Descriptor;
 using VirtualGuard.VMIL.VM;
 
@@ -122,6 +126,116 @@ public static class Util
 
         return hashedValue;
     }
+
+
+    public static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
+    {
+        var instrs = new List<VmInstruction>();
+        
+        // ok this will be a pain in the ass but it's ok
+
+        // todo: have each type have their own hashing function (fml)
+
+        // first, determine which variable has the constant
+        Debug.Assert(comparer.Arguments.Length == 2);
+
+        VmInstruction constantParent = null;
+        bool shouldReverseStack = comparer.Arguments[0].OpCode.IsHashableConstant();
+
+        if (comparer.Arguments[0].OpCode.IsHashableConstant())
+            constantParent = ctx.GetTranslatedInstructions(comparer.Arguments[0]).Last(); // pray this is only 1, should probably debug assert
+        
+        if (comparer.Arguments[1].OpCode.IsHashableConstant())
+            constantParent = ctx.GetTranslatedInstructions(comparer.Arguments[0]).Last();
+        
+        Debug.Assert(constantParent == null);
+        
+        // now we have constant, let's hash
+
+        // look into reversing stack order
+
+        if (shouldReverseStack)
+        {
+            var holder = ctx.GetTempVar();
+
+            instrs.AddRange( new[] {
+                new VmInstruction(VmCode.Stloc, holder),
+                new VmInstruction(VmCode.Hash),
+                new VmInstruction(VmCode.Ldloc, holder)
+                }
+            );
+        }
+        else
+        {
+            // else just insert hash
+            instrs.Add(new VmInstruction(VmCode.Hash));
+        }
+
+        // do specifics according to hash req
+
+        switch (constantParent.OpCode)
+        {
+            case VmCode.Ldc_I4:
+                // hash int, also ensure it's not a branch or local (shouldn't be)
+                Debug.Assert(constantParent.Operand is int);
+
+                constantParent.Operand = HashNumber((int)constantParent.Operand, rt.Descriptor.HashDescriptor);
+                break;
+            
+            case VmCode.Ldc_I8:
+                Debug.Assert(false);
+                break;
+            
+            case VmCode.Ldstr:
+                constantParent.OpCode = VmCode.Ldc_I8; // first time using this code lol
+                constantParent.Operand = ComputeHash((string)constantParent.Operand, rt.Descriptor.HashDescriptor);
+                break;
+        }
+        
+
+        return instrs.ToArray();
+    }
     
+    static bool IsHashableConstant(this CilOpCode code)
+    {
+        return new[]
+        {
+            CilCode.Ldc_I4,
+            CilCode.Ldc_I8,
+            
+            CilCode.Ldstr
+        }.Contains(code.Code);
+    }
+    
+    public static long ComputeHash(string s, HashDescriptor hd)
+    {
+        byte[] buffer = Encoding.ASCII.GetBytes(s);
+        
+        uint[] table = new uint[256];
+
+        for (uint i = 0; i < 256; i++)
+        {
+            uint entry = i;
+            for (int j = 0; j < 8; j++)
+            {
+                entry = (entry & 1) == 1
+                    ? (entry >> 1) ^ hd.SPolynomial
+                    : entry >> 1;
+
+                entry ^= (entry >> 12) ^ (entry >> 24);
+            }
+
+            table[i] = entry;
+        }
+
+        uint hash = hd.SSeed;
+
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            hash = (hash >> 8) ^ table[buffer[i] ^ hash & 0xff];
+        }
+
+        return ~hash ^ hd.SXorMask;
+    }
     
 }

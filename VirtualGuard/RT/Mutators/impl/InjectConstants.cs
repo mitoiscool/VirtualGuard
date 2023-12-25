@@ -216,16 +216,16 @@ public class InjectConstants : IRuntimeMutator
                         inlinedConstant = rt.Descriptor.HashDescriptor.NSalt3;
                         break;
                     
-                    case "SSalt1":
-                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt1;
+                    case "SPolynomial":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SPolynomial;
                         break;
                     
-                    case "SSalt2":
-                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt2;
+                    case "SSeed":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SSeed;
                         break;
                     
-                    case "SSalt3":
-                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt3;
+                    case "SXorMask":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SXorMask;
                         break;
                     
                     default:

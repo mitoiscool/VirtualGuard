@@ -5,18 +5,24 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
 public class CallTranslator : ITranslator
 {
     public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         //if(method.Resolve())
 
+
         switch (((IMethodDescriptor)instr.Operand).Name.ToString().ToLower())
         {
             case "op_equality": // use our cmp instruction, we should see about hashing
-                block.WithContent(new VmInstruction(VmCode.Cmp));
-                block.WithContent(new VmInstruction(VmCode.Ldc_I4, (int)meth.Runtime.Descriptor.ComparisonFlags.EqFlag));
-                block.WithContent(new VmInstruction(VmCode.Xor));
+                // edit: we don't even need to use our cmp instr, let them hook
+                // op_equality and have them go "oh shit" when they realized virtualguard >
+                
+                block.WithContent(Util.BuildHashInstructions(instr, meth, ctx.Runtime)); // use util
+                
+                block.WithContent(new VmInstruction(VmCode.Call, instr.Operand));
                 break;
             
             default:

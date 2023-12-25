@@ -21,7 +21,7 @@ public class VmBlock
     
     public VmBlock WithContent(params VmInstruction[] instrs)
     {
-        Parent._translationMap.Last().Value.AddRange(instrs); // this is kinda screwed in my mind
+        Parent.MarkTranslatedInstructions(instrs); // this is kinda screwed in my mind
         
         return WithArtificialContent(instrs);
     }

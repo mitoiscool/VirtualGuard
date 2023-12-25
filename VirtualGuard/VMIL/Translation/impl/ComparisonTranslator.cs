@@ -9,62 +9,10 @@ public class ComparisonTranslator : ITranslator
 {
     public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
-
-        // handle hashing (this is gross code)
-
-        if (instr.Arguments[0].OpCode == CilOpCodes.Ldc_I4 && instr.Arguments[0].Operand is int i)
-        {
-            // cmp( const, v1)
-            // we need to hash this const as an int and set operand,
-            // then we will use hash opcode to hash onstack code
-
-            var hashedInt = Util.HashNumber(i, ctx.Runtime.Descriptor.HashDescriptor);
-
-            var translatedInstrs = meth.GetTranslatedInstructions(instr.Arguments[0]); // ah we need to get the converted instruction
-            
-            Debug.Assert(translatedInstrs.Length == 1); // should always be 1 in this case, just translating const
-
-            var translatedLdc = translatedInstrs.Last();
-            
-            // relentless checks so I don't actually kms debugging
-            Debug.Assert(translatedLdc.OpCode == VmCode.Ldc_I4); // need to add support for I8, R4, R8, S
-
-            translatedLdc.Operand = hashedInt;
-            
-            // we can do this sketch maneuver to switch the stack vars instead of properly doing it using ast traversal
-            
-            // pop already const arg off stack
-
-            var holder = meth.GetTempVar();
-            
-            block.WithContent(
-                new VmInstruction(VmCode.Stloc, holder),
-                new VmInstruction(VmCode.Hash),
-                new VmInstruction(VmCode.Ldloc, holder)
-                );
-
-        }
         
-        if (instr.Arguments[1].OpCode == CilOpCodes.Ldc_I4 && instr.Arguments[1].Operand is int i2)
-        {
-            // cmp( v1, const)
-            // we need to hash this const as an int and set operand,
-            // then we will use hash opcode to hash onstack code
-
-            var hashedInt = Util.HashNumber(i2, ctx.Runtime.Descriptor.HashDescriptor);
-
-            instr.Arguments[1].Operand = hashedInt;
-            
-            // we can do this sketch maneuver to switch the stack vars instead of properly doing it using ast traversal
-            
-            // pop already const arg off stack
-            
-            block.WithContent(
-                new VmInstruction(VmCode.Hash) // hash other variable, hashed constant would be 2nd on stack
-            );
-
-        }
+        // handle hashing of args
         
+        block.WithContent(Util.BuildHashInstructions(instr, meth, ctx.Runtime));
         
         block.WithContent(new VmInstruction(VmCode.Cmp)); // main cmp
         

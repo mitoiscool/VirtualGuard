@@ -57,9 +57,9 @@ namespace VirtualGuard.Runtime.Dynamic
         public static byte NSalt2;
         public static byte NSalt3;
 
-        public static byte SSalt1;
-        public static byte SSalt2;
-        public static byte SSalt3;
+        public static uint SPolynomial;
+        public static uint SSeed;
+        public static uint SXorMask;
         
     }
 }

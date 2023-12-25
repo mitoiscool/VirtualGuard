@@ -9,10 +9,11 @@ public class HashDescriptor
         NSalt1 = (byte)rnd.Next(255);
         NSalt2 = (byte)rnd.Next(255);
         NSalt3 = (byte)rnd.Next(255);
-        
-        SSalt1 = (byte)rnd.Next(255);
-        SSalt2 = (byte)rnd.Next(255);
-        SSalt3 = (byte)rnd.Next(255);
+
+        SPolynomial = (uint)rnd.Next();
+        SSeed = (uint)rnd.Next();
+        SXorMask = (uint)rnd.Next();
+    
         
     }
 
@@ -22,7 +23,7 @@ public class HashDescriptor
     public byte NSalt2;
     public byte NSalt3;
 
-    public byte SSalt1;
-    public byte SSalt2;
-    public byte SSalt3;
+    public uint SPolynomial;
+    public uint SSeed;
+    public uint SXorMask;
 }
