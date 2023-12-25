@@ -25,7 +25,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 string path = "VirtualGuard.SDK.dll";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
-int debugKey = 0; // debug
+int debugKey = 105; // debug
 var license = LicenseType.Plus;
 
 var logger = new ConsoleLogger();
@@ -66,7 +66,7 @@ var processors = new IProcessor[]
     new DataEncryption(),
     
     new Virtualization(), // populates vm elements
-    
+    new Watermark()
 };
 
 #if DEBUG
