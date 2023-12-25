@@ -2,16 +2,19 @@
 
 namespace VirtualGuard.Runtime.OpCodes.impl;
 
-public class Entertry : IOpCode
+public class Jnz : IOpCode
 {
     public void Execute(VMContext ctx, out ExecutionState state)
     {
-
         var loc = ctx.Stack.Pop();
-        var type = ctx.Stack.Pop();
-        var entry = ctx.Reader.ReadByte();
+        var flag = ctx.Stack.Pop().I2();
+        var key = ctx.Reader.ReadByte();
         
-        ctx.HandlerStack.Push(new ExceptionHandler(type.U1(), entry.U1(), loc.I4()));
+        if (flag != 0)
+        {
+            ctx.Reader.SetKey(key.U1());
+            ctx.Reader.SetValue(loc.I4());
+        }
 
         state = ExecutionState.Next;
     }

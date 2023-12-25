@@ -65,16 +65,22 @@ public class MethodVirtualizer
         {
             if(region is not ExceptionHandlerRegion<CilInstruction> exceptionHandlerRegion)
                 continue;
-            
-            exceptionHandlerRegion.ProtectedRegion.Entrypoint.Contents.Instructions.Insert(0, new Marker(CilOpCodes.Nop, MarkerType.TryStart));
-            
+
             if(exceptionHandlerRegion.Handlers.Count > 1)
                 _ctx.Logger.LogFatal("Virtualizer does not support multiple handlers on exception handler.");
             
-            // somehow get the exception handler type
-            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new CilInstruction(CilOpCodes.Ldc_I4, _rt.Descriptor.ExceptionHandlers.GetFlag((CilExceptionHandlerType)region.Tag)));
+            foreach (var handler in exceptionHandlerRegion.Handlers)
+            {
+                exceptionHandlerRegion.ProtectedRegion.Entrypoint.Contents.Instructions.Insert(0, new Marker(CilOpCodes.Nop, MarkerType.TryStart));
+
+                // somehow get the exception handler type
+                handler.Contents.Entrypoint.Contents.Instructions.Insert(0, new CilInstruction(CilOpCodes.Ldc_I4, _rt.Descriptor.ExceptionHandlers.GetFlag(((CilExceptionHandler)handler.Tag).HandlerType)));
             
-            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(1, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
+                handler.Contents.Entrypoint.Contents.Instructions.Insert(1, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
+                
+            }
+            
+            
         }
     }
 

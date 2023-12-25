@@ -147,8 +147,9 @@ public static class Util
         
         if (comparer.Arguments[1].OpCode.IsHashableConstant())
             constantParent = ctx.GetTranslatedInstructions(comparer.Arguments[0]).Last();
-        
-        Debug.Assert(constantParent == null);
+
+        if (constantParent == null)
+            return Array.Empty<VmInstruction>(); // don't use any instrs, no need to hash
         
         // now we have constant, let's hash
 

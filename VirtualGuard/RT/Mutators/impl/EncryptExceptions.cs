@@ -51,6 +51,9 @@ public class EncryptExceptions : IRuntimeMutator
 
         }
         
+        // pray we don't need this again (probably not for a bit)
+
+        ctx.Module.TopLevelTypes.Remove(routineType);
     }
 
     string Encrypt(string str, int key)
