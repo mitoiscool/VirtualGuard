@@ -1,6 +1,5 @@
 ﻿using AsmResolver.PE.DotNet.Cil;
-
-namespace VirtualGuard.Handlers;
+namespace VirtualGuard.AST.IL;
 
 public class Marker : CilInstruction
 {

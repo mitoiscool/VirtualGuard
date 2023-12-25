@@ -51,5 +51,15 @@ namespace VirtualGuard.Runtime.Dynamic
         public static byte FaultFL;
         public static byte FilterFL;
         public static byte FinallyFL;
+
+        public static byte NKey;
+        public static byte NSalt1;
+        public static byte NSalt2;
+        public static byte NSalt3;
+
+        public static byte SSalt1;
+        public static byte SSalt2;
+        public static byte SSalt3;
+        
     }
 }

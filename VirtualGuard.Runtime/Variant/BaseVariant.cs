@@ -147,5 +147,10 @@ namespace VirtualGuard.Runtime.Variant
         }
 
 
+        public virtual BaseVariant Hash()
+        {
+            throw new InvalidOperationException();
+        }
+
     }
 }

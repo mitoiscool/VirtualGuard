@@ -184,6 +184,50 @@ public class InjectConstants : IRuntimeMutator
                         inlinedConstant = rt.Descriptor.CorLibTypeDescriptor.U8;
                         break;
                     
+                    case "CatchFL":
+                        inlinedConstant = rt.Descriptor.ExceptionHandlers.CatchFL;
+                        break;
+                    
+                    case "FinallyFL":
+                        inlinedConstant = rt.Descriptor.ExceptionHandlers.FinallyFL;
+                        break;
+                    
+                    case "FilterFL":
+                        inlinedConstant = rt.Descriptor.ExceptionHandlers.FilterFL;
+                        break;
+                    
+                    case "FaultFL":
+                        inlinedConstant = rt.Descriptor.ExceptionHandlers.FaultFL;
+                        break;
+                    
+                    case "NKey":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.NKey;
+                        break;
+                    
+                    case "NSalt1":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.NSalt1;
+                        break;
+                    
+                    case "NSalt2":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.NSalt2;
+                        break;
+                    
+                    case "NSalt3":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.NSalt3;
+                        break;
+                    
+                    case "SSalt1":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt1;
+                        break;
+                    
+                    case "SSalt2":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt2;
+                        break;
+                    
+                    case "SSalt3":
+                        inlinedConstant = rt.Descriptor.HashDescriptor.SSalt3;
+                        break;
+                    
                     default:
                         inlinedConstant = 0; // default value to inline
                         

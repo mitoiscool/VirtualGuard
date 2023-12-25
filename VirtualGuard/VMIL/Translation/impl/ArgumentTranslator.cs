@@ -1,12 +1,13 @@
 using AsmResolver.DotNet.Collections;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.AST;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ArgumentTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         var param = instr.Operand as Parameter;
 
@@ -23,7 +24,7 @@ public class ArgumentTranslator : ITranslator
         
     }
 
-    public bool Supports(CilInstruction instr)
+    public bool Supports(AstExpression instr)
     {
         if (instr.OpCode == CilOpCodes.Ldarg)
             return true;

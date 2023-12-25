@@ -1,4 +1,4 @@
-﻿namespace VirtualGuard.Handlers;
+﻿namespace VirtualGuard.AST.IL;
 
 public enum MarkerType
 {

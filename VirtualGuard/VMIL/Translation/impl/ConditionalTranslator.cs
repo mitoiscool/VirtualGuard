@@ -1,12 +1,13 @@
 using System.Reflection.Emit;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.AST;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ConditionalTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
 
         //if (instr.OpCode.Code == CilCode.Brfalse) // my brain still cannot wrap my head around why this works this way, all signs pooint to not being used for brtrue, but debugging prevails
@@ -17,7 +18,7 @@ public class ConditionalTranslator : ITranslator
             new VmInstruction(VmCode.Jz));
     }
 
-    public bool Supports(CilInstruction instr)
+    public bool Supports(AstExpression instr)
     {
         return new[]
         {

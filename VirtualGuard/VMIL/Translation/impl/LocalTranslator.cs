@@ -1,12 +1,13 @@
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.AST;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
 public class LocalTranslator : ITranslator
 {
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         var local = instr.Operand as CilLocalVariable;
         var vmLoc = meth.GetVariableFromLocal(local.Index);
@@ -30,7 +31,7 @@ public class LocalTranslator : ITranslator
         }
     }
 
-    public bool Supports(CilInstruction instr)
+    public bool Supports(AstExpression instr)
     {
         if (instr.OpCode.Code == CilCode.Stloc)
             return true;

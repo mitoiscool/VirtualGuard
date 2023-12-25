@@ -1,6 +1,6 @@
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
-using VirtualGuard.Handlers;
+using VirtualGuard.AST.IL;
 
 namespace VirtualGuard.Transform.IL.impl;
 

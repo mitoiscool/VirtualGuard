@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AsmResolver.PE.DotNet.Cil;
-using VirtualGuard.Handlers;
+using VirtualGuard.AST;
+using VirtualGuard.AST.IL;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
@@ -8,10 +9,10 @@ namespace VirtualGuard.VMIL.Translation.impl;
 public class MarkerTranslator : ITranslator
 {
     private Stack<UnknownBlockLink> _exceptionHandlers = new Stack<UnknownBlockLink>();
-    public void Translate(CilInstruction instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
     {
         int i = 0;
-        var marker = instr as Marker;
+        var marker = instr as AstMarker;
 
         switch (marker.Type)
         {
@@ -36,9 +37,9 @@ public class MarkerTranslator : ITranslator
         
     }
 
-    public bool Supports(CilInstruction instr)
+    public bool Supports(AstExpression instr)
     {
-        if (instr is Marker)
+        if (instr is AstMarker)
             return true;
 
         return false;

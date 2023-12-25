@@ -55,5 +55,6 @@ public enum VmCode : byte
     
     Entertry,
 
-    Leave
+    Leave,
+    Hash, // could turn into an awesome vcode
 }

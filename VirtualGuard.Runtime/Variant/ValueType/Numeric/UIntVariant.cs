@@ -1,4 +1,6 @@
-﻿namespace VirtualGuard.Runtime.Variant.ValueType.Numeric;
+﻿using VirtualGuard.Runtime.Dynamic;
+
+namespace VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 public class UIntVariant : NumeralVariant
 {
@@ -102,5 +104,16 @@ public class UIntVariant : NumeralVariant
     public override NumeralVariant And(NumeralVariant and)
     {
         return new UIntVariant((uint)(_value & and.U4()));
+    }
+    
+    public override BaseVariant Hash()
+    {
+        // Perform bit-shifting and arithmetic operations for mutation
+        uint mutatedNumber = ((_value << Constants.NSalt1) + Constants.NSalt2) ^ Constants.NSalt3;
+
+        // Perform the hashing operation
+        uint hashedValue = ((mutatedNumber * Constants.NKey) % 1000) + Constants.NSalt3; // Modulus to keep the result within a reasonable range
+        
+        return new UIntVariant(hashedValue);
     }
 }

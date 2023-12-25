@@ -31,11 +31,12 @@ public class VirtualGuardRT
             {
                 StreamName = rnd.Next().ToString("x"),
                 Watermark = rnd.Next().ToString("x")
-            },
+            }, // this is shit code
             OpCodes = new OpCodeDescriptor(rnd),
             ComparisonFlags = new ComparisonDescriptor(rnd),
             CorLibTypeDescriptor = new CorLibTypeDescriptor(rnd),
-            ExceptionHandlers = new ExceptionHandlerDescriptor(rnd)
+            ExceptionHandlers = new ExceptionHandlerDescriptor(rnd),
+            HashDescriptor = new HashDescriptor(rnd)
         };
         
     }

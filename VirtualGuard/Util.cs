@@ -1,6 +1,9 @@
+using System.Data;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.RT.Descriptor;
+using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard;
 
@@ -105,5 +108,20 @@ public static class Util
         
         return members.Single(x => x.Name == split[1]);
     }
+
+    public static int HashNumber(int number, HashDescriptor hs)
+    {
+        // Perform bit-shifting and arithmetic operations for mutation
+        int mutatedNumber = ((number << hs.NSalt1) + hs.NSalt2) ^ hs.NSalt3;
+
+        // Ensure the mutated number is non-negative
+        int absoluteMutatedNumber = Math.Abs(mutatedNumber);
+
+        // Perform the hashing operation
+        int hashedValue = ((absoluteMutatedNumber * hs.NKey) % 1000) + hs.NSalt3; // Modulus to keep the result within a reasonable range
+
+        return hashedValue;
+    }
+    
     
 }

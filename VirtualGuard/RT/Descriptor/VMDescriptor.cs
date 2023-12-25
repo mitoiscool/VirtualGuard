@@ -7,4 +7,5 @@ public class VMDescriptor
     public ComparisonDescriptor ComparisonFlags;
     public CorLibTypeDescriptor CorLibTypeDescriptor;
     public ExceptionHandlerDescriptor ExceptionHandlers;
+    public HashDescriptor HashDescriptor;
 }

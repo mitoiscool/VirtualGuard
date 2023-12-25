@@ -1,4 +1,5 @@
 using System.Data;
+using VirtualGuard.AST;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.VMIL.Translation.impl;
@@ -7,12 +8,22 @@ namespace VirtualGuard.VMIL.VM;
 
 public class VmBlock
 {
+    
     public List<VmInstruction> Content = new List<VmInstruction>();
+    public VmMethod Parent;
 
-    public VmBlock WithContent(params VmInstruction[] instrs)
+
+    public VmBlock WithArtificialContent(params VmInstruction[] instrs)
     {
         Content.AddRange(instrs);
         return this;
+    }
+    
+    public VmBlock WithContent(params VmInstruction[] instrs)
+    {
+        Parent._translationMap.Last().Value.AddRange(instrs); // this is kinda screwed in my mind
+        
+        return WithArtificialContent(instrs);
     }
     
     public VmChunk BuildChunk(VmMethod parent, VirtualGuardRT rt)

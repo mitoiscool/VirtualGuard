@@ -22,7 +22,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 //string settingsPath = args[2];
 //int debugKey = int.Parse(args[3]);
 
-string path = "VirtualGuard.Tests.exe";
+string path = "VirtualGuard.SDK.dll";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
 int debugKey = 0; // debug

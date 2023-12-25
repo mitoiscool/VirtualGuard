@@ -1,11 +1,13 @@
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 using Echo;
 using Echo.ControlFlow;
 using Echo.ControlFlow.Regions;
 using Echo.ControlFlow.Regions.Detection;
 using Echo.Platforms.AsmResolver;
-using VirtualGuard.Handlers;
+using VirtualGuard.AST;
+using VirtualGuard.AST.IL;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.Transform.IL;
@@ -31,6 +33,8 @@ public class MethodVirtualizer
     private ControlFlowGraph<CilInstruction> _cfg;
     private VmMethod _virtualizedMethod;
 
+    private Dictionary<ControlFlowNode<CilInstruction>, AstBlock> _astBlockMap = new Dictionary<ControlFlowNode<CilInstruction>, AstBlock>();
+
     public void Virtualize(MethodDefinition def, bool exported = false)
     {
         _exported = exported;
@@ -39,6 +43,8 @@ public class MethodVirtualizer
         BuildCfg();
         
         TransformIl();
+        
+        BuildAst();
         
         BuildVmil();
         
@@ -66,7 +72,7 @@ public class MethodVirtualizer
                 _ctx.Logger.LogFatal("Virtualizer does not support multiple handlers on exception handler.");
             
             // somehow get the exception handler type
-            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new CilInstruction(CilOpCodes.Ldc_I4, _rt.Descriptor.ExceptionHandlers.GetFlag(region.)));
+            exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(0, new CilInstruction(CilOpCodes.Ldc_I4, _rt.Descriptor.ExceptionHandlers.GetFlag((CilExceptionHandlerType)region.Tag)));
             
             exceptionHandlerRegion.Handlers.First().Contents.Entrypoint.Contents.Instructions.Insert(1, new Marker(CilOpCodes.Nop, MarkerType.HandlerStart));
         }
@@ -83,6 +89,21 @@ public class MethodVirtualizer
             
         }
         
+    }
+
+    private void BuildAst()
+    {
+        var builder = new AstBuilder();
+        
+        
+        foreach (var cfgNode in _cfg.Nodes)
+        {
+            
+            _astBlockMap.Add(cfgNode, builder.Analyze(cfgNode, _currentMethod.Signature.ReturnsValue));
+            
+        }
+        
+        builder.Reset(); // maybe doesn't work
         
     }
     
@@ -94,8 +115,8 @@ public class MethodVirtualizer
         {
             var block = newMethod.GetBlock(node); // providing node implicitly adds it to blockMap
 
-            foreach (var instruction in node.Contents.Instructions)
-                ITranslator.Lookup(instruction).Translate(instruction, block, newMethod, _ctx);
+            foreach (var instruction in _astBlockMap[node]) // resolve ast block (this is kinda screwed)
+                newMethod.Begin(instruction).Translate(instruction, block, newMethod, _ctx);
         }
 
         

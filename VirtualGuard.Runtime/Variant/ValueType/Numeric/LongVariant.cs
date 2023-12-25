@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using VirtualGuard.Runtime.Dynamic;
 
 namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 {
@@ -85,6 +86,20 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant And(NumeralVariant and)
         {
             return new LongVariant(_value & and.I8());
+        }
+        
+        public override BaseVariant Hash()
+        {
+            // Perform bit-shifting and arithmetic operations for mutation
+            long mutatedNumber = ((_value << Constants.NSalt1) + Constants.NSalt2) ^ Constants.NSalt3;
+
+            // Ensure the mutated number is non-negative
+            long absoluteMutatedNumber = Math.Abs(mutatedNumber);
+
+            // Perform the hashing operation
+            long hashedValue = ((absoluteMutatedNumber * Constants.NKey) % 1000) + Constants.NSalt3; // Modulus to keep the result within a reasonable range
+            
+            return new LongVariant(hashedValue);
         }
     }
 }

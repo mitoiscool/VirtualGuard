@@ -24,5 +24,11 @@ namespace VirtualGuard.Runtime.Variant.ValueType
         {
             return new StringVariant(_str);
         }
+
+        public override BaseVariant Hash()
+        { // need to impl
+            return base.Hash();
+        }
+        
     }
 }
