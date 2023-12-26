@@ -6,7 +6,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 {
     public class Vmcall : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var loc = ctx.Stack.Pop().I4();
             var argCount = ctx.Reader.ReadInt().I4();
@@ -24,8 +24,9 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             // it may be better to restructure so vm doesn't need to init args
             
             ctx.Stack.Push(BaseVariant.CreateVariant(Entry.VMEntry(loc, entryKey.U1(), args.ToArray())));
-
-            state = ExecutionState.Next;
+            
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

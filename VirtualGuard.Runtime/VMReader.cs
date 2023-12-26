@@ -43,7 +43,8 @@ namespace VirtualGuard.Runtime
             }
             
         }*/ // old
-
+        
+        
         static VMReader()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -129,9 +130,11 @@ namespace VirtualGuard.Runtime
             _key = i;
         }
 
-        public UIntVariant ReadHandler()
+        public UIntVariant ReadFixupValue()
         {
             var b = (byte)_memoryStream.ReadByte();
+
+            return new UIntVariant(b);
 
             var dec = (byte)(b ^ _key);
             
@@ -205,10 +208,13 @@ namespace VirtualGuard.Runtime
 
         private byte ReadByteInternal()
         {
+            
             try
             {
                 var b = _memoryStream.ReadByte();
 
+                return (byte)b;
+                
                 //_key ;
 
                 b ^= _key;

@@ -130,6 +130,8 @@ public static class Util
 
     public static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
     {
+        return Array.Empty<VmInstruction>();
+        
         var instrs = new List<VmInstruction>();
         
         // ok this will be a pain in the ass but it's ok
@@ -176,10 +178,6 @@ public static class Util
         switch (constantParent.OpCode)
         {
             case VmCode.Ldc_I4:
-                // hash int, also ensure it's not a branch or local (shouldn't be)
-                Debug.Assert(constantParent.Operand is int);
-
-                constantParent.Operand = HashNumber((int)constantParent.Operand, rt.Descriptor.HashDescriptor);
                 break;
             
             case VmCode.Ldc_I8:

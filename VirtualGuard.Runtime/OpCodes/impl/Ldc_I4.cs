@@ -6,11 +6,12 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
     public class Ldc_I4 : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             ctx.Stack.Push(ctx.Reader.ReadInt());
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

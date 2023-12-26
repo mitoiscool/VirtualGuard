@@ -5,7 +5,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 {
     public class Ldelema : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         { // need to make arrayreferencevariant
 
             var delem = ctx.Stack.Pop();
@@ -13,7 +13,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             ctx.Stack.Push(new ArrayReferenceVariant(arr, delem));
             
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

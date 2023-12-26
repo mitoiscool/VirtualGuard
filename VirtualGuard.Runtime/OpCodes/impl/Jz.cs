@@ -5,7 +5,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 {
     public class Jz : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var loc = ctx.Stack.Pop();
             var flag = ctx.Stack.Pop().I2();
@@ -17,7 +17,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
                 ctx.Reader.SetValue(loc.I4());
             }
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

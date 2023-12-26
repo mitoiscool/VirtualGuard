@@ -7,11 +7,12 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
     public class Stloc : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             ctx.Locals.SetLocal(ctx.Reader.ReadShort(), ctx.Stack.Pop());
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;
