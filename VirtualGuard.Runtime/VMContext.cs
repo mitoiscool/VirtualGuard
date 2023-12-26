@@ -4,7 +4,6 @@ using System.Reflection;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
-using VirtualGuard.Runtime.Regions;
 using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;

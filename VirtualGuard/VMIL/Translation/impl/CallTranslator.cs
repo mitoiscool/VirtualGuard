@@ -20,9 +20,13 @@ public class CallTranslator : ITranslator
                 // edit: we don't even need to use our cmp instr, let them hook
                 // op_equality and have them go "oh shit" when they realized virtualguard >
                 
+                // edit: nvm cuz i make them longs to cmp
+                
                 block.WithContent(Util.BuildHashInstructions(instr, meth, ctx.Runtime)); // use util
                 
-                block.WithContent(new VmInstruction(VmCode.Call, instr.Operand));
+                block.WithContent(new VmInstruction(VmCode.Cmp),
+                    new VmInstruction(VmCode.Ldc_I4, (int)ctx.Runtime.Descriptor.ComparisonFlags.EqFlag),
+                    new VmInstruction(VmCode.Xor));
                 break;
             
             default:

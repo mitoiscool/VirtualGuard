@@ -32,13 +32,13 @@ public class AstBuilder
             if (instr.OpCode == CilOpCodes.Ret)
                 pops = 0; // bad fix
             
-            var popped = new AstExpression[pops];
+            var popped = new AstExpression[pops == -1 ? 0 : pops]; // leave likes to use -1 - wtf bro
             
             for (int i = 0; i < pops; i++)
                 popped[i] = _evalStack.Pop();
             
             // turn into expression
-            var expr = new AstExpression(instr.OpCode, instr.Operand, popped);
+            var expr = AstExpression.Create(instr, popped);
             
             block.Add(expr);
             

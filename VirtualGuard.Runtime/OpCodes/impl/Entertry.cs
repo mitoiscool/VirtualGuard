@@ -1,5 +1,4 @@
 ﻿using VirtualGuard.Runtime.Execution;
-using VirtualGuard.Runtime.Regions;
 
 namespace VirtualGuard.Runtime.OpCodes.impl;
 

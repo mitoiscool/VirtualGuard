@@ -22,10 +22,10 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 //string settingsPath = args[2];
 //int debugKey = int.Parse(args[3]);
 
-string path = "VirtualGuard.SDK.dll";
-string outputPath = "VirtualGuard.Tests-virt.exe";
+string path = "NetTest.exe";
+string outputPath = "NetTest-virt.exe";
 string settingsPath = "config.json";
-int debugKey = 0; // debug
+int debugKey = 105; // debug
 var license = LicenseType.Plus;
 
 var logger = new ConsoleLogger();
@@ -66,7 +66,7 @@ var processors = new IProcessor[]
     new DataEncryption(),
     
     new Virtualization(), // populates vm elements
-    
+    new Watermark()
 };
 
 #if DEBUG

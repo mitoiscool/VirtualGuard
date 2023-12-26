@@ -1,4 +1,4 @@
-namespace VirtualGuard.Runtime.Regions;
+namespace VirtualGuard.Runtime.Execution;
 
 public class ExceptionHandler
 {

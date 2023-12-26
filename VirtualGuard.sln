@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.SDK", "Virtual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGuard.Tests", "VirtualGuard.Tests\VirtualGuard.Tests.csproj", "{C9E9D7C1-9634-4403-B2A9-3E2A2E0FA1FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTest", "NetTest\NetTest.csproj", "{5E3A902C-F210-4BCA-AAA8-AB4119B434DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{C9E9D7C1-9634-4403-B2A9-3E2A2E0FA1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9E9D7C1-9634-4403-B2A9-3E2A2E0FA1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9E9D7C1-9634-4403-B2A9-3E2A2E0FA1FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E3A902C-F210-4BCA-AAA8-AB4119B434DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E3A902C-F210-4BCA-AAA8-AB4119B434DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E3A902C-F210-4BCA-AAA8-AB4119B434DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E3A902C-F210-4BCA-AAA8-AB4119B434DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

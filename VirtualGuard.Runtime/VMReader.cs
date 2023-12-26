@@ -1,4 +1,5 @@
 using System.Data;
+using System.IO.Compression;
 using System.Reflection;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Variant;
@@ -56,7 +57,7 @@ namespace VirtualGuard.Runtime
 
             if (stream.Read(_bytes, 0, _bytes.Length) != stream.Length)
                 throw new DataException(Routines.EncryptDebugMessage("Read less bytes than bytes available"));
-            
+
             var ms = new MemoryStream(_bytes);
             
             // read watermark

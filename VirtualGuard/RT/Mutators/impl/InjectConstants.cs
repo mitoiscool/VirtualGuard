@@ -247,6 +247,9 @@ public class InjectConstants : IRuntimeMutator
                 
                 if(inlinedConstant is int i)
                     cilInstruction.ReplaceWith(CilOpCodes.Ldc_I4, i);
+                
+                if(inlinedConstant is uint ui) // fml
+                    cilInstruction.ReplaceWith(CilOpCodes.Ldc_I4, (int)ui);
             }
             
         }
