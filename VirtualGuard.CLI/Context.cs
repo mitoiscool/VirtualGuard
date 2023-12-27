@@ -16,10 +16,27 @@ public class Context
 
     public ILogger Logger;
     public ModuleDefinition Module;
-    public Virtualizer Virtualizer;
+    public Virtualizer[] Virtualizers;
     public SerializedConfig Configuration;
 
     public LicenseType License;
+    
+    private static Random _rnd = new Random();
 
-    public VmElements GetVm() => Virtualizer.GetVmElements();
+    public void MarkForVirtualization(MethodDefinition def, bool export)
+    {
+        var vm = Virtualizers[_rnd.Next(Virtualizers.Length)];
+
+        vm.AddMethod(def, export);
+    }
+
+    public void CommitProcessors()
+    {
+        foreach (var virt in Virtualizers)
+        {
+            virt.CommitRuntime();
+        }
+    }
+    
+    
 }

@@ -64,7 +64,7 @@ public class DataEncryption : IProcessor
                     _stringCache.Add((string)instruction.Operand, newMethod);
                     
                     // virtualize method
-                    ctx.Virtualizer.AddMethod(newMethod, true);
+                    ctx.MarkForVirtualization(cachedMethod, true);
                 }
                 
                 // now replace ref

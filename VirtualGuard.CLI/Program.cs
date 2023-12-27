@@ -12,6 +12,15 @@ using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
+#if DEBUG
+var debug = true;
+var debugKey = 0;
+#else
+var debug = false;
+var debugKey = new Random().Next(); // we should grab this from input args
+#endif
+
+
 // arg format <path> <output_path>
 
 //if (args.Length != 4)
@@ -25,7 +34,6 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 string path = "VirtualGuard.Tests.exe";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
-int debugKey = 105; // debug
 var license = LicenseType.Plus;
 
 var logger = new ConsoleLogger();
@@ -76,11 +84,13 @@ Console.WriteLine("DEBUG");
 // note: license is not initialized as of 12/17/23
 var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
 
-#if DEBUG
-ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, true);
-#else
-ctx.Virtualizer = new Virtualizer(new VirtualGuardContext(module, logger), debugKey, false);
-#endif
+var vgCtx = new VirtualGuardContext(module, logger);
+
+// init processors
+ctx.Virtualizers = new Virtualizer[ctx.Configuration.Processors];
+for (int i = 0; i < ctx.Configuration.Processors; i++)
+    ctx.Virtualizers[i] = new Virtualizer(vgCtx, debugKey, debug);
+
 
 var pipeline = new Queue<IProcessor>();
 
