@@ -7,12 +7,16 @@ public class Virtualization : IProcessor
     public void Process(Context ctx)
     {
         // mark methods
-        
-        foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
+
+        if (ctx.License != LicenseType.Free)
         {
-            ctx.Virtualizer.AddMethod(virtualizedMethod.Item1, virtualizedMethod.Item2);
+            foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
+            {
+                ctx.Virtualizer.AddMethod(virtualizedMethod.Item1, !virtualizedMethod.Item2);
+            }
         }
-        
+
+        // still commit because other methods could be virtualized
         ctx.Virtualizer.Commit();
     }
     

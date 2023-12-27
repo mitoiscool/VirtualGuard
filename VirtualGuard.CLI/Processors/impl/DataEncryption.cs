@@ -22,7 +22,7 @@ public class DataEncryption : IProcessor
         var rnd = new Random();
         
         foreach (var type in ctx.Module.GetAllTypes())
-        foreach (var method in type.Methods.Where(x => !ctx.Configuration.IsMemberExcluded(x, ctx) && !ctx.Configuration.IsMemberVirtualized(x, ctx)).ToArray())
+        foreach (var method in type.Methods.Where(x => !ctx.Configuration.IsMemberExcluded(x, ctx) && !ctx.Configuration.IsMemberVirtualized(x, ctx) && !ctx.Virtualizer.IsMethodVirtualized(x)).ToArray())
         {
             if(method.CilMethodBody == null || !method.CilMethodBody.Instructions.Any())
                 continue;

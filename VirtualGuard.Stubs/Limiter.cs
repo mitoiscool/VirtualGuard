@@ -1,12 +1,14 @@
-namespace VirtualGuard.CLI.Stub;
+﻿using System;
 
-public class Limiter
+namespace VirtualGuard.Stubs
 {
-    public static void Limit()
+    public class Limiter
     {
-        Console.Title = "virtualguard.io";
+        public static void Limit()
+        {
+            Console.Title = "virtualguard.io";
 
-        string s = @"
+            string s = @"
   .  . .  .  . .  .  . .  .  . .  .  . .  .  . .  .  . .  . 
    .       .       .       . ::    .       .       .        
      .  .    .  .    .  .  t.SS88     . .    .  .    .  . . 
@@ -34,11 +36,11 @@ public class Limiter
         .      . . . . .  ..  %;;    .  .     .     .     . 
   .  .    .  .                  . .      . .    .  .  .     
        .        .  .  . . .    . .  .  .     .          .   ";
-        Console.WriteLine(s);
-        Console.WriteLine("This application is protected by a trial version of VirtualGuard. You can purchase a full license @ https://virtualguard.io/.");
-        Console.WriteLine("Press any key to begin execution of the program.");
-        Console.ReadKey();
+            Console.WriteLine(s);
+            Console.WriteLine(
+                "This application is protected by a trial version of VirtualGuard. You can purchase a full license @ https://virtualguard.io/.");
+            Console.WriteLine("Press any key to begin execution of the program.");
+            Console.ReadKey();
+        }
     }
-    
 }
-
