@@ -1,5 +1,8 @@
+using System.Reflection;
 using AsmResolver.Patching;
+using AsmResolver.PE.DotNet.Cil;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.RT.Dynamic;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Descriptor;
@@ -24,6 +27,14 @@ public class DataDescriptor
         InitialHeaderKey = (byte)_rnd.Next(255);
 
         DebugKey = debugKey;
+        
+        // populate vmcode fixup mutations
+
+        for (int i = 0; i < typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray().Length; i++)
+        { // for all existing opcodes generate mutation expression
+            _fixupMutations.Add((VmCode)i, MutationExpression.Random());
+        }
+
     }
 
     public byte InitialHeaderKey;
@@ -34,6 +45,20 @@ public class DataDescriptor
     private Dictionary<int, string> _stringMap = new Dictionary<int, string>();
 
     private Dictionary<VmChunk, byte> _chunkKeyMap = new Dictionary<VmChunk, byte>();
+
+    private Dictionary<VmCode, MutationExpression> _fixupMutations = new Dictionary<VmCode, MutationExpression>();
+
+    public byte EmulateFixupMutation(VmCode code, int fixup)
+    {
+        var mutation = _fixupMutations[code];
+
+        return mutation.Solve(fixup);
+    }
+
+    public CilInstruction[] GetFixupMutationCil(VmCode code)
+    {
+        return _fixupMutations[code].ToCIL();
+    }
 
     public byte GetStartKey(VmChunk chunk)
     {
