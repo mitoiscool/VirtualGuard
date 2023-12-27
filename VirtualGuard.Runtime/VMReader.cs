@@ -141,7 +141,6 @@ namespace VirtualGuard.Runtime
 
             return b;
 
-
             //Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
             
             

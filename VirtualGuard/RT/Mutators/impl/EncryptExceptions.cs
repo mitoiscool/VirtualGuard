@@ -10,6 +10,7 @@ public class EncryptExceptions : IRuntimeMutator
     {
         if(rt.isDebug)
             return;
+        
         // locate routine type
         var routineType = rt.RuntimeModule.LookupType(RuntimeConfig.Routines);
 
