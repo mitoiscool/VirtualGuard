@@ -16,27 +16,9 @@ public class Context
 
     public ILogger Logger;
     public ModuleDefinition Module;
-    public Virtualizer[] Virtualizers;
+    public MultiProcessorVirtualizer Virtualizer;
     public SerializedConfig Configuration;
 
     public LicenseType License;
-    
-    private static Random _rnd = new Random();
-
-    public void MarkForVirtualization(MethodDefinition def, bool export)
-    {
-        var vm = Virtualizers[_rnd.Next(Virtualizers.Length)];
-
-        vm.AddMethod(def, export);
-    }
-
-    public void CommitProcessors()
-    {
-        foreach (var virt in Virtualizers)
-        {
-            virt.CommitRuntime();
-        }
-    }
-    
     
 }

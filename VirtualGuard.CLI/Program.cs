@@ -87,10 +87,7 @@ var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(Fi
 var vgCtx = new VirtualGuardContext(module, logger);
 
 // init processors
-ctx.Virtualizers = new Virtualizer[ctx.Configuration.Processors];
-for (int i = 0; i < ctx.Configuration.Processors; i++)
-    ctx.Virtualizers[i] = new Virtualizer(vgCtx, debugKey, debug);
-
+ctx.Virtualizer = new MultiProcessorVirtualizer(vgCtx, debug, debugKey, MultiProcessorAllocationMode.Sequential, ctx.Configuration.Processors);
 
 var pipeline = new Queue<IProcessor>();
 
