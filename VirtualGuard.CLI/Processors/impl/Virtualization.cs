@@ -10,10 +10,10 @@ public class Virtualization : IProcessor
         
         foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
         {
-            ctx.MarkForVirtualization(virtualizedMethod.Item1, virtualizedMethod.Item2);
+            ctx.Virtualizer.AddMethod(virtualizedMethod.Item1, virtualizedMethod.Item2);
         }
         
-        ctx.CommitProcessors();
+        ctx.Virtualizer.Commit();
     }
     
 }
