@@ -108,12 +108,6 @@ public class UIntVariant : NumeralVariant
     
     public override BaseVariant Hash()
     {
-        // Perform bit-shifting and arithmetic operations for mutation
-        uint mutatedNumber = ((_value << Constants.NSalt1) + Constants.NSalt2) ^ Constants.NSalt3;
-
-        // Perform the hashing operation
-        uint hashedValue = ((mutatedNumber * Constants.NKey) % 1000) + Constants.NSalt3; // Modulus to keep the result within a reasonable range
-        
-        return new UIntVariant(hashedValue);
+        return new LongVariant(Util.Hash(BitConverter.GetBytes(_value)));
     }
 }

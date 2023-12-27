@@ -17,7 +17,7 @@ public class BuildChunkKeys : IRuntimeMutator
 
             foreach (var instr in chunk.Content)
             {
-                if (instr.OpCode == VmCode.Jmp || instr.OpCode == VmCode.Jz || instr.OpCode == VmCode.Leave || instr.OpCode == VmCode.Entertry || instr.OpCode == VmCode.Jnz)
+                if (instr.OpCode == VmCode.Jmp || instr.OpCode == VmCode.Jz || instr.OpCode == VmCode.Leave || instr.OpCode == VmCode.Entertry)
                 {
                     
                     // locate instruction before to find the target

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection.Emit;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
