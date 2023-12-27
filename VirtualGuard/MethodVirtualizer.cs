@@ -121,8 +121,10 @@ public class MethodVirtualizer
         {
             var block = newMethod.GetBlock(node); // providing node implicitly adds it to blockMap
 
-            foreach (var instruction in _astBlockMap[node]) // resolve ast block (this is kinda screwed)
-                newMethod.Begin(instruction).Translate(instruction, block, newMethod, _ctx);
+            var astBlock = _astBlockMap[node];
+            
+            foreach (var instruction in astBlock) // resolve ast block (this is kinda screwed)
+                newMethod.Begin(instruction).Translate(instruction, node, block, newMethod, _ctx);
         }
 
         

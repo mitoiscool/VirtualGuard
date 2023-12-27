@@ -56,4 +56,9 @@ public class VmInstruction
     
     public VmCode OpCode;
     public object Operand;
+
+    public override string ToString()
+    {
+        return OpCode + " " + Operand == null ? "" : Operand.ToString();
+    }
 }

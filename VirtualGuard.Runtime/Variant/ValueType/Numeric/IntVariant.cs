@@ -110,16 +110,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
 
         public override BaseVariant Hash()
         {
-            // Perform bit-shifting and arithmetic operations for mutation
-            int mutatedNumber = ((_value << Constants.NSalt1) + Constants.NSalt2) ^ Constants.NSalt3;
-
-            // Ensure the mutated number is non-negative
-            int absoluteMutatedNumber = Math.Abs(mutatedNumber);
-
-            // Perform the hashing operation
-            int hashedValue = ((absoluteMutatedNumber * Constants.NKey) % 1000) + Constants.NSalt3; // Modulus to keep the result within a reasonable range
-            
-            return new IntVariant(hashedValue);
+            return new LongVariant(Util.Hash(BitConverter.GetBytes(_value)));
         }
         
         

@@ -180,16 +180,20 @@ public static class Util
                 // hash int, also ensure it's not a branch or local (shouldn't be)
                 Debug.Assert(constantParent.Operand is int);
 
-                constantParent.Operand = HashNumber((int)constantParent.Operand, rt.Descriptor.HashDescriptor);
+                Console.WriteLine("hashed constant parent: " + constantParent.ToString());
+                
+                constantParent.OpCode = VmCode.Ldc_I8; // first time using this code lol
+                constantParent.Operand = ComputeHash(BitConverter.GetBytes((int)constantParent.Operand), rt.Descriptor.HashDescriptor);
                 break;
             
             case VmCode.Ldc_I8:
-                Debug.Assert(false);
+                constantParent.OpCode = VmCode.Ldc_I8; // first time using this code lol
+                constantParent.Operand = ComputeHash(BitConverter.GetBytes((long)constantParent.Operand), rt.Descriptor.HashDescriptor);
                 break;
             
             case VmCode.Ldstr:
                 constantParent.OpCode = VmCode.Ldc_I8; // first time using this code lol
-                constantParent.Operand = ComputeHash((string)constantParent.Operand, rt.Descriptor.HashDescriptor);
+                constantParent.Operand = ComputeHash(Encoding.ASCII.GetBytes((string)constantParent.Operand), rt.Descriptor.HashDescriptor);
                 break;
         }
         
@@ -208,10 +212,8 @@ public static class Util
         }.Contains(code.Code);
     }
     
-    public static long ComputeHash(string s, HashDescriptor hd)
+    public static long ComputeHash(byte[] buffer, HashDescriptor hd)
     {
-        byte[] buffer = Encoding.ASCII.GetBytes(s);
-        
         uint[] table = new uint[256];
 
         for (uint i = 0; i < 256; i++)
