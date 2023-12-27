@@ -90,6 +90,16 @@ public class VmChunk : IChunk
 
             // always write fixup first because fixup is read last (hear me out lol)
             
+            // mutate fixup value
+            
+            Console.WriteLine(instr);
+            Console.WriteLine("fixup {0}", fixupValue);
+            
+            if(index > 0) // don't mutate if first instr
+                fixupValue = rt.Descriptor.Data.EmulateFixupMutation(Content[index - 1].OpCode, fixupValue); // use last opcode
+
+            Console.WriteLine("finished fixup {0}", fixupValue);
+            
             writer.Write((byte)(fixupValue ^ key));
             
             key = (byte)((key * handlerShifts[0]) + fixupValue +
