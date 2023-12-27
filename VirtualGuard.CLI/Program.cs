@@ -10,10 +10,7 @@ using VirtualGuard.CLI;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
-using VirtualGuard.CLI.Stub;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-
-Limiter.Limit();
 
 #if DEBUG
 var debug = true;
@@ -37,7 +34,7 @@ var debugKey = new Random().Next(); // we should grab this from input args
 string path = "VirtualGuard.Tests.exe";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
-var license = LicenseType.Plus;
+var license = LicenseType.Free;
 
 var logger = new ConsoleLogger();
 
@@ -70,16 +67,6 @@ if (!File.Exists(settingsPath))
     logger.Fatal("Couldn't find config, created example @ config.json.");
 }
 
-
-
-var processors = new IProcessor[]
-{
-    new DataEncryption(),
-    
-    new Virtualization(), // populates vm elements
-    new Watermark()
-};
-
 #if DEBUG
 Console.WriteLine("DEBUG");
 #endif
@@ -107,8 +94,10 @@ if (ctx.Configuration.UseDataEncryption)
 
 pipeline.Enqueue(new Virtualization());
 
-foreach (var processor in processors)
+for (int i = 0; i <= pipeline.Count; i++)
 {
+    var processor = pipeline.Dequeue();
+    
     processor.Process(ctx);
     logger.Success("Processed: " + processor.Identifier);
 }

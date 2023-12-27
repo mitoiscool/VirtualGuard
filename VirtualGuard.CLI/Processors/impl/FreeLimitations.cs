@@ -26,19 +26,13 @@ public class FreeLimitations : IProcessor
         var clonedMethod = (MethodDefinition)res.ClonedMembers.Single(x => x.Name == "Limit");
         
         // inject cloned method
-        ctx.Module.GetOrCreateModuleType().Methods.Add(clonedMethod);
+        ctx.Module.ManagedEntryPointMethod.DeclaringType.Methods.Add(clonedMethod);
         
         // mark for virtualization
         ctx.Virtualizer.AddMethod(clonedMethod, true);
         
-        // find entrypoint
-        var cctor = ctx.Module.GetOrCreateModuleConstructor();
+        var entry = ctx.Module.ManagedEntryPointMethod;
 
-        if (cctor.CilMethodBody == null)
-            cctor.CilMethodBody = new CilMethodBody(cctor);
-
-        cctor.CilMethodBody.Instructions.Add(CilOpCodes.Call, clonedMethod);
-        cctor.CilMethodBody.Instructions.Add(CilOpCodes.Ret);
+        entry.CilMethodBody.Instructions.Insert(0, CilOpCodes.Call, clonedMethod);
     }
-    
 }

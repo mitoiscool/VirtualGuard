@@ -2,6 +2,7 @@ using System.Reflection;
 using AsmResolver.DotNet;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.RT;
+using VirtualGuard.Stubs;
 
 namespace VirtualGuard.CLI;
 
@@ -13,6 +14,8 @@ public class Context
         Configuration = cfg;
         Logger = logger;
         License = license;
+
+        RuntimeModule = ModuleDefinition.FromFile(typeof(Limiter).Assembly.Location);
     }
 
     public ILogger Logger;
@@ -20,15 +23,16 @@ public class Context
     public MultiProcessorVirtualizer Virtualizer;
     public SerializedConfig Configuration;
 
+    public ModuleDefinition RuntimeModule;
+
     public LicenseType License;
     
     public MethodDefinition LocateStub(string name)
     {
         // get this module
-        var mod = ModuleDefinition.FromFile(Assembly.GetExecutingAssembly().Location);
-
-        return mod.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == name);
+        return RuntimeModule.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == name);
     }
+    
     
     
 }

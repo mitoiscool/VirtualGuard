@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VirtualGuard.Stubs\VirtualGuard.Stubs.csproj" />
       <ProjectReference Include="..\VirtualGuard\VirtualGuard.csproj" />
     </ItemGroup>
 

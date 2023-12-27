@@ -23,6 +23,11 @@ public class MultiProcessorVirtualizer
     private static Random _rnd = new Random();
     private int _index = 0;
 
+    public bool IsMethodVirtualized(MethodDefinition def)
+    {
+        return _virtualizedMethods.Contains(def);
+    }
+    
     public void AddMethod(MethodDefinition def, bool export)
     {
         if (_virtualizedMethods.Contains(def))
@@ -33,11 +38,11 @@ public class MultiProcessorVirtualizer
         switch (_mode)
         {
             case MultiProcessorAllocationMode.Random:
-                _virtualizers[_rnd.Next(_virtualizers.Length)].AddMethod(def, export);
+                _virtualizers[_rnd.Next(_virtualizers.Length - 1)].AddMethod(def, export);
                 break;
             
             case MultiProcessorAllocationMode.Sequential:
-                if (_index == _virtualizers.Length)
+                if (_index == _virtualizers.Length - 1)
                     _index = 0; // reset to 0, at capacity
                 else
                     _index++;
