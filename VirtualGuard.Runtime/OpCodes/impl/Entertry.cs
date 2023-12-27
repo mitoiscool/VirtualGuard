@@ -4,7 +4,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl;
 
 public class Entertry : IOpCode
 {
-    public void Execute(VMContext ctx, out ExecutionState state)
+    public void Execute(VMContext ctx)
     {
 
         var loc = ctx.Stack.Pop();
@@ -13,7 +13,8 @@ public class Entertry : IOpCode
         
         ctx.HandlerStack.Push(new ExceptionHandler(type.U1(), entry.U1(), loc.I4()));
 
-        state = ExecutionState.Next;
+        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 
     public byte GetCode() => 0;

@@ -5,11 +5,12 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 {
     public class Not : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             ctx.Stack.Push(ctx.Stack.Pop().ToNumeral().Not());
             
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

@@ -3,6 +3,7 @@ using AsmResolver.DotNet;
 using AsmResolver.DotNet.Signatures.Types;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.RT.Mutators;
+using VirtualGuard.Runtime.OpCodes.impl;
 
 namespace VirtualGuard.VMIL.VM;
 
@@ -18,7 +19,7 @@ public class VmInstruction
         OpCode = code;
         Operand = operand;
     }
-
+    
     public int GetSize()
     {
         if (this.Operand == null)

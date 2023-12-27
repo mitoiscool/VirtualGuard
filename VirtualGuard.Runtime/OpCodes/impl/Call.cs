@@ -12,7 +12,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
     public class Call : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt().I4());
             
@@ -70,7 +70,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             if(methodBase.IsConstructor || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))
                 ctx.Stack.Push(BaseVariant.CreateVariant(ret));
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

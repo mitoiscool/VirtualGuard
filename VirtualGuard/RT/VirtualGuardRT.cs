@@ -56,7 +56,12 @@ public class VirtualGuardRT
 
     public HeaderChunk HeaderChunk;
     public List<IChunk> GetChunkList() => _allChunks;
-    
+
+
+    public bool IsEntryChunk(VmChunk chunk)
+    {
+        return _importMap.ContainsKey(chunk) || _exportMap.ContainsKey(chunk);
+    }
     
     public int GetExportLocation(MethodDefinition def)
     {
