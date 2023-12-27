@@ -13,6 +13,10 @@ public class ConditionalTranslator : ITranslator
         VirtualGuardContext ctx)
     {
         
+        block.WithContent(new VmInstruction(VmCode.Ldc_I4, node.ConditionalEdges.First().Target),
+            new VmInstruction(VmCode.Jz)); // aka brtrue, we make brfalse the fallthrough automatically
+
+        return;
         // tmp fucked impl for testing w hardcoded fallback
 
         if (instr.OpCode == CilOpCodes.Brtrue)
@@ -46,8 +50,7 @@ public class ConditionalTranslator : ITranslator
             target = node.UnconditionalEdge.Target;
         }
 
-        block.WithContent(new VmInstruction(VmCode.Ldc_I4, target),
-            new VmInstruction(VmCode.Jz)); // aka brtrue, we make brfalse the fallthrough automatically
+        
 
     }
 

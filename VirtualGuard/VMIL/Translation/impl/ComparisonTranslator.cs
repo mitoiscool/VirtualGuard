@@ -11,12 +11,11 @@ public class ComparisonTranslator : ITranslator
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
     {
-        
         // handle hashing of args
         
         
-        //if(instr.OpCode.Code == CilCode.Ceq)
-            //block.WithContent(Util.BuildHashInstructions(instr, meth, ctx.Runtime)); // see about hashing for equals operations
+        if(instr.OpCode.Code == CilCode.Ceq)
+            block.WithContent(Util.BuildHashInstructions(instr, meth, ctx.Runtime)); // see about hashing for equals operations
         
         // now we just need to push the branch condition, aka validating the output flag
         
