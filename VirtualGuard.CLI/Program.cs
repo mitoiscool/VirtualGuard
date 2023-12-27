@@ -10,7 +10,10 @@ using VirtualGuard.CLI;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
+using VirtualGuard.CLI.Stub;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+
+Limiter.Limit();
 
 #if DEBUG
 var debug = true;

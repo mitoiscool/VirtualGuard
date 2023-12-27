@@ -18,11 +18,18 @@ public class MultiProcessorVirtualizer
             _virtualizers[i] = new Virtualizer(ctx, debugKey, debug);
     }
 
+    private List<MethodDefinition> _virtualizedMethods = new List<MethodDefinition>();
+    
     private static Random _rnd = new Random();
     private int _index = 0;
 
     public void AddMethod(MethodDefinition def, bool export)
     {
+        if (_virtualizedMethods.Contains(def))
+            throw new InvalidOperationException("Method already virtualized.");
+        
+        _virtualizedMethods.Add(def);
+        
         switch (_mode)
         {
             case MultiProcessorAllocationMode.Random:

@@ -23,7 +23,7 @@ public class Virtualizer
         _ctx.Runtime = _rt;
     }
 
-    public async Task AddMethod(MethodDefinition def, bool exportMethod)
+    public async Task AddMethod(MethodDefinition def, bool exportMethod, VirtualizationFlags flags = VirtualizationFlags.None)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -58,6 +58,5 @@ public class Virtualizer
             
         return _rt.Elements;
     }
-    
     
 }
