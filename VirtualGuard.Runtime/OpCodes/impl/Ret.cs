@@ -8,9 +8,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx)
         {
-            // we can make this into a pseudo-code by setting state var
-            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
-            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
+            // lol probably a better way to do this
         }
 
         public byte GetCode() => 0;

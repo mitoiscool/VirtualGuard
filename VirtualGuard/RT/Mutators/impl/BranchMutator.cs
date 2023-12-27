@@ -7,7 +7,6 @@ public class BranchMutator : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
-
         if(rt.isDebug)
             return;
         
