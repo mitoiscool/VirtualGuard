@@ -45,21 +45,15 @@ public class VmChunk : IChunk
             var handler = rt.Descriptor.OpCodes[instr.OpCode];
 
             //Console.WriteLine("dec: {0} enc: {1} key: {2}", handler, handler ^ key, key);
-            writer.Write((byte)(handler ^ key));
+            
 
             // shift key for handler
             //key = (byte)(key + handler); // don't use custom rotating values yet
-            key = (byte)((key * handlerShifts[0]) + handler +
-                         (handlerShifts[1] >> (handlerShifts[2] ^ handlerShifts[3])) * handlerShifts[4]);
+            
             // _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
             
             
-            foreach (var b in GetOperandBytes(instr.Operand))
-            {
-                writer.Write((byte)(b ^ key));
-
-                key = (byte)((operandShifts[0] ^ operandShifts[1]) - (b + (operandShifts[2] * key)) ^ (operandShifts[3] + operandShifts[4]));
-            }
+            
 
             // calculating initially will be difficult because everything depends on the key,
             // so we need to use set start keys for blocks to map things out instead
@@ -91,12 +85,22 @@ public class VmChunk : IChunk
             //Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
 
             prevCode = rawOpCode; // mark previous
+
             // fixup value is essentially just the way to get to the current code from the previous code
 
             // always write fixup first because fixup is read last (hear me out lol)
             
-            writer.Write(fixupValue);
-            writer.Write(GetOperandBytes(instr.Operand));
+            writer.Write((byte)(fixupValue ^ key));
+            
+            key = (byte)((key * handlerShifts[0]) + fixupValue +
+                         (handlerShifts[1] >> (handlerShifts[2] ^ handlerShifts[3])) * handlerShifts[4]);
+            
+            foreach (var b in GetOperandBytes(instr.Operand))
+            {
+                writer.Write((byte)(b ^ key));
+
+                key = (byte)((operandShifts[0] ^ operandShifts[1]) - (b + (operandShifts[2] * key)) ^ (operandShifts[3] + operandShifts[4]));
+            }
                 
             //Console.WriteLine("wrote fixup {0} then {1}", fixupValue, instr.Operand == null ? "" : instr.Operand);
             
