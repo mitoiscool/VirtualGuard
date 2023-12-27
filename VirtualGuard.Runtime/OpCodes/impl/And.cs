@@ -4,14 +4,15 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 {
     public class And : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var i2 = ctx.Stack.Pop().ToNumeral();
             var i1 = ctx.Stack.Pop().ToNumeral();
 
             ctx.Stack.Push(i1.And(i2));
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

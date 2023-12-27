@@ -5,7 +5,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl;
 
 public class Leave : IOpCode
 {
-    public void Execute(VMContext ctx, out ExecutionState state)
+    public void Execute(VMContext ctx)
     {
         // we can check if there is a finally here and jmp
         
@@ -30,7 +30,8 @@ public class Leave : IOpCode
         }
         
 
-        state = ExecutionState.Next;
+        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 
     public byte GetCode() => 0;

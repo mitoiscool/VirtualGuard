@@ -6,6 +6,7 @@ using VirtualGuard.Runtime.Execution;
 using VirtualGuard.Runtime.OpCodes;
 using VirtualGuard.Runtime.Variant;
 using VirtualGuard.Runtime.Variant.Object;
+using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
 namespace VirtualGuard.Runtime
 {
@@ -21,6 +22,8 @@ namespace VirtualGuard.Runtime
         public readonly LocalStorage Locals = new();
         public readonly VMReader Reader = new();
 
+        public NumeralVariant CurrentCode;
+
         public Exception Exception;
 
         public Stack<ExceptionHandler> HandlerStack = new Stack<ExceptionHandler>();
@@ -31,35 +34,9 @@ namespace VirtualGuard.Runtime
             
             Stack.Push(new ArrayVariant(args));
 
-            do
-            {
-                try
-                {
-                    var handler = Reader.ReadHandler();
-                    
-#if DEBUG
-                    Console.WriteLine(CodeMap.LookupCode(handler).GetType().Name);
-#endif
-                    
-                    CodeMap.LookupCode(handler).Execute(this, out ExecutionState state);
-                    
-                    if (state != ExecutionState.Next)
-                        break;
-
-                }
-                catch (Exception ex)
-                {
-                    if (HandlerStack.Count == 0)
-                        throw ex;
-
-                    Exception = ex;
-                    
-                    Unwind(); // could be a bug here regarding the exception variable
-                }
-
-            } while (true);
+            CurrentCode = Reader.ReadFixupValue();
+            CodeMap.LookupCode(CurrentCode).Execute(this);
             
-
             return Stack.Pop().GetObject();
         }
 

@@ -130,6 +130,8 @@ public static class Util
 
     public static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
     {
+        return Array.Empty<VmInstruction>();
+        
         var instrs = new List<VmInstruction>();
         
         // ok this will be a pain in the ass but it's ok

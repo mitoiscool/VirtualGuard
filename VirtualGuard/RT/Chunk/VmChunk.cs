@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics;
 using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Signatures.Types;
@@ -17,6 +18,9 @@ public class VmChunk : IChunk
 
     public int Length => CalculateLength();
     public int Offset;
+
+    public Tuple<byte, int> UnconditionalExitFixup; // fixup, target
+    public Tuple<byte, int> ConditionalExitFixup; // fixup, target
     
     public void OnOffsetComputed(int offset)
     {
@@ -24,7 +28,7 @@ public class VmChunk : IChunk
     }
     
 
-    public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
+    /*public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
         // encryption should be done here
         
@@ -62,6 +66,55 @@ public class VmChunk : IChunk
             // start keys will be passed into jmp instructions to help fix instructions
             // vmcalls will also require start keys but they will also need current keys passed in to return jmp
         }
+        
+    }*/
+    
+    public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
+    {
+        var handlerShifts = rt.Descriptor.Data.HandlerShifts;
+        var operandShifts = rt.Descriptor.Data.ByteShifts;
+
+        byte key = rt.Descriptor.Data.GetStartKey(this);
+        byte prevCode = 0;
+        
+        foreach (var instr in Content)
+        {
+            // to calculate fixups, we should find difference between new code and old, to inverse adding old to fixup
+
+            var rawOpCode = rt.Descriptor.OpCodes[instr.OpCode];
+
+            var fixupValue = (byte)(rawOpCode - prevCode);
+            
+            //Debug.Assert((byte)(prevCode + fixupValue) == rawOpCode);
+            
+            //Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
+
+            prevCode = rawOpCode; // mark previous
+            // fixup value is essentially just the way to get to the current code from the previous code
+
+            // if entry block, write initial fixup before operand for init
+
+            if (Content.First() == instr) // compare if is entry chunk eventually for full impl
+            {
+                writer.Write(fixupValue);
+                writer.Write(GetOperandBytes(instr.Operand));
+            }
+            else
+            {
+                writer.Write(GetOperandBytes(instr.Operand));
+                writer.Write(fixupValue);
+            }
+
+            if (instr.OpCode == VmCode.Jmp)
+            { // update unconditional
+                // this is theoretically possible, but we will just start all blocks w 0 to make it easy for now
+                
+            }
+            
+
+        }
+        
+        
         
     }
     

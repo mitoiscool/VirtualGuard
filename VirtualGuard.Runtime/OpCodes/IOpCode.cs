@@ -5,7 +5,7 @@ namespace VirtualGuard.Runtime.OpCodes
 
     public interface IOpCode
     {
-        void Execute(VMContext ctx, out ExecutionState state);
+        void Execute(VMContext ctx);
         byte GetCode();
     }
 }

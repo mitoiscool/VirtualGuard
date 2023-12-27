@@ -7,7 +7,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl;
 
 public class Conv : IOpCode
 {
-    public void Execute(VMContext ctx, out ExecutionState state)
+    public void Execute(VMContext ctx)
     {
         
         // fml this code is absolute DOGSHIT
@@ -30,7 +30,8 @@ public class Conv : IOpCode
         if(type == Constants.CorlibID_U8)
             ctx.Stack.Push(new ULongVariant(obj.U8()));
 
-        state = ExecutionState.Next;
+        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 
     public byte GetCode() => 0;

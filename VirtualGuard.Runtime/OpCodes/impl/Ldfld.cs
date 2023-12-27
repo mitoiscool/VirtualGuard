@@ -7,7 +7,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
     public class Ldfld : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var field = ctx.ResolveField(ctx.Stack.Pop().I4());
 
@@ -20,7 +20,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             ctx.Stack.Push(value);
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;

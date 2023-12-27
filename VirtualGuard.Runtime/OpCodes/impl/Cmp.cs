@@ -9,7 +9,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
     public class Cmp : IOpCode
     {
-        public void Execute(VMContext ctx, out ExecutionState state)
+        public void Execute(VMContext ctx)
         {
             var v2 = ctx.Stack.Pop();
             var v1 = ctx.Stack.Pop();
@@ -19,7 +19,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             
             ctx.Stack.Push(new IntVariant(BaseVariant.Compare(v1, v2)));
 
-            state = ExecutionState.Next;
+            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
         public byte GetCode() => 0;
