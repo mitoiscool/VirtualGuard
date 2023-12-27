@@ -2,7 +2,7 @@ namespace VirtualGuard;
 
 public interface ILogger
 {
-    public void LogSuccess(string msg);
-    public void LogWarning(string msg);
-    public void LogFatal(string msg);
+    public void Success(string msg);
+    public void Warning(string msg);
+    public void Fatal(string msg);
 }

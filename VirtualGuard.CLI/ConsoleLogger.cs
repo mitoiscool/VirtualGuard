@@ -2,17 +2,17 @@ namespace VirtualGuard.CLI;
 
 public class ConsoleLogger : ILogger
 {
-    public void LogSuccess(string msg)
+    public void Success(string msg)
     {
         Console.WriteLine("[+] " + msg);
     }
 
-    public void LogWarning(string msg)
+    public void Warning(string msg)
     {
         Console.WriteLine("[!] " + msg);
     }
 
-    public void LogFatal(string msg)
+    public void Fatal(string msg)
     {
         Console.WriteLine("[FATAL] " + msg);
         Environment.Exit(-1);

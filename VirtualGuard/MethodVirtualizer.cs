@@ -67,7 +67,7 @@ public class MethodVirtualizer
                 continue;
 
             if(exceptionHandlerRegion.Handlers.Count > 1)
-                _ctx.Logger.LogFatal("Virtualizer does not support multiple handlers on exception handler.");
+                _ctx.Logger.Fatal("Virtualizer does not support multiple handlers on exception handler.");
             
             foreach (var handler in exceptionHandlerRegion.Handlers)
             {
