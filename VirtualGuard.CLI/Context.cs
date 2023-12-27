@@ -1,3 +1,4 @@
+using System.Reflection;
 using AsmResolver.DotNet;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.RT;
@@ -20,5 +21,14 @@ public class Context
     public SerializedConfig Configuration;
 
     public LicenseType License;
+    
+    public MethodDefinition LocateStub(string name)
+    {
+        // get this module
+        var mod = ModuleDefinition.FromFile(Assembly.GetExecutingAssembly().Location);
+
+        return mod.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == name);
+    }
+    
     
 }
