@@ -9,7 +9,7 @@ public class SerializedConfig
     
     public bool RenameDebugSymbols;
     public bool UseDataEncryption;
-    public int Processors;
+    public int ProcessorCount;
     
     public (MethodDefinition, bool)[] ResolveVirtualizedMethods(Context ctx)
     {

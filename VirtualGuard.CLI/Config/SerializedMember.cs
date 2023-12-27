@@ -22,7 +22,7 @@ public class SerializedMember
         }
         catch
         {
-            ctx.Logger.LogFatal("Could not resolve member " + Member);
+            ctx.Logger.Fatal("Could not resolve member " + Member);
             return null;
         }
     }

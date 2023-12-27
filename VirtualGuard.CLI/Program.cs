@@ -64,7 +64,7 @@ if (!File.Exists(settingsPath))
     };
     
     File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg, Formatting.Indented));
-    logger.LogFatal("Couldn't find config, created example @ config.json.");
+    logger.Fatal("Couldn't find config, created example @ config.json.");
 }
 
 
@@ -87,14 +87,14 @@ var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(Fi
 var vgCtx = new VirtualGuardContext(module, logger);
 
 // init processors
-ctx.Virtualizer = new MultiProcessorVirtualizer(vgCtx, debug, debugKey, MultiProcessorAllocationMode.Sequential, ctx.Configuration.Processors);
+ctx.Virtualizer = new MultiProcessorVirtualizer(vgCtx, debug, debugKey, MultiProcessorAllocationMode.Sequential, ctx.Configuration.ProcessorCount);
 
 var pipeline = new Queue<IProcessor>();
 
 if (ctx.License == LicenseType.Free)
 {
     pipeline.Enqueue(new FreeLimitations());
-    ctx.Logger.LogWarning("License is free, therefore adding limitations.");
+    ctx.Logger.Warning("License is free, therefore adding limitations.");
 }
 
 if (ctx.Configuration.UseDataEncryption)
@@ -107,10 +107,10 @@ pipeline.Enqueue(new Virtualization());
 foreach (var processor in processors)
 {
     processor.Process(ctx);
-    logger.LogSuccess("Processed: " + processor.Identifier);
+    logger.Success("Processed: " + processor.Identifier);
 }
 
 // save file
 ctx.Module.Write(outputPath, new ManagedPEImageBuilder(MetadataBuilderFlags.PreserveTableIndices));
 
-ctx.Logger.LogSuccess("Wrote file at " + outputPath);
+ctx.Logger.Success("Wrote file at " + outputPath);

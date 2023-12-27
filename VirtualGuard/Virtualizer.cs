@@ -54,7 +54,7 @@ public class Virtualizer
     public VmElements GetVmElements()
     {
         if(!_rtCommitted)
-            _ctx.Logger.LogFatal("Runtime has not been committed before requesting VmElements.");
+            _ctx.Logger.Fatal("Runtime has not been committed before requesting VmElements.");
             
         return _rt.Elements;
     }

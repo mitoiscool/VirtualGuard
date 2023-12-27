@@ -24,7 +24,7 @@ public class RuntimeProcessor
             virtualizedMethodKvp.Deconstruct(out MethodDefinition meth, out bool export);
             
             if(meth == null)
-                _ctx.Logger.LogFatal("Method was null in RuntimeProcessor");
+                _ctx.Logger.Fatal("Method was null in RuntimeProcessor");
 
             if(export)
                 PatchMethod(meth);
