@@ -1,5 +1,6 @@
 using AsmResolver.PE.DotNet.Cil;
 using AsmResolver.PE.DotNet.Metadata.Tables;
+using Echo.ControlFlow;
 using VirtualGuard.AST;
 using VirtualGuard.VMIL.VM;
 
@@ -7,7 +8,8 @@ namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ArithmeticTranslator : ITranslator
 {
-    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
+        VirtualGuardContext ctx)
     {
         switch (instr.OpCode.Code)
         {

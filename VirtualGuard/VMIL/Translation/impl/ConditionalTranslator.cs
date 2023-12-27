@@ -1,31 +1,57 @@
 using System.Reflection.Emit;
 using AsmResolver.PE.DotNet.Cil;
+using Echo.ControlFlow;
 using VirtualGuard.AST;
+using VirtualGuard.Runtime.OpCodes.impl;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
 public class ConditionalTranslator : ITranslator
 {
-    public void Translate(AstExpression instr, VmBlock block, VmMethod meth, VirtualGuardContext ctx)
+    public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
+        VirtualGuardContext ctx)
     {
-
-        block.WithContent(new VmInstruction(VmCode.Ldc_I4, instr.Operand));
         
-        switch (instr.OpCode.Code)
-        {
-            case CilCode.Brfalse:
-                block.WithContent(new VmInstruction(VmCode.Jnz));
-                break;
-            
-            case CilCode.Brtrue:
-                block.WithContent(new VmInstruction(VmCode.Jz));
-                break;
-        }
-        //if (instr.OpCode.Code == CilCode.Brfalse) // my brain still cannot wrap my head around why this works this way, all signs pooint to not being used for brtrue, but debugging prevails
-            //block.WithContent(new VmInstruction(VmCode.Not));
+        block.WithContent(new VmInstruction(VmCode.Ldc_I4, node.ConditionalEdges.First().Target),
+            new VmInstruction(VmCode.Jz)); // aka brtrue, we make brfalse the fallthrough automatically
 
-            // yea cause it didn't work goof lol
+        return;
+        // tmp fucked impl for testing w hardcoded fallback
+
+        if (instr.OpCode == CilOpCodes.Brtrue)
+        {
+            block.WithContent(new VmInstruction(VmCode.Ldc_I4, node.ConditionalEdges.First().Target),
+                new VmInstruction(VmCode.Jz),
+                new VmInstruction(VmCode.Ldc_I4, node.UnconditionalEdge.Target),
+                new VmInstruction(VmCode.Jmp));
+        }
+        else
+        {
+            block.WithContent(new VmInstruction(VmCode.Ldc_I4, node.UnconditionalEdge.Target),
+                new VmInstruction(VmCode.Jz),
+                new VmInstruction(VmCode.Ldc_I4, node.ConditionalEdges.First().Target),
+                new VmInstruction(VmCode.Jmp));
+        }
+
+        return;
+        
+        ; // aka brtrue, we make brfalse the fallthrough automatically
+
+        ControlFlowNode<CilInstruction> target = null;
+        
+        if (instr.OpCode == CilOpCodes.Brtrue)
+        {
+            // go to condition
+            target = node.ConditionalEdges.First().Target;
+        }
+        else
+        { // else invert and let fallback bring us
+            target = node.UnconditionalEdge.Target;
+        }
+
+        
+
     }
 
     public bool Supports(AstExpression instr)
