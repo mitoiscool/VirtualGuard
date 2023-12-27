@@ -17,7 +17,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             field.SetValue(inst, ctx.Stack.Pop());
 
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

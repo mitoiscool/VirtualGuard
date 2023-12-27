@@ -7,7 +7,8 @@ public class Hash : IOpCode
     public void Execute(VMContext ctx)
     {
         ctx.Stack.Push(ctx.Stack.Pop().Hash());
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

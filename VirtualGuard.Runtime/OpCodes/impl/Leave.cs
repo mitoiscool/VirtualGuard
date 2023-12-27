@@ -25,12 +25,11 @@ public class Leave : IOpCode
         }
         else
         {
-            ctx.Reader.SetKey(key.U1());
+            ctx.Reader.SetKey(key);
             ctx.Reader.SetValue(pos.I4()); // is this correct?
         }
         
-
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

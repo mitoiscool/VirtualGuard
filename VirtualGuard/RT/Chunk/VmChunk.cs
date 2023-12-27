@@ -76,6 +76,7 @@ public class VmChunk : IChunk
 
         byte key = rt.Descriptor.Data.GetStartKey(this);
         byte prevCode = 0;
+        int index = 0;
         
         foreach (var instr in Content)
         {
@@ -87,35 +88,21 @@ public class VmChunk : IChunk
             
             //Debug.Assert((byte)(prevCode + fixupValue) == rawOpCode);
             
-            //Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
+            Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
 
             prevCode = rawOpCode; // mark previous
             // fixup value is essentially just the way to get to the current code from the previous code
 
-            // if entry block, write initial fixup before operand for init
-
-            if (Content.First() == instr) // compare if is entry chunk eventually for full impl
-            {
-                writer.Write(fixupValue);
-                writer.Write(GetOperandBytes(instr.Operand));
-            }
-            else
-            {
-                writer.Write(GetOperandBytes(instr.Operand));
-                writer.Write(fixupValue);
-            }
-
-            if (instr.OpCode == VmCode.Jmp)
-            { // update unconditional
-                // this is theoretically possible, but we will just start all blocks w 0 to make it easy for now
-                
-            }
+            // always write fixup first because fixup is read last (hear me out lol)
             
-
+            writer.Write(fixupValue);
+            writer.Write(GetOperandBytes(instr.Operand));
+                
+            Console.WriteLine("wrote fixup {0} then {1}", fixupValue, instr.Operand == null ? "" : instr.Operand);
+            
+            index++;
         }
-        
-        
-        
+
     }
     
     byte[] GetOperandBytes(object operand)

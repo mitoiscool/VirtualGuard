@@ -7,9 +7,9 @@ public class Newarr : IOpCode
 {
     public void Execute(VMContext ctx)
     {
-        ctx.Stack.Push(new ArrayVariant(Array.CreateInstance(ctx.ResolveType(ctx.Reader.ReadInt().I4()), ctx.Stack.Pop().I4())));
+        ctx.Stack.Push(new ArrayVariant(Array.CreateInstance(ctx.ResolveType(ctx.Reader.ReadInt()), ctx.Stack.Pop().I4())));
 
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

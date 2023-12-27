@@ -131,50 +131,44 @@ namespace VirtualGuard.Runtime
             _key = i;
         }
 
-        public UIntVariant ReadFixupValue()
+        public byte ReadFixupValue()
         {
             var b = (byte)_memoryStream.ReadByte();
 
-            return new UIntVariant(b);
+            return b;
 
             var dec = (byte)(b ^ _key);
             
             //Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
             
             _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
-
-            return new UIntVariant(dec);
+            
             //return new ByteVariant((byte)(b ^ _key));
         }
 
-        public UIntVariant ReadByte()
+        public short ReadShort()
         {
-            return new UIntVariant(ReadByteInternal());
+            return BitConverter.ToInt16(ReadPrimitive(2), 0);
         }
 
-        public IntVariant ReadShort()
+        public int ReadInt()
         {
-            return new IntVariant(BitConverter.ToInt16(ReadPrimitive(2), 0));
+            return BitConverter.ToInt32(ReadPrimitive(4), 0);
         }
 
-        public IntVariant ReadInt()
+        public long ReadLong()
         {
-            return new IntVariant(BitConverter.ToInt32(ReadPrimitive(4), 0));
+            return BitConverter.ToInt64(ReadPrimitive(8), 0);
         }
 
-        public LongVariant ReadLong()
-        {
-            return new LongVariant(BitConverter.ToInt64(ReadPrimitive(8), 0));
-        }
-
-        public BaseVariant ReadString(BaseVariant id)
+        public string ReadString(uint id)
         {
 
-            if (id.U4() == 0)
-                return new NullVariant();
+            if (id == 0U)
+                return null;
 
             // read from vm data dict
-            return new StringVariant(_stringMap[id.U4()]);
+            return _stringMap[id];
         }
 
         public static byte GetEntryKey(int loc)
@@ -201,13 +195,13 @@ namespace VirtualGuard.Runtime
             byte[] buffer = new byte[length];
             for (int i = 0; i < length; i++)
             {
-                buffer[i] = ReadByteInternal();
+                buffer[i] = ReadByte();
             }
 
             return buffer;
         }
 
-        private byte ReadByteInternal()
+        public byte ReadByte()
         {
             
             try

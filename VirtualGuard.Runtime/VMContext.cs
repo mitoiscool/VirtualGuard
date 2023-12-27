@@ -22,7 +22,7 @@ namespace VirtualGuard.Runtime
         public readonly LocalStorage Locals = new();
         public readonly VMReader Reader = new();
 
-        public NumeralVariant CurrentCode;
+        public byte CurrentCode;
 
         public Exception Exception;
 

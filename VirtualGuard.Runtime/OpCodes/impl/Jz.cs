@@ -14,11 +14,11 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             
             if (flag == 0)
             {
-                ctx.Reader.SetKey(key.U1());
+                ctx.Reader.SetKey(key);
                 ctx.Reader.SetValue(condLoc.I4());
             }
 
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode = ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

@@ -27,10 +27,10 @@ namespace VirtualGuard.Runtime.OpCodes
                 }
         }
 
-        public static IOpCode LookupCode(BaseVariant code)
+        public static IOpCode LookupCode(byte code)
         {
             
-            if (!_opCodes.TryGetValue(code.U1(), out IOpCode codeobj))
+            if (!_opCodes.TryGetValue(code, out IOpCode codeobj))
                 throw new Exception(Routines.EncryptDebugMessage("Error resolving handler"));
             
             return codeobj;
