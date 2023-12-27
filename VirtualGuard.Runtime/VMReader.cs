@@ -135,13 +135,16 @@ namespace VirtualGuard.Runtime
         {
             var b = (byte)_memoryStream.ReadByte();
 
+            b ^= _key;
+            
+            _key = (byte)((_key * Constants.HANDLER_ROT1) + b + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
+
             return b;
 
-            var dec = (byte)(b ^ _key);
-            
+
             //Console.WriteLine("dec {0} enc {1} key {2}", dec, b, _key);
             
-            _key = (byte)((_key * Constants.HANDLER_ROT1) + dec + (Constants.HANDLER_ROT2 >> (Constants.HANDLER_ROT3 ^ Constants.HANDLER_ROT4)) * Constants.HANDLER_ROT5);
+            
             
             //return new ByteVariant((byte)(b ^ _key));
         }
@@ -206,19 +209,13 @@ namespace VirtualGuard.Runtime
             
             try
             {
-                var b = _memoryStream.ReadByte();
-
-                return (byte)b;
+                var b = (byte)_memoryStream.ReadByte();
                 
-                //_key ;
-
                 b ^= _key;
                 
-                // key = (operandShifts[0] ^ operandShifts[1]) >> (operandShifts[2] << (operandShifts[3] * key)) + (operandShifts[4] * b);
-
                 _key = (byte)((Constants.BYTE_ROT1 ^ Constants.BYTE_ROT2) - (b + (Constants.BYTE_ROT3 * _key)) ^ (Constants.BYTE_ROT4 + Constants.BYTE_ROT5));
-                
-                return (byte)b;
+
+                return b;
             }
             catch
             {
