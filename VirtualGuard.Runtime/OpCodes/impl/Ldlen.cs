@@ -8,7 +8,7 @@ public class Ldlen : IOpCode
     {
         ctx.Stack.Push(ctx.Stack.Pop().ToArray().GetLength());
         
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

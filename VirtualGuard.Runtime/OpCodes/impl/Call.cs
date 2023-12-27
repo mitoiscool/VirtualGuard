@@ -14,7 +14,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx)
         {
-            var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt().I4());
+            var methodBase = ctx.ResolveMethod(ctx.Reader.ReadInt());
             
             var args = methodBase.GetParameters();
             var vmVariantArgs = new BaseVariant[args.Length];
@@ -70,7 +70,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             if(methodBase.IsConstructor || methodBase is MethodInfo mi && mi.ReturnType != typeof(void))
                 ctx.Stack.Push(BaseVariant.CreateVariant(ret));
 
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

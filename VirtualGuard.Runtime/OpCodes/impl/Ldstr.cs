@@ -1,4 +1,6 @@
 using VirtualGuard.Runtime.Execution;
+using VirtualGuard.Runtime.Variant.Object;
+using VirtualGuard.Runtime.Variant.ValueType;
 
 namespace VirtualGuard.Runtime.OpCodes.impl
 {
@@ -7,9 +9,14 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx)
         {
-            ctx.Stack.Push(ctx.Reader.ReadString(ctx.Reader.ReadInt()));
+            var res = ctx.Reader.ReadString((uint)ctx.Reader.ReadInt());
+            
+            if(res == null)
+                ctx.Stack.Push(new NullVariant());
+            else
+                ctx.Stack.Push(new StringVariant(res));
 
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

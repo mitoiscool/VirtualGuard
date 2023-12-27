@@ -11,28 +11,28 @@ namespace VirtualGuard.Runtime
             _internal = new BaseVariant[10]; // if there's more than 10 locals fml
         }
 
-        public BaseVariant GetLocal(BaseVariant index)
+        public BaseVariant GetLocal(short index)
         {
-            if (index.I2() > _internal.Length)
+            if (index > _internal.Length)
             {
                 var v = _internal;
                 _internal = new BaseVariant[v.Length * 2];
                 Array.Copy(v, _internal, v.Length);
             }
                 
-            return _internal[index.I2()];
+            return _internal[index];
         }
 
-        public void SetLocal(BaseVariant index, BaseVariant value)
+        public void SetLocal(short index, BaseVariant value)
         {
-            if (index.I2() > _internal.Length)
+            if (index > _internal.Length)
             {
                 var v = _internal;
                 _internal = new BaseVariant[v.Length * 2];
                 Array.Copy(v, _internal, v.Length);
             }
             
-            _internal[index.I2()] = value;
+            _internal[index] = value;
         }
         
     }

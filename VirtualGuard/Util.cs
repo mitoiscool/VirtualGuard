@@ -130,7 +130,7 @@ public static class Util
 
     public static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
     {
-        return Array.Empty<VmInstruction>();
+        //return Array.Empty<VmInstruction>();
         
         var instrs = new List<VmInstruction>();
         
@@ -152,7 +152,7 @@ public static class Util
 
         if (constantParent == null)
             return Array.Empty<VmInstruction>(); // don't use any instrs, no need to hash
-        
+
         // now we have constant, let's hash
 
         // look into reversing stack order

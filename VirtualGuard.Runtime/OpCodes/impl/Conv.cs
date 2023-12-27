@@ -30,7 +30,7 @@ public class Conv : IOpCode
         if(type == Constants.CorlibID_U8)
             ctx.Stack.Push(new ULongVariant(obj.U8()));
 
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

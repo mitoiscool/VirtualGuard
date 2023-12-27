@@ -60,6 +60,8 @@ public class VmInstruction
 
     public override string ToString()
     {
-        return OpCode + " " + Operand == null ? "" : Operand.ToString();
+        return OpCode + " " + (Operand == null ? "" : Operand.ToString());
     }
+    
+    
 }

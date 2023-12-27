@@ -10,7 +10,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
 
             arr.SetDelimeter(ctx.Stack.Pop(), ctx.Stack.Pop());
             
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

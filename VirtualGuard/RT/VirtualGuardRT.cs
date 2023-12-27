@@ -141,9 +141,7 @@ public class VirtualGuardRT
         UpdateOffsets();
 
         var bytes = SerializeChunks(ctx);
-        
-        Console.WriteLine(string.Join(',', bytes.Skip(headerChunk.Length)));
-        
+
         Print();
         
         ctx.Module.Resources.Add(new ManifestResource(Descriptor.Data.StreamName, ManifestResourceAttributes.Private, new DataSegment(bytes)));

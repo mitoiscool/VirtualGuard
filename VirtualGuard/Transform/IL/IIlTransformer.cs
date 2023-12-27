@@ -13,7 +13,6 @@ public interface IILTransformer
     {
         new ConditionalSimplifier(),
         new BlockConnector(),
-        new BranchUpdater(),
         //w BranchTargetUpdater(),
         new Nullifier() // needs to be last to not break branches targetting nop instrs
     };

@@ -10,10 +10,10 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         {
             var key = ctx.Reader.ReadByte();
             
-            ctx.Reader.SetKey(key.U1());
+            ctx.Reader.SetKey(key);
             ctx.Reader.SetValue(ctx.Stack.Pop().I4());
             
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode = ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

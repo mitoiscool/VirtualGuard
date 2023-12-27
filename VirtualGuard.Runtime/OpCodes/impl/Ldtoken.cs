@@ -9,7 +9,7 @@ public class Ldtoken : IOpCode
 {
     public void Execute(VMContext ctx)
     {
-        var member = ctx.ResolveMember(ctx.Reader.ReadInt().I4());
+        var member = ctx.ResolveMember(ctx.Reader.ReadInt());
 
         if (member is TypeInfo t)
         {
@@ -27,7 +27,7 @@ public class Ldtoken : IOpCode
             ctx.Stack.Push(new ObjectVariant(f.FieldHandle));
         }
 
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

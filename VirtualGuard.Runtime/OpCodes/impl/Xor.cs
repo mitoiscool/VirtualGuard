@@ -12,7 +12,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             ctx.Stack.Push(i1.Xor(i2));
             
             // basic jmp routine
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 

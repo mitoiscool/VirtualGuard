@@ -11,9 +11,9 @@ public class Entertry : IOpCode
         var type = ctx.Stack.Pop();
         var entry = ctx.Reader.ReadByte();
         
-        ctx.HandlerStack.Push(new ExceptionHandler(type.U1(), entry.U1(), loc.I4()));
+        ctx.HandlerStack.Push(new ExceptionHandler(type.U1(), entry, loc.I4()));
 
-        ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+        ctx.CurrentCode += ctx.Reader.ReadFixupValue();
         CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
     }
 

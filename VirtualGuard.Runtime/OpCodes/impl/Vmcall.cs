@@ -9,7 +9,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
         public void Execute(VMContext ctx)
         {
             var loc = ctx.Stack.Pop().I4();
-            var argCount = ctx.Reader.ReadInt().I4();
+            var argCount = ctx.Stack.Pop().I4();
             
             var entryKey = ctx.Reader.ReadByte();
             
@@ -23,9 +23,9 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             // do i need to cast here?
             // it may be better to restructure so vm doesn't need to init args
             
-            ctx.Stack.Push(BaseVariant.CreateVariant(Entry.VMEntry(loc, entryKey.U1(), args.ToArray())));
+            ctx.Stack.Push(BaseVariant.CreateVariant(Entry.VMEntry(loc, entryKey, args.ToArray())));
             
-            ctx.CurrentCode = ctx.CurrentCode.Add(ctx.Reader.ReadFixupValue().ToNumeral());
+            ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);
         }
 
