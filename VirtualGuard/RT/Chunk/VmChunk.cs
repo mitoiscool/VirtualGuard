@@ -88,7 +88,7 @@ public class VmChunk : IChunk
             
             //Debug.Assert((byte)(prevCode + fixupValue) == rawOpCode);
             
-            Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
+            //Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
 
             prevCode = rawOpCode; // mark previous
             // fixup value is essentially just the way to get to the current code from the previous code
@@ -98,7 +98,7 @@ public class VmChunk : IChunk
             writer.Write(fixupValue);
             writer.Write(GetOperandBytes(instr.Operand));
                 
-            Console.WriteLine("wrote fixup {0} then {1}", fixupValue, instr.Operand == null ? "" : instr.Operand);
+            //Console.WriteLine("wrote fixup {0} then {1}", fixupValue, instr.Operand == null ? "" : instr.Operand);
             
             index++;
         }

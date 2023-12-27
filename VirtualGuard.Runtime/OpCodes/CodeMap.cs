@@ -33,6 +33,10 @@ namespace VirtualGuard.Runtime.OpCodes
             if (!_opCodes.TryGetValue(code, out IOpCode codeobj))
                 throw new Exception(Routines.EncryptDebugMessage("Error resolving handler"));
             
+            #if DEBUG
+            Console.WriteLine(codeobj.GetType().Name);
+            #endif
+            
             return codeobj;
         }
     }
