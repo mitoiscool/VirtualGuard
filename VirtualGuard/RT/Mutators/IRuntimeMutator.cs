@@ -29,9 +29,10 @@ public interface IRuntimeMutator
         new Renamer(),
 
         // vmcode
+        new TokenAllocator(),
         new EncodeStrings(),
         new BuildChunkKeys(),
-        new VmCalls(),
+        //new VmCalls(),
         new ChunkShuffler(),
         
         
