@@ -97,7 +97,7 @@ public class VirtualGuardRT
         Elements.VmEntry = res.GetClonedMember(Elements.VmEntry);
         //Elements.Constants = res.GetClonedMember(Elements.Constants); constants will be inlined, obsolete
 
-        //Elements.VmTypes = res.ClonedTopLevelTypes.ToArray(); not needed, populated based off of injectedtypes
+        Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
     }
     
     public void AddChunk(IChunk chunk) => _allChunks.Add(chunk);

@@ -16,9 +16,6 @@ public class DataEncryption : IProcessor
 
     public void Process(Context ctx)
     {
-        if(!ctx.Configuration.UseDataEncryption)
-            return;
-        
         var rnd = new Random();
         
         foreach (var type in ctx.Module.GetAllTypes())

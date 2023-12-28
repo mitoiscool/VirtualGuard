@@ -26,13 +26,15 @@ public interface IRuntimeMutator
         // Runtime
         new InjectConstants(),
         new EncryptExceptions(),
+        
         new Renamer(),
+        new DebugRenamer(),
 
         // vmcode
         new TokenAllocator(),
         new EncodeStrings(),
         new BuildChunkKeys(),
-        //new VmCalls(),
+        new VmCalls(),
         new ChunkShuffler(),
         
         

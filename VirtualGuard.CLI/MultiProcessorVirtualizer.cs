@@ -15,7 +15,7 @@ public class MultiProcessorVirtualizer
         _virtualizers = new Virtualizer[processors];
 
         for (int i = 0; i < processors; i++)
-            _virtualizers[i] = new Virtualizer(ctx, debugKey, debug);
+            _virtualizers[i] = new Virtualizer(new VirtualGuardContext(ctx.Module, ctx.Logger), debugKey, debug);
     }
 
     private List<MethodDefinition> _virtualizedMethods = new List<MethodDefinition>();
