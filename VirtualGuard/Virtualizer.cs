@@ -40,6 +40,12 @@ public class Virtualizer
 
     public void CommitRuntime()
     {
+        if (_ctx.VirtualizedMethods.Count == 0)
+        {
+            _ctx.Logger.Warning("Virtualize had no method virtualized, not injecting.");
+            return;
+        }
+
         _rt.BuildData(_ctx);
 
         // clone runtime module into target module

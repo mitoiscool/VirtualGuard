@@ -70,6 +70,7 @@ public class InjectConstants : IRuntimeMutator
                 execute.CilMethodBody.Instructions.InsertRange(index, mutationCil);
             }
             
+            execute.CilMethodBody.Instructions.CalculateOffsets();
         }
         
         // inject comparison flags

@@ -10,10 +10,9 @@ using VirtualGuard.CLI;
 using VirtualGuard.CLI.Config;
 using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 #if DEBUG
-var debug = true;
+var debug = false;
 var debugKey = 0;
 #else
 var debug = false;
@@ -94,10 +93,7 @@ if (ctx.Configuration.UseDataEncryption)
 
 pipeline.Enqueue(new Virtualization());
 
-for (int i = 0; i <= pipeline.Count; i++)
-{
-    var processor = pipeline.Dequeue();
-    
+while(pipeline.TryDequeue(out IProcessor processor)) {
     processor.Process(ctx);
     logger.Success("Processed: " + processor.Identifier);
 }
