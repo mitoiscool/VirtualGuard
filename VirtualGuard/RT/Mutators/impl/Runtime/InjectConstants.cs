@@ -60,7 +60,7 @@ public class InjectConstants : IRuntimeMutator
 
             var mutationCil = rt.Descriptor.Data.GetFixupMutationCil(kvp.Key);
 
-            foreach (var fixupRef in kvp.Key == VmCode.Jz ? fixupRefs.Skip(1) : fixupRefs)
+            foreach (var fixupRef in fixupRefs)
             { // skip first ref for jz, second is the one that matters
                 
                 // get index of fixupRef

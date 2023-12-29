@@ -73,6 +73,12 @@ public class VmBlock
                     content.Operand = ubl.LinkedBlock;
                 }
 
+            if (content.Operand is DynamicStartKeyReference startKeyReference)
+            {
+                startKeyReference.Chunk = chunkMap[startKeyReference.VmBlock];
+                continue;
+            }
+            
             if(content.Operand is not VmBlock)
                 continue;
 

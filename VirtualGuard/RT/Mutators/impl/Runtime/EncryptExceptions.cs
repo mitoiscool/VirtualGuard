@@ -2,7 +2,7 @@ using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 
-namespace VirtualGuard.RT.Mutators.impl;
+namespace VirtualGuard.RT.Mutators.impl.Runtime;
 
 public class EncryptExceptions : IRuntimeMutator
 {

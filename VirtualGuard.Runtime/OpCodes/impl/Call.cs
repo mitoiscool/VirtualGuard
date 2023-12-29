@@ -48,6 +48,8 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             if (!methodBase.IsStatic)
             { // if it is inst
                 
+                //if(methodBase is ConstructorInfo ci && ci.) need a check here
+                
                 instVariant = ctx.Stack.Pop();
 
                 if (instVariant.IsReference())
@@ -58,7 +60,16 @@ namespace VirtualGuard.Runtime.OpCodes.impl
                 inst = instVariant.GetObject();
             }
 
-            object ret = methodBase.Invoke(inst, argsCasted);
+            object ret = null;
+
+            if (methodBase is ConstructorInfo ci)
+            {
+                ret = ci.Invoke(argsCasted); // maybe error here
+            }
+            else
+            {
+                ret = methodBase.Invoke(inst, argsCasted);
+            }
             
             // update ref vars
             foreach (var refIndex in refIndexes) 

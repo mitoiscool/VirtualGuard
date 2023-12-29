@@ -38,8 +38,7 @@ public enum VmCode : byte
     Cmp,
     
     Jmp,
-    Jz,
-    
+
     Conv,
     
     Dup,
@@ -57,4 +56,6 @@ public enum VmCode : byte
 
     Leave,
     Hash, // could turn into an awesome vcode
+    
+    Ldftn,
 }

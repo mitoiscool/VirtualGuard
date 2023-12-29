@@ -8,7 +8,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
     {
         public void Execute(VMContext ctx)
         {
-            var key = ctx.Reader.ReadByte();
+            var key = ctx.Stack.Pop().U1();
             
             ctx.Reader.SetKey(key);
             ctx.Reader.SetValue(ctx.Stack.Pop().I4());

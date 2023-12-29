@@ -14,7 +14,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             object inst = null;
 
             if (!field.IsStatic) // ldsfld
-                inst = ctx.Stack.Pop();
+                inst = ctx.Stack.Pop().GetObject();
 
             var value = BaseVariant.CreateVariant(field.GetValue(inst));
 

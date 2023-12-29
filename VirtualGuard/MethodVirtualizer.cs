@@ -139,6 +139,9 @@ public class MethodVirtualizer
         { // update branch locations
             if (instr.Operand is ControlFlowNode<CilInstruction> controlFlowNode)
                 instr.Operand = _virtualizedMethod.GetTranslatedBlock(controlFlowNode);
+
+            if (instr.Operand is DynamicStartKeyReference startKeyReference)
+                startKeyReference.VmBlock = _virtualizedMethod.GetTranslatedBlock(startKeyReference.Node); // scuffed
         }
         
         

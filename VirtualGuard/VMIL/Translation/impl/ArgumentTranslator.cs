@@ -12,16 +12,17 @@ public class ArgumentTranslator : ITranslator
         VirtualGuardContext ctx)
     {
         var param = instr.Operand as Parameter;
+        var index = param.Index;
 
         if (instr.OpCode.Code == CilCode.Ldarg)
         {
             block.WithContent(
-                new VmInstruction(VmCode.Ldloc, meth.GetVariableFromArg(param.Index)));
+                new VmInstruction(VmCode.Ldloc, meth.GetVariableFromArg(index)));
         }
         else
         {
             block.WithContent(
-                new VmInstruction(VmCode.Ldloca, meth.GetVariableFromArg(param.Index)));
+                new VmInstruction(VmCode.Ldloca, meth.GetVariableFromArg(index)));
         }
         
     }

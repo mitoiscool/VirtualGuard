@@ -12,7 +12,7 @@ using VirtualGuard.CLI.Processors;
 using VirtualGuard.CLI.Processors.impl;
 
 #if DEBUG
-var debug = false;
+var debug = true;
 var debugKey = 0;
 #else
 var debug = false;
@@ -33,7 +33,7 @@ var debugKey = new Random().Next(); // we should grab this from input args
 string path = "VirtualGuard.Tests.exe";
 string outputPath = "VirtualGuard.Tests-virt.exe";
 string settingsPath = "config.json";
-var license = LicenseType.Free;
+var license = LicenseType.Plus;
 
 var logger = new ConsoleLogger();
 

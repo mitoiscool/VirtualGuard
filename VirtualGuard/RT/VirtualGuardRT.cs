@@ -21,6 +21,7 @@ public class VirtualGuardRT
         Elements = new VmElements()
         {
             VmEntry = rtModule.LookupMethod(RuntimeConfig.VmEntry),
+            VmEntryInst = rtModule.LookupMethod(RuntimeConfig.VmEntryInst)
         };
 
         var rnd = new Random();
@@ -95,6 +96,7 @@ public class VirtualGuardRT
         
         // now update elements
         Elements.VmEntry = res.GetClonedMember(Elements.VmEntry);
+        Elements.VmEntryInst = res.GetClonedMember(Elements.VmEntryInst);
         //Elements.Constants = res.GetClonedMember(Elements.Constants); constants will be inlined, obsolete
 
         Elements.VmTypes = res.ClonedTopLevelTypes.ToArray();
