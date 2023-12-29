@@ -82,9 +82,27 @@ public class VmMethod
 
             block.WithArtificialContent(
                 new VmInstruction(VmCode.Pop)
-                ); // pop remaining arg object
+            ); // pop remaining arg object
             
-            
+            if (CilMethod.Signature.HasThis && CilMethod.Parameters.Count > 0 &&
+                CilMethod.Parameters[0].ParameterType.FullName != CilMethod.DeclaringType.FullName)
+            {
+                // weird special case, param index in instrs is -1
+
+                var loc = GetVariableFromArg(-1);
+                
+                // pop inst off stack and set to var
+
+                block.WithArtificialContent(
+                    new VmInstruction(VmCode.Stloc, loc)
+                );
+
+            }
+
+
+
+
+
         }
         
         Content.Add(block);

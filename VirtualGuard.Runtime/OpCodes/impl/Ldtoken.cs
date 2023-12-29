@@ -16,7 +16,6 @@ public class Ldtoken : IOpCode
             ctx.Stack.Push(new ObjectVariant(t.TypeHandle));
         }
 
-
         if (member is MethodInfo m)
         {
             ctx.Stack.Push(new ObjectVariant(m.MethodHandle));

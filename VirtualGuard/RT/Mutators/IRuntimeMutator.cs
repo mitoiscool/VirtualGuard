@@ -1,5 +1,6 @@
 using VirtualGuard.RT.Mutators.impl;
 using VirtualGuard.RT.Mutators.impl.Pseudo;
+using VirtualGuard.RT.Mutators.impl.Runtime;
 
 namespace VirtualGuard.RT.Mutators;
 
@@ -28,7 +29,7 @@ public interface IRuntimeMutator
         new EncryptExceptions(),
         
         new Renamer(),
-        new DebugRenamer(),
+        //new HiddenFields(),
 
         // vmcode
         new TokenAllocator(),

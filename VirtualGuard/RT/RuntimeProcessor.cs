@@ -83,9 +83,18 @@ public class RuntimeProcessor
             
             index++;
         }
+
+        if (meth.Signature.HasThis && meth.Parameters.Count > 0 &&
+            meth.Parameters[0].ParameterType.FullName != meth.DeclaringType.FullName)
+        { // weird case
+            instrs.Add(CilOpCodes.Ldarg_0);
+            instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntryInst);
+        }
+        else
+        {
+            instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
+        }
         
-        
-        instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
 
         if (!meth.Signature.ReturnsValue)
         {

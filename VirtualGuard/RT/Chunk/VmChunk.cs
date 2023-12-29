@@ -18,9 +18,6 @@ public class VmChunk : IChunk
 
     public int Length => CalculateLength();
     public int Offset;
-
-    public Tuple<byte, int> UnconditionalExitFixup; // fixup, target
-    public Tuple<byte, int> ConditionalExitFixup; // fixup, target
     
     public void OnOffsetComputed(int offset)
     {
@@ -91,6 +88,8 @@ public class VmChunk : IChunk
             // always write fixup first because fixup is read last (hear me out lol)
             
             // mutate fixup value
+            
+            Console.WriteLine("writing instr " + instr.ToString());
 
             if(index > 0) // don't mutate if first instr
                 fixupValue = rt.Descriptor.Data.EmulateFixupMutation(Content[index - 1].OpCode, fixupValue); // use last opcode

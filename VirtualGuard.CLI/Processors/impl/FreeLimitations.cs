@@ -24,6 +24,8 @@ public class FreeLimitations : IProcessor
         var res = cloner.Clone();
 
         var clonedMethod = (MethodDefinition)res.ClonedMembers.Single(x => x.Name == "Limit");
+
+        clonedMethod.Name = new Random().Next().ToString("x");
         
         // inject cloned method
         ctx.Module.ManagedEntryPointMethod.DeclaringType.Methods.Add(clonedMethod);

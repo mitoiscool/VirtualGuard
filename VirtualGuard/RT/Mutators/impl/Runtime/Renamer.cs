@@ -6,9 +6,11 @@ public class Renamer : IRuntimeMutator
 {
     private Dictionary<string, string> _abstractNameMap = new Dictionary<string, string>();
 
+    private static int Vm = 0; // scuffed but easy
+    
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
-        if (rt.isDebug)
+        if(rt.isDebug)
             return;
 
         var random = new Random();

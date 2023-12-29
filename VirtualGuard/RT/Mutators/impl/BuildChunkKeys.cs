@@ -17,20 +17,15 @@ public class BuildChunkKeys : IRuntimeMutator
 
             foreach (var instr in chunk.Content)
             {
-                if (instr.OpCode == VmCode.Jmp || instr.OpCode == VmCode.Jz || instr.OpCode == VmCode.Leave || instr.OpCode == VmCode.Entertry)
+                if (instr.Operand is DynamicStartKeyReference startKeyReference)
                 {
-                    
-                    // locate instruction before to find the target
-                    var index = chunk.Content.IndexOf(instr) - 1;
 
-                    var targetOperand = chunk.Content[index].Operand;
-
-                    if (targetOperand is not VmChunk targetChunk)
+                    if (startKeyReference.Chunk == null)
                         throw new Exception("Operand is not expected target chunk.");
 
                     // set operand to key start
 
-                    instr.Operand = rt.Descriptor.Data.GetStartKey(targetChunk);
+                    instr.Operand = (int)rt.Descriptor.Data.GetStartKey(startKeyReference.Chunk);
                 }
                 
             }

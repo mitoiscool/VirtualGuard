@@ -34,7 +34,7 @@ public class MultiProcessorVirtualizer
             throw new InvalidOperationException("Method already virtualized.");
         
         _virtualizedMethods.Add(def);
-        
+
         switch (_mode)
         {
             case MultiProcessorAllocationMode.Random:
