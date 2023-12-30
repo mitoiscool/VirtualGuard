@@ -1,3 +1,4 @@
+using System.Reflection;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
@@ -55,7 +56,6 @@ public class MethodVirtualizer
         Finish();
     }
     
-    
     private void BuildCfg()
     {
         _currentMethod.CilMethodBody.Instructions.ExpandMacros();
@@ -83,7 +83,7 @@ public class MethodVirtualizer
             
         }
     }
-
+    
     private void TransformIl()
     {
         foreach (var node in _cfg.Nodes)
@@ -96,7 +96,7 @@ public class MethodVirtualizer
         }
         
     }
-
+    
     private void BuildAst()
     {
         var builder = new AstBuilder();
@@ -130,7 +130,7 @@ public class MethodVirtualizer
         
         _virtualizedMethod = newMethod;
     }
-
+    
     private void TransformVmil()
     {
         // maybe use abstraction or something here, but tbh not entirely sure what other transforms besides updating branches I'd need
@@ -144,9 +144,8 @@ public class MethodVirtualizer
                 startKeyReference.VmBlock = _virtualizedMethod.GetTranslatedBlock(startKeyReference.Node); // scuffed
         }
         
-        
     }
-
+    
     private void BuildChunks()
     {
         var blockChunkMap = new Dictionary<VmBlock, VmChunk>();
