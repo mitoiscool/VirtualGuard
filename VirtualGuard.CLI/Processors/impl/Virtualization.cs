@@ -12,7 +12,7 @@ public class Virtualization : IProcessor
         {
             foreach (var virtualizedMethod in ctx.Configuration.ResolveVirtualizedMethods(ctx))
             {
-                ctx.Virtualizer.AddMethod(virtualizedMethod.Item1, !virtualizedMethod.Item2);
+                ctx.Virtualizer.AddMethod(virtualizedMethod, true);
             }
         }
 

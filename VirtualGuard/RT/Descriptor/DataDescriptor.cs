@@ -7,7 +7,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Descriptor;
 
-public class DataDescriptor
+internal class DataDescriptor
 {
     public DataDescriptor(Random rnd, int debugKey)
     { // debug
@@ -52,7 +52,7 @@ public class DataDescriptor
     {
         var mutation = _fixupMutations[code];
 
-        return mutation.Solve(fixup);
+        return (byte)mutation.Solve(fixup);
     }
 
     public CilInstruction[] GetFixupMutationCil(VmCode code)
@@ -62,10 +62,18 @@ public class DataDescriptor
 
     public byte GetStartKey(VmChunk chunk)
     {
+        if(!_chunkKeyMap.ContainsKey(chunk))
+            BuildStartKey(chunk);
+        
         return _chunkKeyMap[chunk];
     }
 
-    public void BuildStartKey(VmChunk chunk)
+    public void SetStartKey(VmChunk chunk, byte b)
+    {
+        _chunkKeyMap[chunk] = b; // used for branch encryption
+    }
+
+    void BuildStartKey(VmChunk chunk)
     {
         var startKey = (byte)_rnd.Next(255);
         _chunkKeyMap.Add(chunk, startKey);

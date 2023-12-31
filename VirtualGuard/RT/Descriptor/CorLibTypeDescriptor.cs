@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.RT.Descriptor;
 
-public class CorLibTypeDescriptor
+internal class CorLibTypeDescriptor
 {
     public CorLibTypeDescriptor(Random rnd)
     {

@@ -1,4 +1,5 @@
 using System.Data;
+using System.Reflection;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
@@ -8,7 +9,7 @@ using VirtualGuard.VMIL.Translation;
 
 namespace VirtualGuard.VMIL.VM;
 
-public class VmMethod
+internal class VmMethod
 {
     public VmMethod(MethodDefinition meth, VirtualGuardRT rt, bool export = true)
     {
@@ -38,10 +39,13 @@ public class VmMethod
     private Dictionary<AstExpression, List<VmInstruction>> _translationMap =
         new Dictionary<AstExpression, List<VmInstruction>>();
 
+    [Obfuscation(Feature = "virtualization")]
     public void MarkTranslatedInstructions(VmInstruction[] instrs)
     {
         _translationMap.Last().Value.AddRange(instrs);
     }
+    
+    [Obfuscation(Feature = "virtualization")]
     public ITranslator Begin(AstExpression expr)
     {
         _translationMap.Add(expr, new List<VmInstruction>());
@@ -49,12 +53,15 @@ public class VmMethod
         return ITranslator.Lookup(expr); // this is literally homemade reference proxy in my own code
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public VmInstruction[] GetTranslatedInstructions(AstExpression expr)
     {
         return _translationMap[expr].ToArray();
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public VmBlock GetTranslatedBlock(ControlFlowNode<CilInstruction> controlFlowNode) => _blockMap[controlFlowNode];
+    
     public VmBlock GetBlock(ControlFlowNode<CilInstruction> originalNode)
     {
         var block = new VmBlock()
@@ -111,6 +118,7 @@ public class VmMethod
         return block;
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public VmVariable GetTempVar()
     {
         if (_tmpVar == null)
@@ -118,7 +126,8 @@ public class VmMethod
 
         return _tmpVar;
     }
-    
+
+    [Obfuscation(Feature = "virtualization")]
     VmVariable GetVariable()
     {
         var variable = new VmVariable((short)_variables.Count);
@@ -127,6 +136,7 @@ public class VmMethod
         return variable;
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public VmVariable GetVariableFromLocal(int index)
     {
         if (_localVariableMapping.TryGetValue(index, out VmVariable var))
@@ -140,6 +150,7 @@ public class VmMethod
         return newVar;
     }
     
+    [Obfuscation(Feature = "virtualization")]
     public VmVariable GetVariableFromArg(int index)
     {
         if (_argVariableMapping.TryGetValue(index, out VmVariable var))

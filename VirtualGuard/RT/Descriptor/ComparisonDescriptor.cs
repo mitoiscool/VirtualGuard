@@ -1,6 +1,6 @@
 namespace VirtualGuard.RT.Descriptor;
 
-public class ComparisonDescriptor
+internal class ComparisonDescriptor
 {
     public ComparisonDescriptor(Random rnd)
     {

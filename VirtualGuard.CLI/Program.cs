@@ -30,8 +30,8 @@ var debugKey = new Random().Next(); // we should grab this from input args
 //string settingsPath = args[2];
 //int debugKey = int.Parse(args[3]);
 
-string path = "VirtualGuard.Tests.exe";
-string outputPath = "VirtualGuard.Tests-virt.exe";
+string path = "VirtualGuard.dll";
+string outputPath = "VirtualGuard-d.dll";
 string settingsPath = "config.json";
 var license = LicenseType.Plus;
 
@@ -39,36 +39,16 @@ var logger = new ConsoleLogger();
 
 var module = ModuleDefinition.FromFile(path);
 
-if (!File.Exists(settingsPath))
+if (args[0] == "-genconfig")
 {
-    var cfg = new SerializedConfig()
-    {
-        UseDataEncryption = true,
-        RenameDebugSymbols = true,
-        Members = new []
-        {
-            new SerializedMember()
-            {
-                Exclude = true,
-                Virtualize = false,
-                Member = "TestNamespace.TestClass:TestMethod"
-            },
-            new SerializedMember()
-            {
-                Exclude = true,
-                Virtualize = false,
-                Member = "TestNameSpace.TestClass"
-            }
-        }
-    };
+    var gen = new ConfigGenerator(ModuleDefinition.FromFile(args[1]));
+    gen.Populate();
     
-    File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg, Formatting.Indented));
-    logger.Fatal("Couldn't find config, created example @ config.json.");
+    Console.WriteLine(gen.Serialize());
+    return;
 }
 
-#if DEBUG
-Console.WriteLine("DEBUG");
-#endif
+
 
 // note: license is not initialized as of 12/17/23
 var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
@@ -92,6 +72,9 @@ if (ctx.Configuration.UseDataEncryption)
 }
 
 pipeline.Enqueue(new Virtualization());
+
+if(ctx.Configuration.RenameDebugSymbols)
+    pipeline.Enqueue(new Renamer());
 
 while(pipeline.TryDequeue(out IProcessor processor)) {
     processor.Process(ctx);

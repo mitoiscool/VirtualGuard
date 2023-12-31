@@ -4,7 +4,7 @@ using VirtualGuard.AST.IL;
 
 namespace VirtualGuard.Transform.IL.impl;
 
-public class Nullifier : IILTransformer
+internal class Nullifier : IILTransformer
 {
     public void Transform(ControlFlowNode<CilInstruction> node, ControlFlowGraph<CilInstruction> ctx)
     {

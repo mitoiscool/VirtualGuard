@@ -41,12 +41,12 @@ public enum VmCode : byte
 
     Conv,
     
-    Dup,
-    
     Ldelem, // these will be vcalls in special region
     Ldelema,
     Newarr,
     Ldlen,
+    
+    GetKey,
     
     Stelem, // these will be vcalls
 
@@ -58,4 +58,6 @@ public enum VmCode : byte
     Hash, // could turn into an awesome vcode
     
     Ldftn,
+    Dup,
+    
 }

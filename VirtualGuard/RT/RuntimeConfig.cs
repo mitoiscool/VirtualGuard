@@ -1,6 +1,6 @@
 namespace VirtualGuard.RT;
 
-public static class RuntimeConfig
+internal static class RuntimeConfig
 {
     public const string RuntimePath = "VirtualGuard.Runtime.dll";
     

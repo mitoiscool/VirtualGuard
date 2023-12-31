@@ -3,7 +3,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators;
 
-public class MutationOperation
+internal class MutationOperation
 {
     public static VmCode ToOpCode(MutationType t)
     {
@@ -120,13 +120,13 @@ public class MutationOperation
     
 }
 
-public struct MutationStep
+internal struct MutationStep
 {
     public int Modifier;
     public MutationType Type;
 }
 
-public enum MutationType
+internal enum MutationType
 {
     Add,
     Sub,

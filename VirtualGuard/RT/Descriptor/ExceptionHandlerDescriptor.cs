@@ -2,7 +2,7 @@ using AsmResolver.DotNet.Code.Cil;
 
 namespace VirtualGuard.RT.Descriptor;
 
-public class ExceptionHandlerDescriptor
+internal class ExceptionHandlerDescriptor
 {
     public ExceptionHandlerDescriptor(Random rnd)
     {

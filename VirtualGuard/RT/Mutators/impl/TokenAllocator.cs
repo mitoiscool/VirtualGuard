@@ -2,7 +2,7 @@
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class TokenAllocator : IRuntimeMutator
+internal class TokenAllocator : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

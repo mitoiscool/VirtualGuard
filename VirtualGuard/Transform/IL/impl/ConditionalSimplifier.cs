@@ -3,7 +3,7 @@ using Echo.ControlFlow;
 
 namespace VirtualGuard.Transform.IL.impl;
 
-public class ConditionalSimplifier : IILTransformer
+internal class ConditionalSimplifier : IILTransformer
 {
     public void Transform(ControlFlowNode<CilInstruction> node, ControlFlowGraph<CilInstruction> ctx)
     {

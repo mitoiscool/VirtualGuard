@@ -4,7 +4,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
 
-public class HeaderChunk : IChunk
+internal class HeaderChunk : IChunk
 {
     private VirtualGuardRT _rt;
     public HeaderChunk(VirtualGuardRT rt)

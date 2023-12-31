@@ -5,7 +5,7 @@ using Echo.ControlFlow;
 
 namespace VirtualGuard.Transform.IL.impl;
 
-public class BlockConnector : IILTransformer
+internal class BlockConnector : IILTransformer
 {
     public void Transform(ControlFlowNode<CilInstruction> input, ControlFlowGraph<CilInstruction> ctx)
     {

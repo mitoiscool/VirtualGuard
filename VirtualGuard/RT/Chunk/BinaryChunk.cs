@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.RT.Chunk;
 
-public class BinaryChunk : IChunk
+internal class BinaryChunk : IChunk
 {
     public int Length => 0; // todo
     public void OnOffsetComputed(int offset)

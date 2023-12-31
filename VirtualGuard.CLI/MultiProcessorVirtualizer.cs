@@ -18,9 +18,9 @@ public class MultiProcessorVirtualizer
             _virtualizers[i] = new Virtualizer(new VirtualGuardContext(ctx.Module, ctx.Logger), debugKey, debug);
     }
 
-    private List<MethodDefinition> _virtualizedMethods = new List<MethodDefinition>();
+    private readonly List<MethodDefinition> _virtualizedMethods = new List<MethodDefinition>();
     
-    private static Random _rnd = new Random();
+    private static readonly Random _rnd = new Random();
     private int _index = 0;
 
     public bool IsMethodVirtualized(MethodDefinition def)
@@ -51,6 +51,11 @@ public class MultiProcessorVirtualizer
                 break;
             
         }
+    }
+    
+    public TypeDefinition[] GetVmTypes()
+    {
+        return _virtualizers.SelectMany(x => x.GetVmElements().VmTypes).ToArray();
     }
 
     public void Commit()

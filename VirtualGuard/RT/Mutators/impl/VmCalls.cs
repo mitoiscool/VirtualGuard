@@ -4,7 +4,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class VmCalls : IRuntimeMutator
+internal class VmCalls : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

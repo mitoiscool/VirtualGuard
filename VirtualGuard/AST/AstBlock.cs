@@ -3,6 +3,6 @@ using Echo.ControlFlow;
 
 namespace VirtualGuard.AST;
 
-public class AstBlock : List<AstExpression>
+internal class AstBlock : List<AstExpression>
 {
 }

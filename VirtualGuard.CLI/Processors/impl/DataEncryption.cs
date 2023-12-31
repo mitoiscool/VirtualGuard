@@ -54,7 +54,7 @@ public class DataEncryption : IProcessor
                     body.Instructions.Add(CilOpCodes.Ldstr, (string)instruction.Operand);
                     body.Instructions.Add(CilOpCodes.Ret);
                     
-                    type.Methods.Add(newMethod);
+                    ctx.Module.GetOrCreateModuleType().Methods.Add(newMethod);
 
                     cachedMethod = newMethod;
                     

@@ -13,7 +13,7 @@ namespace VirtualGuard;
 
 public static class Util
 {
-    public static void Shuffle<T>(this Random random, IList<T> list) {
+    internal static void Shuffle<T>(this Random random, IList<T> list) {
         int n = list.Count;
         while (n > 1) {
             n--;
@@ -24,7 +24,7 @@ public static class Util
         }
     }
     
-    public static void Shuffle<T>(this IList<T> list) {
+    internal static void Shuffle<T>(this IList<T> list) {
         int n = list.Count;
         var random = new Random();
         while (n > 1) {
@@ -36,7 +36,7 @@ public static class Util
         }
     }
     
-    public static void ReplaceRange<T>(this List<T> list, T existingItem, params T[] newItems)
+    internal static void ReplaceRange<T>(this List<T> list, T existingItem, params T[] newItems)
     { // chatgpt ftw
         if (list == null)
         {
@@ -62,7 +62,7 @@ public static class Util
         list.InsertRange(index, newItems);
     }
     
-    public static void ReplaceRange(this CilInstructionCollection list, CilInstruction existingItem, params CilInstruction[] newItems)
+    internal static void ReplaceRange(this CilInstructionCollection list, CilInstruction existingItem, params CilInstruction[] newItems)
     { // chatgpt ftw
         if (list == null)
         {
@@ -93,7 +93,7 @@ public static class Util
         return mod.GetAllTypes().Single(x => x.FullName == name);
     }
     
-    public static MethodDefinition LookupMethod(this ModuleDefinition mod, string name)
+    internal static MethodDefinition LookupMethod(this ModuleDefinition mod, string name)
     {
         string[] split = name.Split(":");
         
@@ -113,7 +113,7 @@ public static class Util
         return members.Single(x => x.Name == split[1]);
     }
 
-    public static int HashNumber(int number, HashDescriptor hs)
+    internal static int HashNumber(int number, HashDescriptor hs)
     {
         // Perform bit-shifting and arithmetic operations for mutation
         int mutatedNumber = ((number << hs.NSalt1) + hs.NSalt2) ^ hs.NSalt3;
@@ -128,7 +128,7 @@ public static class Util
     }
 
 
-    public static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
+    internal static VmInstruction[] BuildHashInstructions(AstExpression comparer, VmMethod ctx, VirtualGuardRT rt)
     {
         //return Array.Empty<VmInstruction>();
         
@@ -214,7 +214,7 @@ public static class Util
         }.Contains(code.Code);
     }
     
-    public static long ComputeHash(byte[] buffer, HashDescriptor hd)
+    internal static long ComputeHash(byte[] buffer, HashDescriptor hd)
     {
         uint[] table = new uint[256];
 

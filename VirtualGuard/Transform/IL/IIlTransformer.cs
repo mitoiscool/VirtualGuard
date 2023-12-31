@@ -5,7 +5,7 @@ using VirtualGuard.Transform.IL.impl;
 
 namespace VirtualGuard.Transform.IL;
 
-public interface IILTransformer
+internal interface IILTransformer
 {
     public void Transform(ControlFlowNode<CilInstruction> node, ControlFlowGraph<CilInstruction> ctx);
 

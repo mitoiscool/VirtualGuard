@@ -1,7 +1,7 @@
 ﻿using AsmResolver.PE.DotNet.Cil;
 namespace VirtualGuard.AST.IL;
 
-public class Marker : CilInstruction
+internal class Marker : CilInstruction
 {
 
     public Marker(CilOpCode opCode, MarkerType t) : base(opCode)

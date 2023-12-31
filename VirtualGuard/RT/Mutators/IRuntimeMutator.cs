@@ -1,10 +1,9 @@
 using VirtualGuard.RT.Mutators.impl;
-using VirtualGuard.RT.Mutators.impl.Pseudo;
 using VirtualGuard.RT.Mutators.impl.Runtime;
 
 namespace VirtualGuard.RT.Mutators;
 
-public interface IRuntimeMutator
+internal interface IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx);
 
@@ -29,12 +28,15 @@ public interface IRuntimeMutator
         new EncryptExceptions(),
         
         new Renamer(),
+        //new ControlFlow(),
+        //new LocMutation(),
         //new HiddenFields(),
 
         // vmcode
         new TokenAllocator(),
         new EncodeStrings(),
         new BuildChunkKeys(),
+        new VirtualOpCodes(),
         new VmCalls(),
         new ChunkShuffler(),
         

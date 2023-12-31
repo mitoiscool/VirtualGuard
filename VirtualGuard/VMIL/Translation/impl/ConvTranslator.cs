@@ -1,11 +1,12 @@
-﻿using AsmResolver.PE.DotNet.Cil;
+﻿using System.Reflection;
+using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
 using VirtualGuard.AST;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class ConvTranslator : ITranslator
+internal class ConvTranslator : ITranslator
 {
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
@@ -56,6 +57,7 @@ public class ConvTranslator : ITranslator
         block.WithContent(new VmInstruction(VmCode.Conv));
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         return new[]

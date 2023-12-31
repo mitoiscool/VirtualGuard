@@ -1,6 +1,6 @@
 namespace VirtualGuard.RT.Chunk;
 
-public interface IChunk
+internal interface IChunk
 {
     public int Length { get; }
     public void OnOffsetComputed(int offset);

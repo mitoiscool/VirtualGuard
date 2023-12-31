@@ -1,8 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Cloning;
+using AsmResolver.PE.DotNet.Cil;
+using VirtualGuard.AST;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
+using VirtualGuard.VMIL.Translation;
 
 namespace VirtualGuard;
 
@@ -23,26 +27,28 @@ public class Virtualizer
         _ctx.Runtime = _rt;
     }
 
-    public async Task AddMethod(MethodDefinition def, bool exportMethod, VirtualizationFlags flags = VirtualizationFlags.None)
+    [Obfuscation(Feature = "virtualization")]
+    public void AddMethod(MethodDefinition def, bool exportMethod)
     {
         var sw = new Stopwatch();
         sw.Start();
-        
-        Console.WriteLine("Virtualizing " + def.Name);
+
+        _ctx.Logger.Info("Virtualizing " + def.FullName);
         
         _methodVirtualizer.Virtualize(def, exportMethod);
         _ctx.VirtualizedMethods.Add(def, exportMethod);
         
         sw.Stop();
         
-        Console.WriteLine("Finished: " + sw.ElapsedMilliseconds + "ms");
+        Console.WriteLine("Finished in: " + sw.ElapsedMilliseconds + "ms");
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public void CommitRuntime()
     {
         if (_ctx.VirtualizedMethods.Count == 0)
         {
-            _ctx.Logger.Warning("Virtualize had no method virtualized, not injecting.");
+            _ctx.Logger.Warning("Virtualizer had no methods virtualized, not injecting.");
             return;
         }
 
@@ -57,12 +63,29 @@ public class Virtualizer
         _rtCommitted = true;
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public VmElements GetVmElements()
     {
+        if (_ctx.VirtualizedMethods.Count == 0)
+            return new VmElements()
+            {
+                VmTypes = Array.Empty<TypeDefinition>()
+            }; // kinda scuffed but in the present usages it's fine
+        
         if(!_rtCommitted)
             _ctx.Logger.Fatal("Runtime has not been committed before requesting VmElements.");
             
         return _rt.Elements;
+    }
+
+    public static bool Supports(CilOpCode code)
+    {
+        var newExpr = new AstExpression(code, null, null);
+
+        if (ITranslator.Lookup(newExpr) == null)
+            return false;
+
+        return true; // has a translator, doesn't necessarily mean it'll work ;)
     }
     
 }

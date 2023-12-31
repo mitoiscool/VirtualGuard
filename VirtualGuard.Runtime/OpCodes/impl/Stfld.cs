@@ -15,7 +15,7 @@ namespace VirtualGuard.Runtime.OpCodes.impl
             if (!field.IsStatic)
                 inst = ctx.Stack.Pop();
 
-            field.SetValue(inst, ctx.Stack.Pop());
+            field.SetValue(inst, ctx.Stack.Pop().GetObject());
 
             ctx.CurrentCode += ctx.Reader.ReadFixupValue();
             CodeMap.LookupCode(ctx.CurrentCode).Execute(ctx);

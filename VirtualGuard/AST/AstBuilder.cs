@@ -6,7 +6,7 @@ using Echo.ControlFlow;
 
 namespace VirtualGuard.AST;
 
-public class AstBuilder
+internal class AstBuilder
 {
     public AstBuilder()
     {

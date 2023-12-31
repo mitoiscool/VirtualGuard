@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Reflection;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
 using VirtualGuard.AST;
@@ -6,8 +7,9 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class ComparisonTranslator : ITranslator
+internal class ComparisonTranslator : ITranslator
 {
+    
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
     {
@@ -43,6 +45,7 @@ public class ComparisonTranslator : ITranslator
         block.WithContent(new VmInstruction(VmCode.Xor)); // this will push 0 if they are equal
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         return new[]

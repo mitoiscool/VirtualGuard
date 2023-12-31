@@ -7,7 +7,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
 
-public class VmChunk : IChunk
+internal class VmChunk : IChunk
 {
     public VmChunk(List<VmInstruction> instrs)
     {
@@ -23,7 +23,21 @@ public class VmChunk : IChunk
     {
         Offset = offset;
     }
-    
+
+    public int GetInstructionOffset(VmInstruction target)
+    {
+        int offset = 0;
+        
+        foreach (var instr in Content)
+        {
+            if(instr == target)
+                continue;
+
+            offset += instr.GetSize();
+        }
+
+        return offset + Offset;
+    }
 
     /*public void WriteBytes(BinaryWriter writer, VirtualGuardRT rt)
     {
@@ -99,7 +113,7 @@ public class VmChunk : IChunk
             key = (byte)((key * handlerShifts[0]) + fixupValue +
                          (handlerShifts[1] >> (handlerShifts[2] ^ handlerShifts[3])) * handlerShifts[4]);
             
-            foreach (var b in GetOperandBytes(instr.Operand))
+            foreach (var b in GetOperandBytes(instr.Operand, rt))
             {
                 writer.Write((byte)(b ^ key));
 
@@ -112,7 +126,7 @@ public class VmChunk : IChunk
         }
     }
     
-    byte[] GetOperandBytes(object operand)
+    byte[] GetOperandBytes(object operand, VirtualGuardRT rt)
     {
         if (operand == null)
             return Array.Empty<byte>(); // write next instr
@@ -139,8 +153,7 @@ public class VmChunk : IChunk
         {
             return BitConverter.GetBytes(vv.Id);
         }
-
-
+        
         if (operand is VmChunk chunk)
         {
             return BitConverter.GetBytes(chunk.Offset); // trust this is updated
@@ -154,6 +167,9 @@ public class VmChunk : IChunk
         if (operand is TypeSignature sig)
             return BitConverter.GetBytes(sig.MakeStandAloneSignature().MetadataToken.ToInt32());
 
+        if (operand is VmInstruction instr)
+            return BitConverter.GetBytes(rt.VmChunks.Single(x => x.Content.Contains(instr)).GetInstructionOffset(instr)); // get instruction offset
+        
         throw new DataException(operand.GetType().FullName);
     }
 
@@ -173,13 +189,16 @@ public class VmChunk : IChunk
     {
         var newInstrs = new List<VmInstruction>();
 
-        for (int i = splitIndex; i <= this.Content.Count; i++)
+        var oldContent = Content.ToArray();
+        
+        for (int i = splitIndex; i < this.Content.Count; i++)
         {
-            newInstrs.Add(Content[i]);
+            newInstrs.Add(oldContent[i]); // add to new
+            Content.Remove(oldContent[i]); // remove from this
         }
 
         var chunk = new VmChunk(newInstrs);
-        rt.AddChunk(chunk, rt.IndexOfChunk(this));
+        rt.AddChunk(chunk, rt.IndexOfChunk(this) + 1);
 
         return chunk;
     }

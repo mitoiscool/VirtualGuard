@@ -2,7 +2,7 @@
 
 namespace VirtualGuard.RT.Dynamic;
 
-public static class OperationHelper
+internal static class OperationHelper
 {
     private static readonly Dictionary<Operation, Operation> InverseOperations = new Dictionary<Operation, Operation>()
     {

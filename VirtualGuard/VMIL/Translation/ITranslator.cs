@@ -5,7 +5,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation;
 
-public interface ITranslator
+internal interface ITranslator
 {
     
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
@@ -17,7 +17,7 @@ public interface ITranslator
     static ITranslator()
     {
         _translators = new List<ITranslator>();
-        foreach (var type in typeof(ITranslator).Assembly.GetExportedTypes()) {
+        foreach (var type in typeof(ITranslator).Assembly.GetTypes()) {
             if (typeof(ITranslator).IsAssignableFrom(type) && !type.IsAbstract) {
                 var handler = (ITranslator)Activator.CreateInstance(type);
                 _translators.Add(handler);
@@ -31,7 +31,7 @@ public interface ITranslator
             if (translator.Supports(instr))
                 return translator;
 
-        throw new NotSupportedException(instr.ToString());
+        return null;
     }
     
 }
