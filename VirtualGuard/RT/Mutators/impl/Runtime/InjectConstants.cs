@@ -5,7 +5,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class InjectConstants : IRuntimeMutator
+internal class InjectConstants : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

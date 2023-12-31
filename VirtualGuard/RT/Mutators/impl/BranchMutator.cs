@@ -3,7 +3,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class BranchMutator : IRuntimeMutator
+internal class BranchMutator : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

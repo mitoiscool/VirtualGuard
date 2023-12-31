@@ -13,12 +13,23 @@ public class SerializedMember
 
     public IMemberDefinition Resolve(Context ctx)
     {
+        if (ctx.ResolutionCache.TryGetValue(this, out IMemberDefinition def))
+            return def;
+        
         try
         {
-            if (!Member.Contains(":")) // is type
-                return ctx.Module.LookupType(Member);
+            if (!Member.Contains(":"))
+            {
+                var type = ctx.Module.LookupType(Member);
 
-            return ctx.Module.LookupMember(Member);
+                ctx.ResolutionCache.Add(this, type);
+                return type;
+            }
+
+            var member = ctx.Module.LookupMember(Member);
+            
+            ctx.ResolutionCache.Add(this, member);
+            return member;
         }
         catch
         {

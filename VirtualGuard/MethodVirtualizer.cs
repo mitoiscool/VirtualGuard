@@ -18,7 +18,7 @@ using VirtualGuard.VMIL.VM;
 #pragma warning disable CS8602
 namespace VirtualGuard;
 
-public class MethodVirtualizer
+internal class MethodVirtualizer
 {
     public MethodVirtualizer(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
@@ -35,7 +35,9 @@ public class MethodVirtualizer
     private VmMethod _virtualizedMethod;
 
     private Dictionary<ControlFlowNode<CilInstruction>, AstBlock> _astBlockMap = new Dictionary<ControlFlowNode<CilInstruction>, AstBlock>();
-
+    
+    
+    [Obfuscation(Feature = "virtualization")]
     public void Virtualize(MethodDefinition def, bool exported = false)
     {
         _exported = exported;

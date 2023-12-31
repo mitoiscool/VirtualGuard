@@ -1,3 +1,4 @@
+using System.Reflection;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
 using VirtualGuard.AST;
@@ -6,8 +7,9 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class UnconditionalTranslator : ITranslator
+internal class UnconditionalTranslator : ITranslator
 {
+    [Obfuscation(Feature = "virtualization")]
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
     {
@@ -18,13 +20,14 @@ public class UnconditionalTranslator : ITranslator
             new VmInstruction(
                 VmCode.Ldc_I4,
                 node.UnconditionalEdge.Target),
-            new VmInstruction(VmCode.Ldc_I4, new DynamicStartKeyReference(node.UnconditionalEdge.Target)),
+            new VmInstruction(VmCode.Ldc_I4, new DynamicStartKeyReference(node.UnconditionalEdge.Target, false)),
             new VmInstruction(
                 VmCode.Jmp
                 )
             );
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         return instr.OpCode.Code == CilCode.Br;

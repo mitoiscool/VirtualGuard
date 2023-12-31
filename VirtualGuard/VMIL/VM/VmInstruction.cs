@@ -7,7 +7,7 @@ using VirtualGuard.Runtime.OpCodes.impl;
 
 namespace VirtualGuard.VMIL.VM;
 
-public class VmInstruction
+internal class VmInstruction
 {
     public VmInstruction(VmCode code)
     {
@@ -20,6 +20,7 @@ public class VmInstruction
         Operand = operand;
     }
     
+
     public int GetSize()
     {
         if (this.Operand == null)
@@ -51,6 +52,9 @@ public class VmInstruction
         
         if(this.Operand is MutationOperation)
             return sizeof(VmCode) + sizeof(int);
+        
+        if(this.Operand is VmInstruction)
+            return sizeof(VmCode) + sizeof(int);
 
         throw new DataException(this.Operand.GetType().FullName);
     }
@@ -60,6 +64,9 @@ public class VmInstruction
 
     public override string ToString()
     {
+        if (Operand is VmInstruction vi)
+            return "ref:{" + vi + "}";
+        
         return OpCode + " " + (Operand == null ? "" : Operand.GetType().Name + ":" + Operand.ToString());
     }
     

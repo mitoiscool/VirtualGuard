@@ -1,6 +1,6 @@
 namespace VirtualGuard.VMIL.VM;
 
-public class VmVariable
+internal class VmVariable
 {
     public VmVariable(short id)
     {

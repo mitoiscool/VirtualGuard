@@ -3,7 +3,7 @@ using VirtualGuard.AST.IL;
 
 namespace VirtualGuard.AST;
 
-public class AstExpression
+internal class AstExpression
 {
     public static AstExpression Create(CilInstruction instr, AstExpression[] args)
     {
@@ -28,5 +28,9 @@ public class AstExpression
 
     public CilOpCode OpCode;
     public object Operand;
-    
+
+    public override string ToString()
+    {
+        return OpCode + " " + (Operand == null ? "" : Operand.ToString());
+    }
 }

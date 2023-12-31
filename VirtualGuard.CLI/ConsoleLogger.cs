@@ -2,6 +2,11 @@ namespace VirtualGuard.CLI;
 
 public class ConsoleLogger : ILogger
 {
+    public void Info(string msg)
+    {
+        Console.WriteLine("[i] " + msg);
+    }
+
     public void Success(string msg)
     {
         Console.WriteLine("[+] " + msg);
@@ -16,5 +21,10 @@ public class ConsoleLogger : ILogger
     {
         Console.WriteLine("[FATAL] " + msg);
         Environment.Exit(-1);
+    }
+
+    public void Verbose(string msg)
+    {
+        Console.WriteLine("[v] " + msg);
     }
 }

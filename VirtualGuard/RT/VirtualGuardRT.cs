@@ -11,7 +11,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT;
 
-public class VirtualGuardRT
+internal class VirtualGuardRT
 {
     public VirtualGuardRT(ModuleDefinition rtModule, int debugKey, bool debug = false)
     {

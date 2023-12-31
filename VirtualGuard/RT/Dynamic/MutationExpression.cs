@@ -4,7 +4,7 @@ using Echo.Platforms.AsmResolver;
 
 namespace VirtualGuard.RT.Dynamic;
 
-public class MutationExpression
+internal class MutationExpression
 {
     public List<MutationStep> Steps = new List<MutationStep>();
 
@@ -32,14 +32,14 @@ public class MutationExpression
         return expr;
     }
 
-    public byte Solve(int input)
+    public int Solve(int input)
     {
         foreach (var step in this.Steps.ToArray().Reverse())
         {
             input = step.Operation.Operate(input, step.Modifier);
         }
 
-        return (byte)input;
+        return input;
     }
 
     public CilInstruction[] ToCIL()

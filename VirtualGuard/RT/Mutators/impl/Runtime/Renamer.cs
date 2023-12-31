@@ -2,7 +2,7 @@ using AsmResolver.DotNet.Signatures;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class Renamer : IRuntimeMutator
+internal class Renamer : IRuntimeMutator
 {
     private Dictionary<string, string> _abstractNameMap = new Dictionary<string, string>();
 

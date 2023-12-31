@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.AST.IL;
 
-public enum MarkerType
+internal enum MarkerType
 {
     TryStart,
     HandlerStart,

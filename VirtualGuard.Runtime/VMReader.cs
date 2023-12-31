@@ -131,6 +131,11 @@ namespace VirtualGuard.Runtime
             _key = i;
         }
 
+        public byte GetKey()
+        {
+            return _key;
+        }
+
         public byte ReadFixupValue()
         {
             var b = (byte)_memoryStream.ReadByte();

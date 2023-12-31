@@ -5,7 +5,7 @@ using AsmResolver.PE.DotNet.Cil;
 
 namespace VirtualGuard.RT;
 
-public class RuntimeProcessor
+internal class RuntimeProcessor
 {
     
     public RuntimeProcessor(VirtualGuardRT rt, VirtualGuardContext ctx)

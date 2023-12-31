@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.RT.Mutators.impl;
 
-public class EncodeStrings : IRuntimeMutator
+internal class EncodeStrings : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

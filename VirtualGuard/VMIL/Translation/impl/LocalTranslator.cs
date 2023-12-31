@@ -1,3 +1,4 @@
+using System.Reflection;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
@@ -6,7 +7,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class LocalTranslator : ITranslator
+internal class LocalTranslator : ITranslator
 {
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
@@ -33,6 +34,7 @@ public class LocalTranslator : ITranslator
         }
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         if (instr.OpCode.Code == CilCode.Stloc)

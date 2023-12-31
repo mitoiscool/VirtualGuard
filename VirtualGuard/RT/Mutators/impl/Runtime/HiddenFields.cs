@@ -11,7 +11,7 @@ using Echo.Platforms.AsmResolver;
 
 namespace VirtualGuard.RT.Mutators.impl.Runtime;
 
-public class HiddenFields : IRuntimeMutator
+internal class HiddenFields : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

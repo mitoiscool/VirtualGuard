@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
 using VirtualGuard.AST;
@@ -7,7 +8,7 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class MarkerTranslator : ITranslator
+internal class MarkerTranslator : ITranslator
 {
     private Stack<UnknownBlockLink> _exceptionHandlers = new Stack<UnknownBlockLink>();
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
@@ -39,6 +40,7 @@ public class MarkerTranslator : ITranslator
         
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         if (instr is AstMarker)
@@ -48,7 +50,7 @@ public class MarkerTranslator : ITranslator
     }
 }
 
-public class UnknownBlockLink
+internal class UnknownBlockLink
 {
     public UnknownBlockLink(int id)
     {

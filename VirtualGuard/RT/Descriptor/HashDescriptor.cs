@@ -1,6 +1,6 @@
 namespace VirtualGuard.RT.Descriptor;
 
-public class HashDescriptor
+internal class HashDescriptor
 {
     public HashDescriptor(Random rnd)
     {

@@ -18,6 +18,9 @@ public class Context
         RuntimeModule = ModuleDefinition.FromFile(typeof(Limiter).Assembly.Location);
     }
 
+    public Dictionary<SerializedMember, IMemberDefinition> ResolutionCache =
+        new Dictionary<SerializedMember, IMemberDefinition>();
+    
     public ILogger Logger;
     public ModuleDefinition Module;
     public MultiProcessorVirtualizer Virtualizer;
@@ -32,7 +35,7 @@ public class Context
         // get this module
         return RuntimeModule.GetAllTypes().SelectMany(x => x.Methods).Single(x => x.Name == name);
     }
-    
+
     
     
 }

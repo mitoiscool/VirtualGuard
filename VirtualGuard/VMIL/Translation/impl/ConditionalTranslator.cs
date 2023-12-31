@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Reflection.Emit;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Signatures;
@@ -9,8 +10,9 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.VMIL.Translation.impl;
 
-public class ConditionalTranslator : ITranslator
+internal class ConditionalTranslator : ITranslator
 {
+    [Obfuscation(Feature = "virtualization")]
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
     {
@@ -38,8 +40,8 @@ public class ConditionalTranslator : ITranslator
             block.WithContent(new VmInstruction(VmCode.Ldloc, loc));
             
             // get correct entry key
-            block.WithContent(BuildConditional(new DynamicStartKeyReference(node.ConditionalEdges.First().Target),
-                new DynamicStartKeyReference(node.UnconditionalEdge.Target), ctx, meth));
+            block.WithContent(BuildConditional(new DynamicStartKeyReference(node.ConditionalEdges.First().Target, true),
+                new DynamicStartKeyReference(node.UnconditionalEdge.Target, false), ctx, meth));
 
             block.WithContent(new VmInstruction(VmCode.Jmp));
         }
@@ -57,8 +59,8 @@ public class ConditionalTranslator : ITranslator
             block.WithContent(new VmInstruction(VmCode.Ldloc, loc));
             
             // get correct entry key
-            block.WithContent(BuildConditional(new DynamicStartKeyReference(node.UnconditionalEdge.Target),
-                new DynamicStartKeyReference(node.ConditionalEdges.First().Target), ctx, meth));
+            block.WithContent(BuildConditional(new DynamicStartKeyReference(node.UnconditionalEdge.Target, true),
+                new DynamicStartKeyReference(node.ConditionalEdges.First().Target, false), ctx, meth));
 
             block.WithContent(new VmInstruction(VmCode.Jmp));
         }
@@ -83,6 +85,7 @@ public class ConditionalTranslator : ITranslator
 
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         return new[]

@@ -1,3 +1,4 @@
+using System.Reflection;
 using AsmResolver.DotNet;
 using AsmResolver.PE.DotNet.Cil;
 using Echo.ControlFlow;
@@ -8,7 +9,7 @@ namespace VirtualGuard.VMIL.Translation.impl;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-public class CallTranslator : ITranslator
+internal class CallTranslator : ITranslator
 {
     public void Translate(AstExpression instr, ControlFlowNode<CilInstruction> node, VmBlock block, VmMethod meth,
         VirtualGuardContext ctx)
@@ -38,13 +39,14 @@ public class CallTranslator : ITranslator
         
     }
 
+    [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
         return new[]
         {
             CilCode.Newobj,
             CilCode.Call,
-            CilCode.Callvirt
+            CilCode.Callvirt,
         }.Contains(instr.OpCode.Code);
         
     }

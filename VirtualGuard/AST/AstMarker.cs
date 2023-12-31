@@ -4,7 +4,7 @@ using VirtualGuard.AST.IL;
 namespace VirtualGuard.AST;
 
 
-public class AstMarker : AstExpression
+internal class AstMarker : AstExpression
 {
     public AstMarker(CilOpCode opCode, object operand, AstExpression[] exprs) : base(opCode, operand, exprs)
     {

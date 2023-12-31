@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.RT.Dynamic;
 
-public class MutationStep
+internal class MutationStep
 {
     public MutationStep(int mod, Operation op)
     {

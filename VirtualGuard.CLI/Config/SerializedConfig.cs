@@ -11,20 +11,11 @@ public class SerializedConfig
     public bool UseDataEncryption;
     public int ProcessorCount;
     
-    public (MethodDefinition, bool)[] ResolveVirtualizedMethods(Context ctx)
+    public MethodDefinition[] ResolveVirtualizedMethods(Context ctx)
     {
         return Members
             .Where(x => x is { Virtualize: true, Exclude: false })
-            .Select(x => x.Resolve(ctx))
-            .Cast<MethodDefinition>()
-            .Zip(
-                Members
-                    .Where(x => x is { Virtualize: true, Exclude: false })
-                    .Select(x => x.VirtualInlining)
-                    .Cast<bool>(),
-                (method, shouldInline) => (method, shouldInline)
-            )
-            .ToArray();
+            .Select(x => x.Resolve(ctx)).Cast<MethodDefinition>().ToArray();
     }
 
     public bool IsMemberExcluded(IMemberDefinition def, Context ctx)

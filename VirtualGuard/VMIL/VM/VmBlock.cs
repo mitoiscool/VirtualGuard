@@ -1,4 +1,5 @@
 using System.Data;
+using System.Reflection;
 using VirtualGuard.AST;
 using VirtualGuard.RT;
 using VirtualGuard.RT.Chunk;
@@ -6,19 +7,20 @@ using VirtualGuard.VMIL.Translation.impl;
 
 namespace VirtualGuard.VMIL.VM;
 
-public class VmBlock
+internal class VmBlock
 {
     
     public List<VmInstruction> Content = new List<VmInstruction>();
     public VmMethod Parent;
 
-
+    [Obfuscation(Feature = "virtualization")]
     public VmBlock WithArtificialContent(params VmInstruction[] instrs)
     {
         Content.AddRange(instrs);
         return this;
     }
     
+    [Obfuscation(Feature = "virtualization")]
     public VmBlock WithContent(params VmInstruction[] instrs)
     {
         Parent.MarkTranslatedInstructions(instrs); // this is kinda screwed in my mind
@@ -26,6 +28,7 @@ public class VmBlock
         return WithArtificialContent(instrs);
     }
     
+    [Obfuscation(Feature = "virtualization")]
     public VmChunk BuildChunk(VmMethod parent, VirtualGuardRT rt)
     {
         // do some transforms, for ex remove the idea of the locals using the ctx
@@ -51,6 +54,7 @@ public class VmBlock
         return chunk;
     }
 
+    
     public void OnChunksBuilt(Dictionary<VmBlock, VmChunk> chunkMap, VirtualGuardRT rt)
     {
         // do initial updating of offsets

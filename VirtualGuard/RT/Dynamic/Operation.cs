@@ -1,6 +1,6 @@
 ﻿namespace VirtualGuard.RT.Dynamic;
 
-public enum Operation
+internal enum Operation
 {
     Add,
     Sub,

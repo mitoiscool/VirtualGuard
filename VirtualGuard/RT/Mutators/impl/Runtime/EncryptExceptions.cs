@@ -4,7 +4,7 @@ using AsmResolver.PE.DotNet.Cil;
 
 namespace VirtualGuard.RT.Mutators.impl.Runtime;
 
-public class EncryptExceptions : IRuntimeMutator
+internal class EncryptExceptions : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {

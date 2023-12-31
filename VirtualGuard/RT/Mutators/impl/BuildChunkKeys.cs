@@ -3,15 +3,10 @@ using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Mutators.impl;
 
-public class BuildChunkKeys : IRuntimeMutator
+internal class BuildChunkKeys : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
-        foreach (var chunk in rt.VmChunks)
-        {
-            rt.Descriptor.Data.BuildStartKey(chunk);
-        }
-
         foreach (var chunk in rt.VmChunks)
         {
 
