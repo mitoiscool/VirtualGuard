@@ -62,8 +62,8 @@ internal class DataDescriptor
 
     public byte GetStartKey(VmChunk chunk)
     {
-        if(!_chunkKeyMap.ContainsKey(chunk))
-            BuildStartKey(chunk);
+        //if(!_chunkKeyMap.ContainsKey(chunk))
+        //    BuildStartKey(chunk);
         
         return _chunkKeyMap[chunk];
     }
@@ -73,7 +73,7 @@ internal class DataDescriptor
         _chunkKeyMap[chunk] = b; // used for branch encryption
     }
 
-    void BuildStartKey(VmChunk chunk)
+    public void BuildStartKey(VmChunk chunk)
     {
         var startKey = (byte)_rnd.Next(255);
         _chunkKeyMap.Add(chunk, startKey);

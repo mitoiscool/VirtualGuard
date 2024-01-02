@@ -52,12 +52,15 @@ internal class VirtualGuardRT
     public VmElements Elements;
     public readonly bool isDebug = false;
     public readonly VMDescriptor Descriptor;
-    
+
+    private VmChunk _conditionalRegion;
+
     private readonly List<IChunk> _allChunks = new List<IChunk>();
 
     public HeaderChunk HeaderChunk;
     public List<IChunk> GetChunkList() => _allChunks;
 
+    
 
     public bool IsEntryChunk(VmChunk chunk)
     {

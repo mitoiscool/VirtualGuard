@@ -36,7 +36,7 @@ internal interface IRuntimeMutator
         new TokenAllocator(),
         new EncodeStrings(),
         new BuildChunkKeys(),
-        new VirtualOpCodes(),
+        //new VirtualOpCodes(),
         new VmCalls(),
         new ChunkShuffler(),
         
