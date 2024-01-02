@@ -9,6 +9,11 @@ internal class BuildChunkKeys : IRuntimeMutator
     {
         foreach (var chunk in rt.VmChunks)
         {
+            rt.Descriptor.Data.BuildStartKey(chunk);
+        }
+        
+        foreach (var chunk in rt.VmChunks)
+        {
 
             foreach (var instr in chunk.Content)
             {

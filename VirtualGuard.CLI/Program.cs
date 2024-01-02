@@ -30,8 +30,8 @@ var debugKey = new Random().Next(); // we should grab this from input args
 //string settingsPath = args[2];
 //int debugKey = int.Parse(args[3]);
 
-string path = "VirtualGuard.dll";
-string outputPath = "VirtualGuard-d.dll";
+string path = "ConsoleApplication1.exe";
+string outputPath = "ConsoleApplication1-virt.exe";
 string settingsPath = "config.json";
 var license = LicenseType.Plus;
 
@@ -39,6 +39,7 @@ var logger = new ConsoleLogger();
 
 var module = ModuleDefinition.FromFile(path);
 
+#if !DEBUG
 if (args[0] == "-genconfig")
 {
     var gen = new ConfigGenerator(ModuleDefinition.FromFile(args[1]));
@@ -47,8 +48,7 @@ if (args[0] == "-genconfig")
     Console.WriteLine(gen.Serialize());
     return;
 }
-
-
+#endif
 
 // note: license is not initialized as of 12/17/23
 var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
