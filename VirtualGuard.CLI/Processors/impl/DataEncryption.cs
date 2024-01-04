@@ -10,7 +10,8 @@ namespace VirtualGuard.CLI.Processors.impl;
 
 public class DataEncryption : IProcessor
 {
-    private Dictionary<string, MethodDefinition> _stringCache = new Dictionary<string, MethodDefinition>();
+    public static Dictionary<object, MethodDefinition> _constantCache = new Dictionary<object, MethodDefinition>();
+    public static List<MethodDefinition> ScannedMethods = new List<MethodDefinition>();
 
     public string Identifier => "DataEncryption";
 
@@ -23,19 +24,22 @@ public class DataEncryption : IProcessor
         {
             if(method.CilMethodBody == null || !method.CilMethodBody.Instructions.Any())
                 continue;
-
+            
+            method.CilMethodBody.Instructions.ExpandMacros();
             var instrs = method.CilMethodBody.Instructions;
             
             foreach (var instruction in instrs.ToArray()) // keep being able to iterate through
             {
-                
-                if(instruction.OpCode.Code != CilCode.Ldstr)
+                if(instruction.OpCode.Code != CilCode.Ldstr && instruction.OpCode.Code != CilCode.Ldc_I4)
                     continue;
+                
+                if(!ScannedMethods.Contains(method))
+                    ScannedMethods.Add(method);
                 
                 if(instruction.Operand == null)
                     continue;
 
-                if (!_stringCache.TryGetValue((string)instruction.Operand, out var cachedMethod))
+                if (!_constantCache.TryGetValue(instruction.Operand, out var cachedMethod))
                 { // if it can't get the cached value, create new one
                     
 
@@ -43,7 +47,7 @@ public class DataEncryption : IProcessor
                         MethodAttributes.Static | MethodAttributes.Public,
                                 new MethodSignature(
                                     CallingConventionAttributes.Default,
-                                    ctx.Module.CorLibTypeFactory.String,
+                                    instruction.OpCode.Code == CilCode.Ldc_I4 ? ctx.Module.CorLibTypeFactory.Int32 : ctx.Module.CorLibTypeFactory.String,
                                     Array.Empty<TypeSignature>())
                     );
 
@@ -51,33 +55,40 @@ public class DataEncryption : IProcessor
 
                     var body = newMethod.CilMethodBody;
 
-                    body.Instructions.Add(CilOpCodes.Ldstr, (string)instruction.Operand);
+                    switch (Type.GetTypeCode(instruction.Operand.GetType()))
+                    {
+                        case TypeCode.String:
+                            body.Instructions.Add(CilOpCodes.Ldstr, (string)instruction.Operand);
+                            break;
+                        
+                        default:
+                            body.Instructions.Add(CilOpCodes.Ldc_I4, (int)instruction.Operand);
+                            break;
+                    }
+                    
                     body.Instructions.Add(CilOpCodes.Ret);
                     
                     ctx.Module.GetOrCreateModuleType().Methods.Add(newMethod);
 
                     cachedMethod = newMethod;
                     
-                    _stringCache.Add((string)instruction.Operand, newMethod);
+                    _constantCache.Add(instruction.Operand, newMethod);
                     
                     // virtualize method
                     ctx.Virtualizer.AddMethod(cachedMethod, true);
                 }
                 
-                // now replace with the temp method's body
-                method.CilMethodBody.Instructions.InsertRange(method.CilMethodBody.Instructions.IndexOf(instruction),
-                    _stringCache[(string)instruction.Operand].CilMethodBody.Instructions
-                );
             }
             
+            method.CilMethodBody.Instructions.OptimizeMacros();
         }
         
         // now remove cached tmp methods
 
-        foreach (var meth in _stringCache.Values)
-        {
-            meth.DeclaringType.Methods.Remove(meth);
-        }
+        //foreach (var meth in _stringCache.Values)
+        //{
+        //    meth.DeclaringType.Methods.Remove(meth);
+        //}
         
     }
     

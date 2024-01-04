@@ -62,7 +62,7 @@ public static class Util
         list.InsertRange(index, newItems);
     }
     
-    internal static void ReplaceRange(this CilInstructionCollection list, CilInstruction existingItem, params CilInstruction[] newItems)
+    public static void ReplaceRange(this CilInstructionCollection list, CilInstruction existingItem, params CilInstruction[] newItems)
     { // chatgpt ftw
         if (list == null)
         {
@@ -81,11 +81,13 @@ public static class Util
             throw new ArgumentException("The specified item does not exist in the list.", nameof(existingItem));
         }
 
+        var firstInstr = newItems.First();
+        
         // Remove the existing item
-        list.RemoveAt(index);
+        list[index].ReplaceWith(firstInstr.OpCode, firstInstr.Operand);
 
         // Insert new items at the removed item's index
-        list.InsertRange(index, newItems);
+        list.InsertRange(index + 1, newItems.Except(new [] { firstInstr }));
     }
 
     public static TypeDefinition LookupType(this ModuleDefinition mod, string name)
