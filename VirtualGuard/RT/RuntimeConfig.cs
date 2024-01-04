@@ -11,4 +11,5 @@ internal static class RuntimeConfig
     
     public const string VmEntry = "VirtualGuard.Runtime.Entry:VMEntryBasic";
     public const string VmEntryInst = "VirtualGuard.Runtime.Entry:VMEntryInst";
+    public const string VmEntryNoArgs = "VirtualGuard.Runtime.Entry:VMEntryNoArgs";
 }

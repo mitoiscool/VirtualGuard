@@ -65,23 +65,25 @@ internal class RuntimeProcessor
         
         // box param.type
         // stelem.ref
-        
-        
-        instrs.Add(CilOpCodes.Ldc_I4, meth.Parameters.Count);
-        instrs.Add(CilOpCodes.Newarr, _ctx.Module.CorLibTypeFactory.Object.ToTypeDefOrRef());
 
-        int index = 0;
-        foreach (var param in meth.Parameters)
+        if (meth.Parameters.Count > 0)
         {
-            instrs.Add(CilOpCodes.Dup);
-            instrs.Add(CilOpCodes.Ldc_I4, index);
-            
-            instrs.Add(CilOpCodes.Ldarg, param);
-            
-            instrs.Add(CilOpCodes.Box, param.ParameterType.ToTypeDefOrRef()); // get paramtype
-            instrs.Add(CilOpCodes.Stelem_Ref);
-            
-            index++;
+            instrs.Add(CilOpCodes.Ldc_I4, meth.Parameters.Count);
+            instrs.Add(CilOpCodes.Newarr, _ctx.Module.CorLibTypeFactory.Object.ToTypeDefOrRef());
+
+            int index = 0;
+            foreach (var param in meth.Parameters)
+            {
+                instrs.Add(CilOpCodes.Dup);
+                instrs.Add(CilOpCodes.Ldc_I4, index);
+
+                instrs.Add(CilOpCodes.Ldarg, param);
+
+                instrs.Add(CilOpCodes.Box, param.ParameterType.ToTypeDefOrRef()); // get paramtype
+                instrs.Add(CilOpCodes.Stelem_Ref);
+
+                index++;
+            }
         }
 
         if (meth.Signature.HasThis && meth.Parameters.Count > 0 &&
@@ -92,7 +94,15 @@ internal class RuntimeProcessor
         }
         else
         {
-            instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
+            if (meth.Parameters.Count > 0)
+            {
+                instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntry);
+            }
+            else
+            {
+                instrs.Add(CilOpCodes.Call, _runtime.Elements.VmEntryNoArgs);
+            }
+            
         }
         
 
