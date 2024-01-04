@@ -11,6 +11,11 @@ namespace VirtualGuard.Runtime
             return VMEntry(loc, VMReader.GetEntryKey(loc), args);
         }
 
+        public static object VMEntryNoArgs(int loc)
+        {
+            return VMEntryBasic(loc, Array.Empty<object>());
+        }
+        
         public static object VMEntry(int loc, byte entryKey, object[] args)
         {
             return new VMContext(entryKey).Dispatch(loc, args);

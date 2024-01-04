@@ -81,6 +81,8 @@ if (ctx.Configuration.UseDataEncryption)
 if(ctx.Configuration.RenameDebugSymbols)
     pipeline.Enqueue(new Renamer());
 
+pipeline.Enqueue(new Watermark());
+
 while(pipeline.TryDequeue(out IProcessor processor)) {
     processor.Process(ctx);
     logger.Success("Processed: " + processor.Identifier);
