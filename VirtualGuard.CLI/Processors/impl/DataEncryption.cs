@@ -64,11 +64,19 @@ public class DataEncryption : IProcessor
                     ctx.Virtualizer.AddMethod(cachedMethod, true);
                 }
                 
-                // now replace ref
-                
-                instruction.ReplaceWith(CilOpCodes.Call, cachedMethod);
+                // now replace with the temp method's body
+                method.CilMethodBody.Instructions.InsertRange(method.CilMethodBody.Instructions.IndexOf(instruction),
+                    _stringCache[(string)instruction.Operand].CilMethodBody.Instructions
+                );
             }
             
+        }
+        
+        // now remove cached tmp methods
+
+        foreach (var meth in _stringCache.Values)
+        {
+            meth.DeclaringType.Methods.Remove(meth);
         }
         
     }
