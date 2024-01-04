@@ -31,6 +31,10 @@ public class PostDataEncryption : IProcessor
         }
         
         
+        foreach (var meth in DataEncryption._constantCache.Values)
+        { // cleanup
+            meth.DeclaringType.Methods.Remove(meth);
+        }
         
     }
 }
