@@ -85,10 +85,7 @@ public class DataEncryption : IProcessor
         
         // now remove cached tmp methods
 
-        //foreach (var meth in _stringCache.Values)
-        //{
-        //    meth.DeclaringType.Methods.Remove(meth);
-        //}
+        
         
     }
     
