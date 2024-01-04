@@ -73,6 +73,11 @@ if (ctx.Configuration.UseDataEncryption)
 
 pipeline.Enqueue(new Virtualization());
 
+if (ctx.Configuration.UseDataEncryption)
+{
+    pipeline.Enqueue(new PostDataEncryption()); // fml
+}
+
 if(ctx.Configuration.RenameDebugSymbols)
     pipeline.Enqueue(new Renamer());
 

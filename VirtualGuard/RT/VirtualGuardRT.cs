@@ -59,7 +59,6 @@ internal class VirtualGuardRT
 
     public HeaderChunk HeaderChunk;
     public List<IChunk> GetChunkList() => _allChunks;
-
     
 
     public bool IsEntryChunk(VmChunk chunk)
