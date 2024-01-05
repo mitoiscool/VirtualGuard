@@ -81,13 +81,13 @@ public static class Util
             throw new ArgumentException("The specified item does not exist in the list.", nameof(existingItem));
         }
 
-        var firstInstr = newItems.First();
+        var firstInstr = newItems[0];
         
-        // Remove the existing item
-        list[index].ReplaceWith(firstInstr.OpCode, firstInstr.Operand);
+        // Replace the existing item with the new code
+        list[index++].ReplaceWith(firstInstr.OpCode, firstInstr.Operand);
 
-        // Insert new items at the removed item's index
-        list.InsertRange(index + 1, newItems.Except(new [] { firstInstr }));
+        // Insert new items infront of the new item
+        list.InsertRange(index, newItems.Except(new [] { firstInstr }));
     }
 
     public static TypeDefinition LookupType(this ModuleDefinition mod, string name)

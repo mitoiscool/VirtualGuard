@@ -71,12 +71,19 @@ if (ctx.Configuration.UseDataEncryption)
     pipeline.Enqueue(new DataEncryption());
 }
 
+if (ctx.Configuration.UseImportProtection && license != LicenseType.Free)
+{
+    pipeline.Enqueue(new ImportProtection());
+}
+
 pipeline.Enqueue(new Virtualization());
 
 if (ctx.Configuration.UseDataEncryption)
 {
     pipeline.Enqueue(new PostDataEncryption()); // fml
 }
+
+//pipeline.Enqueue(new PostImportProtection());
 
 if(ctx.Configuration.RenameDebugSymbols)
     pipeline.Enqueue(new Renamer());
