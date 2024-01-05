@@ -9,6 +9,8 @@ public class SerializedConfig
     
     public bool RenameDebugSymbols;
     public bool UseDataEncryption;
+    public bool UseImportProtection;
+    
     public int ProcessorCount;
     
     public MethodDefinition[] ResolveVirtualizedMethods(Context ctx)

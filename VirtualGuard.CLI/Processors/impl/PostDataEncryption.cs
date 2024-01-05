@@ -29,8 +29,11 @@ public class PostDataEncryption : IProcessor
             method.CilMethodBody.Instructions.CalculateOffsets();
             method.CilMethodBody.Instructions.OptimizeMacros();
         }
-        
-        
+
+        foreach (var meth in DataEncryption._constantCache.Values)
+        {
+            meth.DeclaringType.Methods.Remove(meth);
+        }
         
     }
 }
