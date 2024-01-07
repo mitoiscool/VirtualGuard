@@ -26,7 +26,7 @@ namespace VirtualGuard.Runtime
                 Array.Copy(_array, 0, arr, 0, _index);
                 _array = arr;
             }
-
+            
             _array[_index++] = val;
         }
 

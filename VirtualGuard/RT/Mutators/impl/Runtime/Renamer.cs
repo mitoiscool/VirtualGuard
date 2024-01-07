@@ -32,8 +32,7 @@ internal class Renamer : IRuntimeMutator
                 }
             }
         }
-
-
+        
         foreach (var type in rt.RuntimeModule.GetAllTypes().Where(x => !x.IsModuleType && !x.IsRuntimeSpecialName))
         {
             type.Namespace = random.Next(int.MaxValue).ToString("x");

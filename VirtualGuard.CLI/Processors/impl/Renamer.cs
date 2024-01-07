@@ -5,7 +5,6 @@ namespace VirtualGuard.CLI.Processors.impl;
 
 public class Renamer : IProcessor
 {
-
     private Dictionary<MethodSignature, string> _sigMap = new Dictionary<MethodSignature, string>();
     
     public string Identifier => "Renamer";
@@ -28,7 +27,7 @@ public class Renamer : IProcessor
 
                 if (!type.IsModuleType && !type.IsRuntimeSpecialName)
                 {
-                    type.Name = "vg" + typeIndex++;
+                    type.Name = "<." + typeIndex++ + ".>;";
                 }
                     
             }
@@ -49,12 +48,12 @@ public class Renamer : IProcessor
                     if(method.IsAbstract || method.IsVirtual || (type.BaseType != null && type.BaseType.Resolve() != null && type.BaseType.Resolve().IsInterface && type.BaseType.Resolve().Methods.Select(x => x.Name).Contains(method.Name)))
                         continue; // fml
 
-                    method.Name = "vg" + methodIndex++;
+                    method.Name = "<." + methodIndex++ + ".>;";
                 }
 
                 foreach (var arg in method.ParameterDefinitions)
                 {
-                    arg.Name = "vg";
+                    arg.Name = "<.vg.>;";
                 }
                 
             }
@@ -65,7 +64,7 @@ public class Renamer : IProcessor
                     continue; // shouldn't rename
                 
                 if (!ctx.Configuration.IsMemberExcluded(field, ctx) && !field.IsRuntimeSpecialName)
-                    field.Name = "vg";
+                    field.Name = "<.vg.>;";
             }
             
         }
