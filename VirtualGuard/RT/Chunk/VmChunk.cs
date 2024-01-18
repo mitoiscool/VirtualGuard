@@ -87,7 +87,7 @@ internal class VmChunk : IChunk
         {
             // to calculate fixups, we should find difference between new code and old, to inverse adding old to fixup
 
-            var rawOpCode = rt.Descriptor.OpCodes[instr.OpCode];
+            var rawOpCode = rt.Descriptor.OpCodes.GetHandler(instr.OpCode).Identifier;
 
             var fixupValue = (byte)(rawOpCode - prevCode);
             

@@ -1,8 +1,10 @@
+using VirtualGuard.RT.Descriptor.Handler;
+
 namespace VirtualGuard.RT.Descriptor;
 
 internal class VMDescriptor
 {
-    public OpCodeDescriptor OpCodes;
+    public HandlerResolver OpCodes;
     public DataDescriptor Data;
     public ComparisonDescriptor ComparisonFlags;
     public CorLibTypeDescriptor CorLibTypeDescriptor;

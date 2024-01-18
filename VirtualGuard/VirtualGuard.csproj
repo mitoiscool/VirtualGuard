@@ -25,6 +25,7 @@
       <Reference Include="Echo.Platforms.AsmResolver">
         <HintPath>..\Deps\Echo.Platforms.AsmResolver.dll</HintPath>
       </Reference>
+
     </ItemGroup>
 
 

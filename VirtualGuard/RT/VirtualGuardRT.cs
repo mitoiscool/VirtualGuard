@@ -6,6 +6,7 @@ using AsmResolver.PE.DotNet.Metadata;
 using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
 using VirtualGuard.RT.Chunk;
 using VirtualGuard.RT.Descriptor;
+using VirtualGuard.RT.Descriptor.Handler;
 using VirtualGuard.RT.Mutators;
 using VirtualGuard.VMIL.VM;
 
@@ -32,9 +33,9 @@ internal class VirtualGuardRT
             Data = new DataDescriptor(rnd, debugKey)
             {
                 StreamName = rnd.Next().ToString("x"),
-                Watermark = rnd.Next().ToString("x")
+                Watermark = "virtualguard.io-" + rnd.Next().ToString("X")
             }, // this is shit code
-            OpCodes = new OpCodeDescriptor(rnd),
+            OpCodes = new HandlerResolver(RuntimeModule),
             ComparisonFlags = new ComparisonDescriptor(rnd),
             CorLibTypeDescriptor = new CorLibTypeDescriptor(rnd),
             ExceptionHandlers = new ExceptionHandlerDescriptor(rnd),
@@ -47,15 +48,11 @@ internal class VirtualGuardRT
 
     private readonly Dictionary<VmChunk, MethodDefinition> _exportMap = new Dictionary<VmChunk, MethodDefinition>();
     private readonly Dictionary<VmChunk, MethodDefinition> _importMap = new Dictionary<VmChunk, MethodDefinition>();
-
-    private Dictionary<VmChunk, byte> _chunkKeyMap = new Dictionary<VmChunk, byte>();
     
     public VmElements Elements;
     public readonly bool isDebug = false;
     public readonly VMDescriptor Descriptor;
-
-    private VmChunk _conditionalRegion;
-
+    
     private readonly List<IChunk> _allChunks = new List<IChunk>();
 
     public HeaderChunk HeaderChunk;

@@ -12,8 +12,6 @@ public class Renamer : IProcessor
     {
         int typeIndex = 0;
 
-        int abstractIndex = 0;
-
         foreach (var type in ctx.Module.GetAllTypes().Except(ctx.Virtualizer.GetVmTypes()))
         {
             int methodIndex = 0;
