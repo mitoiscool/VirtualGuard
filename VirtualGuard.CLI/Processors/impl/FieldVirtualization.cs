@@ -1,3 +1,5 @@
+using AsmResolver.DotNet;
+
 namespace VirtualGuard.CLI.Processors.impl;
 
 public class FieldVirtualization : IProcessor
@@ -14,4 +16,9 @@ public class FieldVirtualization : IProcessor
         }
             
     }
+
+    /*TypeDefinition BuildHolderField()
+    {
+        
+    }*/
 }
