@@ -60,4 +60,5 @@ public enum VmCode : byte
     Ldftn,
     Dup,
     
+    __nop,
 }

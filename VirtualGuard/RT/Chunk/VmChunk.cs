@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Signatures.Types;
+using VirtualGuard.RT.Descriptor.Handler;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Chunk;
@@ -80,22 +81,21 @@ internal class VmChunk : IChunk
         var operandShifts = rt.Descriptor.Data.ByteShifts;
 
         byte key = rt.Descriptor.Data.GetStartKey(this);
-        byte prevCode = 0;
         int index = 0;
+        VmHandler previous = new VmHandler(VmCode.__nop, null, 0);
         
         foreach (var instr in Content)
         {
             // to calculate fixups, we should find difference between new code and old, to inverse adding old to fixup
 
-            var rawOpCode = rt.Descriptor.OpCodes.GetHandler(instr.OpCode).Identifier;
+            var handler = rt.Descriptor.OpCodes.GetHandler(instr.OpCode);
+            var rawOpCode = handler.Identifier;
 
-            var fixupValue = (byte)(rawOpCode - prevCode);
+            var fixupValue = (byte)(rawOpCode - previous.Identifier);
             
             //Debug.Assert((byte)(prevCode + fixupValue) == rawOpCode);
             
             //Console.WriteLine("prev: {0} current: {1} diff: {2}", prevCode, rawOpCode, fixupValue);
-
-            prevCode = rawOpCode; // mark previous
 
             // fixup value is essentially just the way to get to the current code from the previous code
 
@@ -103,11 +103,13 @@ internal class VmChunk : IChunk
             
             // mutate fixup value
             
-            Console.WriteLine("writing instr " + instr.ToString());
+            Console.WriteLine("{0} {1} {2} writing instr {3}", handler.OpCode.ToString(), rawOpCode, fixupValue, instr.ToString());
 
-            if(index > 0) // don't mutate if first instr
-                fixupValue = rt.Descriptor.Data.EmulateFixupMutation(Content[index - 1].OpCode, fixupValue); // use last opcode
+            if (index > 0) // don't mutate if first instr
+                fixupValue = previous.EmulateFixupMutation(fixupValue); // fixup using the previous mutator in the sequence
 
+            previous = handler;
+            
             writer.Write((byte)(fixupValue ^ key));
             
             key = (byte)((key * handlerShifts[0]) + fixupValue +

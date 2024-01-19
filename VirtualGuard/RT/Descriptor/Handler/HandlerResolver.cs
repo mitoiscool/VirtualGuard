@@ -1,9 +1,13 @@
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Cloning;
+using AsmResolver.PE.DotNet.Cil;
+using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
+using VirtualGuard.RT.Dynamic;
 using VirtualGuard.VMIL.VM;
 
 namespace VirtualGuard.RT.Descriptor.Handler;
 
-public class HandlerResolver
+internal class HandlerResolver
 {
     private static Random _rnd = new Random();
     
@@ -11,6 +15,7 @@ public class HandlerResolver
 
     private List<VmHandler> _handlerCache = new List<VmHandler>();
     private ModuleDefinition _runtimeModule;
+    private Dictionary<VmHandler, MutationExpression> _fixupMutations = new Dictionary<VmHandler, MutationExpression>();
     
     public HandlerResolver(ModuleDefinition runtime)
     {
@@ -19,8 +24,7 @@ public class HandlerResolver
         // populate handler definitions
 
         var opcodes = typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray(); // eliminate transform instrs
-        opcodes.Shuffle(); // shuffle the values before looking up just to ensure the definition array is unique
-        
+
         foreach (var name in opcodes)
         {
             try
@@ -38,7 +42,7 @@ public class HandlerResolver
         
         // build handler map (we will include all handlers for this basic impl)
         
-        byte[] opCodeOrder = Enumerable.Range(0, 256).Select(x => (byte)x).ToArray();
+        byte[] opCodeOrder = Enumerable.Range(0, 200).Select(x => (byte)x).ToArray(); // 150 handlers
         _rnd.Shuffle(opCodeOrder); // make an array of random bytes
 
         int i = 0;
@@ -49,33 +53,49 @@ public class HandlerResolver
             {
                 // add some extra randomness
                 
-                if(_handlerCache.Any(x => x.OpCode == handlerDefKvp.Key) && _rnd.Next(9) == 0)
-                    continue; // potentially randomly stop execution if the opcode has already been added (1/10)
+                //if(_handlerCache.Any(x => x.OpCode == handlerDefKvp.Key) && _rnd.Next(9) == 0)
+                 //   continue; // potentially randomly stop execution if the opcode has already been added (1/10)
                 
-                _handlerCache.Add(new VmHandler(handlerDefKvp.Key, handlerDefKvp.Value, opCodeOrder[i++]));
+                 // clone type def
+
+                 var oldType = handlerDefKvp.Value;
+
+                 var newDefinition =
+                     new TypeDefinition("VirtualGuard.Runtime.OpCodes.impl", handlerDefKvp.Key.ToString() + i, TypeAttributes.Public, oldType.BaseType);
+                 
+                 foreach (InterfaceImplementation implementation in oldType.Interfaces)
+                     newDefinition.Interfaces.Add(new InterfaceImplementation(_runtimeModule.DefaultImporter.ImportTypeOrNull(implementation.Interface)));
+                 
+                 foreach (MethodImplementation methodImplementation in newDefinition.MethodImplementations)
+                     newDefinition.MethodImplementations.Add(new MethodImplementation(_runtimeModule.DefaultImporter.ImportMethodOrNull(methodImplementation.Declaration), _runtimeModule.DefaultImporter.ImportMethodOrNull(methodImplementation.Body)));
+
+                 foreach (var method in oldType.Methods)
+                 {
+                     var clonedMethod = new MethodDefinition(method.Name, method.Attributes, method.Signature);
+
+                     clonedMethod.CilMethodBody = method.CilMethodBody;
+                     
+                     newDefinition.Methods.Add(clonedMethod);
+                 }
+                 
+                _handlerCache.Add(new VmHandler(handlerDefKvp.Key, newDefinition, opCodeOrder[i++]));
+                _runtimeModule.TopLevelTypes.Add(newDefinition);
                 
-                if(i == byte.MaxValue)
+                if(i == opCodeOrder.Length)
                     break; // don't let it go over
             }
             
-        } while (true);
+        } while (i != opCodeOrder.Length);
         
         // pray this works
     }
 
     public VmHandler GetHandler(VmCode code)
-    { // will get essentially a random handler
+    { // get a random handler that for the opcode
         var handlersSupportingCode = _handlerCache.Where(x => x.OpCode == code).ToArray();
 
         return handlersSupportingCode[_rnd.Next(handlersSupportingCode.Length)];
     }
 
-    public void CommitHandlers()
-    {
-        foreach (var handler in _handlerCache)
-        {
-            _runtimeModule.TopLevelTypes.Add(handler.HandlerDefinition);
-        }
-    }
-    
+
 }
