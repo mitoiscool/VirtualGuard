@@ -9,28 +9,6 @@ internal class InjectConstants : IRuntimeMutator
 {
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
-
-        var opcodes = typeof(VmCode).GetEnumNames().Where(x => x.Substring(0, 2) != "__").ToArray(); // eliminate transform instrs
-        var opcodeMap = new Dictionary<VmCode, TypeDefinition>();
-        
-        
-        foreach (var name in opcodes)
-        {
-            try
-            {
-                var type = rt.RuntimeModule.LookupType(RuntimeConfig.BaseHandler + "." + name);
-
-                opcodeMap.Add((VmCode)Array.IndexOf(opcodes, name), type);
-            }
-            catch(InvalidOperationException ex)
-            {
-                throw new KeyNotFoundException("Could not locate opcode: " + name + " in runtime!");
-            }
-        }
-
-        // commit handlers
-        rt.Descriptor.OpCodes.CommitHandlers();
-        
         // inject comparison flags
 
         var constantsType = rt.RuntimeModule.LookupType(RuntimeConfig.Constants);

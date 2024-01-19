@@ -11,16 +11,12 @@ internal class MutationExpression
 
     static Random _rnd = new Random();
     
-    public static MutationExpression Random(int steps = 0)
+    public static MutationExpression Random(int steps)
     {
         var expr = new MutationExpression();
 
-        if (steps == 0) // random amount of steps
-            steps = _rnd.Next(3, 10);
-
         for (int i = 0; i < steps; i++)
         {
-            
             // get random operation and mod
             var modifier = _rnd.Next(1, 100000);
             var operation = (Operation)_rnd.Next(typeof(Operation).GetEnumNames().Length);

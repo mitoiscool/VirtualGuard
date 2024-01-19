@@ -26,16 +26,5 @@ public class HandlerJunkCode
         
     }
     
-    public void OpaqueBranchBranch(VMContext ctx)
-    {
-        ctx.Stack.Push(new NullVariant());
-        if (ctx.Stack.Peek().IsNumeral())
-        {
-            ctx.Reader.
-        }
-
-        ctx.Stack.Pop();
-
-    }
     
 }

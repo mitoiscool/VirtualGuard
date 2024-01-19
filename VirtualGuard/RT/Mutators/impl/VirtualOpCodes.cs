@@ -6,7 +6,6 @@ namespace VirtualGuard.RT.Mutators.impl;
 internal class VirtualOpCodes : IRuntimeMutator
 {
     
-    
     public void Mutate(VirtualGuardRT rt, VirtualGuardContext ctx)
     {
         // issue at hand : we have no way of calculating the start key
