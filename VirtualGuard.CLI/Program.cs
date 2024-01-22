@@ -13,33 +13,19 @@ using VirtualGuard.CLI.Processors.impl;
 
 #if DEBUG
 var debug = true;
-var debugKey = 0;
 #else
-var debug = false;
-var debugKey = new Random().Next(); // we should grab this from input args
+var debug = false
 #endif
 
+/*
+ cli.exe -genconfig <path>
+returns: gonna edit an example here
 
-// arg format <path> <output_path>
+default cli:
+ 
+cli.exe <license> <path> <output_path> <debug_key> -raw <raw config>
+cli.exe <license> <path> <output_path> <debug_key> <cfg path>*/
 
-//if (args.Length != 4)
-//    throw new ArgumentException("Expected 4 args.");
-
-//string path = args[0];
-//string outputPath = args[1];
-//string settingsPath = args[2];
-//int debugKey = int.Parse(args[3]);
-
-string path = "ConsoleApplication1.exe";
-string outputPath = "ConsoleApplication1-virt.exe";
-string settingsPath = "config.json";
-var license = LicenseType.Plus;
-
-var logger = new ConsoleLogger();
-
-var module = ModuleDefinition.FromFile(path);
-
-#if !DEBUG
 if (args[0] == "-genconfig")
 {
     var gen = new ConfigGenerator(ModuleDefinition.FromFile(args[1]));
@@ -48,10 +34,21 @@ if (args[0] == "-genconfig")
     Console.WriteLine(gen.Serialize());
     return;
 }
-#endif
+
+LicenseType license = (LicenseType)int.Parse(args[0]); // will throw error if not int
+string path = args[1];
+string outputPath = args[2];
+int debugKey = int.Parse(args[3]);
+
+string settings = args[4] == "-raw" ? args[5] : File.ReadAllText(args[4]);
+
+var logger = new ConsoleLogger();
+
+var module = ModuleDefinition.FromFile(path);
+
 
 // note: license is not initialized as of 12/17/23
-var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(File.ReadAllText(settingsPath)), logger, license);
+var ctx = new Context(module, JsonConvert.DeserializeObject<SerializedConfig>(settings), logger, license);
 
 var vgCtx = new VirtualGuardContext(module, logger);
 
