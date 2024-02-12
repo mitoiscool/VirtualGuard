@@ -2,6 +2,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Text;
 using AsmResolver.DotNet;
+using AsmResolver.DotNet.Cloning;
 using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 using VirtualGuard.AST;
@@ -101,6 +102,70 @@ public static class Util
         
         return mod.GetAllTypes().Single(x => x.FullName == split[0]).Methods.Single(x => x.Name == split[1]);
     }
+
+    private static Random _rnd = new Random();
+    
+    public static TypeDefinition Clone(this TypeDefinition def, ModuleDefinition mod)
+    {
+        var cloner = new MemberCloner(mod);
+
+        cloner.Include(def);
+
+        var member = cloner.Clone().GetClonedMember(def);
+        member.Name = "{" + _rnd.Next() + "}-" + member.Name;
+
+        return member;
+        
+        var newType = new TypeDefinition(def.Namespace, def.Name + "_clone-" + _rnd.Next(), def.Attributes, mod.DefaultImporter.ImportType(def.BaseType));
+
+        foreach (var interfac in def.Interfaces)
+        {
+            newType.Interfaces.Add(new InterfaceImplementation(interfac.Interface));
+        }
+        
+        // clone methods
+
+        if (def.Fields.Count > 0)
+            throw new InvalidOperationException("could not clone type with fields");
+
+        foreach (var impl in def.MethodImplementations)
+            newType.MethodImplementations.Add(new MethodImplementation(mod.DefaultImporter.ImportMethodOrNull(impl.Declaration), mod.DefaultImporter.ImportMethodOrNull(impl.Body)));
+
+        foreach (var oldMeth in def.Methods)
+        {
+            // clone locals
+            var newMeth = new MethodDefinition(oldMeth.Name, oldMeth.Attributes, oldMeth.Signature);
+
+            if(oldMeth.CilMethodBody == null)
+                continue;
+            
+            newMeth.CilMethodBody = new CilMethodBody(newMeth);
+
+            foreach (var var in oldMeth.CilMethodBody.LocalVariables)
+                newMeth.CilMethodBody.LocalVariables.Add(new CilLocalVariable(var.VariableType));
+
+            var body = oldMeth.CilMethodBody;
+            var clonedBody = newMeth.CilMethodBody;
+
+            foreach (var instr in body.Instructions)
+                clonedBody.Instructions.Add(instr);
+
+            foreach (var instr in clonedBody.Instructions)
+            {
+                if (instr.Operand is CilLocalVariable v)
+                    instr.Operand = clonedBody.LocalVariables[v.Index];
+
+                if (instr.IsBranch())
+                    instr.Operand = new CilInstructionLabel(clonedBody.Instructions[body.Instructions.IndexOf(((CilInstructionLabel)instr.Operand).Instruction)]); // localize
+            }
+            
+            newType.Methods.Add(newMeth);
+        }
+
+        return newType;
+    }
+    
+    
 
     public static IMemberDefinition LookupMember(this ModuleDefinition mod, string name)
     {

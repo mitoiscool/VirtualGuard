@@ -33,19 +33,20 @@ internal class VmHandler
         // inline fixup mutation into the identifier body
 
         var fixupRefs = ExecuteDefinition.CilMethodBody.Instructions.Where(x =>
-            x.Operand is IMethodDescriptor fd && fd.Name == "ReadFixupValue").ToArray();
+            x.Operand is IMethodDescriptor fd && fd.Name == "ReadFixupValue");
+
+        if (!fixupRefs.Any())
+            return;
+
+        var fixupRef = fixupRefs.First();
 
         var mutationCil = this.FixupMutation.ToCIL();
 
-        foreach (var fixupRef in fixupRefs)
-        { // skip first ref for jz, second is the one that matters
+        // get index of fixupRef
+        var index = ExecuteDefinition.CilMethodBody.Instructions.IndexOf(fixupRef) + 1;
 
-            // get index of fixupRef
-            var index = ExecuteDefinition.CilMethodBody.Instructions.IndexOf(fixupRef) + 1;
-
-            // insert all into target
-            ExecuteDefinition.CilMethodBody.Instructions.InsertRange(index, mutationCil);
-        }
+        // insert all into target
+        ExecuteDefinition.CilMethodBody.Instructions.InsertRange(index, mutationCil);
 
         ExecuteDefinition.CilMethodBody.Instructions.CalculateOffsets();
     }
