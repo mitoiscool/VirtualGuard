@@ -27,6 +27,8 @@ internal interface IRuntimeMutator
         new InjectConstants(),
         new EncryptExceptions(),
         
+        new HandlerMutator(),
+        
         new Renamer(),
         //new ControlFlow(),
         //new LocMutation(),

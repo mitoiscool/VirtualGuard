@@ -1,5 +1,6 @@
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Cloning;
+using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
 using VirtualGuard.RT.Dynamic;
@@ -15,8 +16,7 @@ internal class HandlerResolver
 
     private List<VmHandler> _handlerCache = new List<VmHandler>();
     private ModuleDefinition _runtimeModule;
-    private Dictionary<VmHandler, MutationExpression> _fixupMutations = new Dictionary<VmHandler, MutationExpression>();
-    
+
     public HandlerResolver(ModuleDefinition runtime)
     {
         _runtimeModule = runtime;
@@ -42,7 +42,7 @@ internal class HandlerResolver
         
         // build handler map (we will include all handlers for this basic impl)
         
-        byte[] opCodeOrder = Enumerable.Range(0, 200).Select(x => (byte)x).ToArray(); // 150 handlers
+        byte[] opCodeOrder = Enumerable.Range(0, byte.MaxValue).Select(x => (byte)x).ToArray();
         _rnd.Shuffle(opCodeOrder); // make an array of random bytes
 
         int i = 0;
@@ -53,32 +53,16 @@ internal class HandlerResolver
             {
                 // add some extra randomness
                 
-                //if(_handlerCache.Any(x => x.OpCode == handlerDefKvp.Key) && _rnd.Next(9) == 0)
-                 //   continue; // potentially randomly stop execution if the opcode has already been added (1/10)
+                if(_handlerCache.Any(x => x.OpCode == handlerDefKvp.Key) && _rnd.Next(9) == 0) 
+                    continue; // potentially randomly stop execution if the opcode has already been added (1/10)
                 
                  // clone type def
 
                  var oldType = handlerDefKvp.Value;
 
-                 var newDefinition =
-                     new TypeDefinition("VirtualGuard.Runtime.OpCodes.impl", handlerDefKvp.Key.ToString() + i, TypeAttributes.Public, oldType.BaseType);
-                 
-                 foreach (InterfaceImplementation implementation in oldType.Interfaces)
-                     newDefinition.Interfaces.Add(new InterfaceImplementation(_runtimeModule.DefaultImporter.ImportTypeOrNull(implementation.Interface)));
-                 
-                 foreach (MethodImplementation methodImplementation in newDefinition.MethodImplementations)
-                     newDefinition.MethodImplementations.Add(new MethodImplementation(_runtimeModule.DefaultImporter.ImportMethodOrNull(methodImplementation.Declaration), _runtimeModule.DefaultImporter.ImportMethodOrNull(methodImplementation.Body)));
+                 var newDefinition = oldType.Clone(_runtimeModule);
 
-                 foreach (var method in oldType.Methods)
-                 {
-                     var clonedMethod = new MethodDefinition(method.Name, method.Attributes, method.Signature);
-
-                     clonedMethod.CilMethodBody = method.CilMethodBody;
-                     
-                     newDefinition.Methods.Add(clonedMethod);
-                 }
-                 
-                _handlerCache.Add(new VmHandler(handlerDefKvp.Key, newDefinition, opCodeOrder[i++]));
+                 _handlerCache.Add(new VmHandler(handlerDefKvp.Key, newDefinition, opCodeOrder[i++]));
                 _runtimeModule.TopLevelTypes.Add(newDefinition);
                 
                 if(i == opCodeOrder.Length)
