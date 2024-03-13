@@ -94,7 +94,15 @@ namespace VirtualGuard.Runtime.Variant
         
         public BaseVariant Cast(Type t)
         {
+            if (this is BaseReferenceVariant)
+                return this; // don't cast, would mess up the ref
             
+            // do some enum logic or something
+
+            if (GetObject().GetType().IsValueType)
+                return BaseVariant.CreateVariant(GetObject(), t);
+
+            return new ObjectVariant(this.GetObject());
         }
 
         public virtual bool IsReference()
