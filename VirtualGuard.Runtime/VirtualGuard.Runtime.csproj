@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <LangVersion>10</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -12,5 +13,9 @@
       <DebugType>none</DebugType>
     </PropertyGroup>
 
+
+    <ItemGroup>
+      <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
+    </ItemGroup>
 
 </Project>

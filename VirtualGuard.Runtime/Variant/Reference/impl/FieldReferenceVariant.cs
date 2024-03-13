@@ -4,24 +4,28 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
 {
     public class FieldReferenceVariant : BaseReferenceVariant
     {
+        private FieldInfo _field;
+        private object _inst;
+        
         public FieldReferenceVariant(FieldInfo info, object inst)
         {
-            
+            _field = info;
+            _inst = inst;
         }
         
         public override object GetObject()
         {
-            throw new System.NotImplementedException();
+            return _field.GetValue(_inst);
         }
 
         public override void SetVariantValue(object obj)
         {
-            throw new System.NotImplementedException();
+            _field.SetValue(_inst, obj);
         }
 
         public override BaseVariant Clone()
         {
-            throw new System.NotImplementedException();
+            return new FieldReferenceVariant(_field, _inst);
         }
     }
 }

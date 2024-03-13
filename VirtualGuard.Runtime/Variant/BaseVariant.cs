@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using VirtualGuard.Runtime.Dynamic;
 using VirtualGuard.Runtime.Variant.Object;
+using VirtualGuard.Runtime.Variant.Reference;
+using VirtualGuard.Runtime.Variant.Reference.impl;
 using VirtualGuard.Runtime.Variant.ValueType;
 using VirtualGuard.Runtime.Variant.ValueType.Numeric;
 
@@ -71,6 +73,28 @@ namespace VirtualGuard.Runtime.Variant
                 return Constants.CMP_EQ;
 
             return 0;
+        }
+
+        public BaseVariant Box()
+        {
+            if (this is BaseReferenceVariant)
+                throw new InvalidOperationException(Routines.EncryptDebugMessage("Cannot box reference type."));
+            
+            
+            return new BoxedReferenceVariant(this);
+        }
+
+        public BaseVariant Unbox()
+        {
+            if (this is BoxedReferenceVariant brv)
+                return brv.Unbox();
+
+            throw new InvalidOperationException(Routines.EncryptDebugMessage("Unboxing type could not be unboxed"));
+        }
+        
+        public BaseVariant Cast(Type t)
+        {
+            
         }
 
         public virtual bool IsReference()

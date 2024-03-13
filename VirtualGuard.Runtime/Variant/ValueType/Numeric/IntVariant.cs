@@ -61,7 +61,7 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public override NumeralVariant Div(NumeralVariant divisor)
         {
             // result should always be int operating under realm of int
-            var sum = _value + divisor.I4();
+            var sum = _value / divisor.I4();
 
             // do something with flags????
 
