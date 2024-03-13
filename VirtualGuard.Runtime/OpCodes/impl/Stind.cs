@@ -27,11 +27,11 @@ public class Stind : IOpCode
 
         var v2 = ctx.Stack.Pop();
         var v1 = ctx.Stack.Pop();
-        
-        v2 = BaseVariant.CreateVariant(v2.GetObject(), type);
+
+        v2 = v2.Cast(type);
         
         if(v1.IsReference())
-	        v2 = BaseVariant.CreateVariant(v2.GetObject(), v1.GetObject().GetType());
+	        v2 = v2.Cast(v1.GetObject().GetType());
         else
         {
 	        if(v1.GetObject() is Pointer)
