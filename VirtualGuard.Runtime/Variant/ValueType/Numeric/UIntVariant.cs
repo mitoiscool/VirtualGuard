@@ -59,7 +59,7 @@ public class UIntVariant : NumeralVariant
     public override NumeralVariant Div(NumeralVariant divisor)
     {
         // result should always be int operating under realm of int
-        var sum = _value + divisor.U4();
+        var sum = _value / divisor.U4();
 
         // do something with flags????
 
