@@ -20,6 +20,10 @@ internal class ExceptionTranslator : ITranslator
                     new VmInstruction(VmCode.Leave, new DynamicStartKeyReference((ControlFlowNode<CilInstruction>)instr.Operand, false))
                     );
                 break;
+            
+            case CilCode.Throw:
+                block.WithContent(new VmInstruction(VmCode.Throw));
+                break;
         }
     }
 
@@ -29,7 +33,8 @@ internal class ExceptionTranslator : ITranslator
         return new[]
         {
             CilCode.Leave,
-            CilCode.Leave_S
+            CilCode.Leave_S,
+            CilCode.Throw
         }.Contains(instr.OpCode.Code);
     }
 }
