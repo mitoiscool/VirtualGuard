@@ -15,16 +15,24 @@ internal class ArgumentTranslator : ITranslator
     {
         var param = instr.Operand as Parameter;
         var index = param.Index;
+        
+        var varFromArg = meth.GetVariableFromArg(index);
 
-        if (instr.OpCode.Code == CilCode.Ldarg)
+        switch (instr.OpCode.Code)
         {
-            block.WithContent(
-                new VmInstruction(VmCode.Ldloc, meth.GetVariableFromArg(index)));
-        }
-        else
-        {
-            block.WithContent(
-                new VmInstruction(VmCode.Ldloca, meth.GetVariableFromArg(index)));
+            case CilCode.Ldarg:
+                block.WithContent(
+                    new VmInstruction(VmCode.Ldloc, varFromArg));
+                break;
+            
+            case CilCode.Ldarga:
+                block.WithContent(
+                    new VmInstruction(VmCode.Ldloca, varFromArg));
+                break;
+            
+            case CilCode.Starg:
+                block.WithContent(new VmInstruction(VmCode.Stloc, varFromArg));
+                break;
         }
         
     }
@@ -36,6 +44,9 @@ internal class ArgumentTranslator : ITranslator
             return true;
 
         if (instr.OpCode == CilOpCodes.Ldarga)
+            return true;
+
+        if (instr.OpCode == CilOpCodes.Starg)
             return true;
 
         return false;
