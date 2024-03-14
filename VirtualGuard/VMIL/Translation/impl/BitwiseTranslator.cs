@@ -29,6 +29,13 @@ internal class BitwiseTranslator : ITranslator
                 block.WithContent(new VmInstruction(VmCode.Not));
                 break;
             
+            case CilCode.Shr:
+                block.WithContent(new VmInstruction(VmCode.Shr));
+                break;
+            
+            case CilCode.Shl:
+                block.WithContent(new VmInstruction(VmCode.Shl));
+                break;
         }
     }
 
@@ -40,7 +47,9 @@ internal class BitwiseTranslator : ITranslator
             CilCode.Xor,
             CilCode.Or,
             CilCode.And,
-            CilCode.Not
+            CilCode.Not,
+            CilCode.Shr,
+            CilCode.Shl
         }.Contains(instr.OpCode.Code);
     }
 }

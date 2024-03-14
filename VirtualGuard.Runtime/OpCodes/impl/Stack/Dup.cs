@@ -1,4 +1,4 @@
-namespace VirtualGuard.Runtime.OpCodes.impl.Misc
+namespace VirtualGuard.Runtime.OpCodes.impl.Stack
 {
 
     public class Dup : IOpCode

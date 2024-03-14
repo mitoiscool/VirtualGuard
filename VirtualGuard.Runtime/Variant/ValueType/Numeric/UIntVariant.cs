@@ -105,7 +105,17 @@ public class UIntVariant : NumeralVariant
     {
         return new UIntVariant((uint)(_value & and.U4()));
     }
-    
+
+    public override NumeralVariant Shl(NumeralVariant factor)
+    {
+        return new UIntVariant(this.U4() << factor.I4());
+    }
+
+    public override NumeralVariant Shr(NumeralVariant factor)
+    {
+        return new UIntVariant(this.U4() >> factor.I4());
+    }
+
     public override BaseVariant Hash()
     {
         return new LongVariant(Util.Hash(BitConverter.GetBytes(_value)));

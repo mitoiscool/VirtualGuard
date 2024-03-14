@@ -71,5 +71,8 @@ public enum VmCode : byte
     Castclass,
     Sizeof,
     
+    Shl,
+    Shr,
+    
     __nop,
 }
