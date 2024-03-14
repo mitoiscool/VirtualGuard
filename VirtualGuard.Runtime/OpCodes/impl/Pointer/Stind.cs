@@ -6,21 +6,6 @@ public class Stind : IOpCode
 {
     public void Execute(VMContext ctx)
     {
-        /*
-         * var v2 = Pop();
-			var v1 = Pop();
-			v2 = Convert(v2, type);
-			if (v1.IsReference())
-				v2 = Convert(v2, v1.Type());
-			else {
-				if (v1.Value() is Pointer)
-					unsafe { v1 = new PointerReference(new IntPtr(Pointer.Unbox(v1.Value())), type); }
-				else
-					throw new ArgumentException();
-			}
-			v1.SetValue(v2.Value());
-         */
-
         var type = ctx.ResolveType(ctx.Reader.ReadInt());
 
         var v2 = ctx.Stack.Pop();

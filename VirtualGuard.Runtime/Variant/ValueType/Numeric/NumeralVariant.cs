@@ -18,5 +18,8 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
         public abstract NumeralVariant Or(NumeralVariant or);
         public abstract NumeralVariant Not();
         public abstract NumeralVariant And(NumeralVariant and);
+
+        public abstract NumeralVariant Shl(NumeralVariant factor);
+        public abstract NumeralVariant Shr(NumeralVariant factor);
     }
 }

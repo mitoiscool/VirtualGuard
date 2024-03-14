@@ -108,6 +108,16 @@ namespace VirtualGuard.Runtime.Variant.ValueType.Numeric
             return new IntVariant((int)(_value & and.I4()));
         }
 
+        public override NumeralVariant Shl(NumeralVariant factor)
+        {
+            return new IntVariant(this.I4() << factor.I4());
+        }
+
+        public override NumeralVariant Shr(NumeralVariant factor)
+        {
+            return new IntVariant(this.I4() >> factor.I4());
+        }
+
         public override BaseVariant Hash()
         {
             return new LongVariant(Util.Hash(BitConverter.GetBytes(_value)));

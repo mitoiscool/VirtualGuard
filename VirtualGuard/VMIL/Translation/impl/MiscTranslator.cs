@@ -32,6 +32,10 @@ internal class MiscTranslator : ITranslator
             case CilCode.Unbox_Any:
                 block.WithContent(new VmInstruction(VmCode.Unboxany, instr.Operand));
                 break;
+            
+            case CilCode.Sizeof:
+                block.WithContent(new VmInstruction(VmCode.Sizeof, instr.Operand));
+                break;
         }
         
     }
@@ -39,6 +43,6 @@ internal class MiscTranslator : ITranslator
     [Obfuscation(Feature = "virtualization")]
     public bool Supports(AstExpression instr)
     {
-        return instr.OpCode.Code == CilCode.Dup || instr.OpCode.Code == CilCode.Pop || instr.OpCode.Code == CilCode.Castclass || instr.OpCode.Code == CilCode.Box || instr.OpCode.Code == CilCode.Unbox_Any; // lol
+        return instr.OpCode.Code == CilCode.Dup || instr.OpCode.Code == CilCode.Pop || instr.OpCode.Code == CilCode.Castclass || instr.OpCode.Code == CilCode.Box || instr.OpCode.Code == CilCode.Unbox_Any || instr.OpCode.Code == CilCode.Sizeof; // lol
     }
 }

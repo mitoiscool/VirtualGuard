@@ -105,7 +105,17 @@ public class ULongVariant : NumeralVariant
     {
         return new ULongVariant((ulong)(_value & and.U8()));
     }
-    
+
+    public override NumeralVariant Shl(NumeralVariant factor)
+    {
+        return new ULongVariant(this.U8() << factor.I4());
+    }
+
+    public override NumeralVariant Shr(NumeralVariant factor)
+    {
+        return new ULongVariant(this.U8() >> factor.I4());
+    }
+
     public override BaseVariant Hash()
     {
         return new LongVariant(Util.Hash(BitConverter.GetBytes(_value)));
