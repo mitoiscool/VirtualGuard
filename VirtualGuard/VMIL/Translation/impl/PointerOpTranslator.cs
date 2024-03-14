@@ -82,6 +82,10 @@ internal class PointerOpTranslator : ITranslator
                 block.WithContent(new VmInstruction(VmCode.Ldind,
                     ctx.Module.CorLibTypeFactory.Object.ToTypeDefOrRef()));
                 break;
+            
+            case CilCode.Ldftn:
+                block.WithContent(new VmInstruction(VmCode.Ldftn, instr.Operand));
+                break;
         }
         
     }
@@ -117,6 +121,9 @@ internal class PointerOpTranslator : ITranslator
             
             case CilCode.Stobj:
             case CilCode.Ldobj:
+                return true;
+            
+            case CilCode.Ldftn:
                 return true;
             
             default:
