@@ -60,5 +60,16 @@ public enum VmCode : byte
     Ldftn,
     Dup,
     
+    Stind,
+    Ldind,
+    
+    Throw,
+    
+    Box,
+    Unboxany,
+    
+    Castclass,
+    Sizeof,
+    
     __nop,
 }

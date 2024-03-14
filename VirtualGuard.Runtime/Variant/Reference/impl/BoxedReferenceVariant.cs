@@ -22,5 +22,5 @@ public class BoxedReferenceVariant : BaseReferenceVariant
     {
         return new BoxedReferenceVariant(_var);
     }
-
+    
 }

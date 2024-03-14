@@ -8,6 +8,7 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
     {
         private ArrayVariant _array;
         private BaseVariant _index;
+        private Type _markedType = null;
         
         public ArrayReferenceVariant(ArrayVariant arr, BaseVariant index)
         {
@@ -33,5 +34,6 @@ namespace VirtualGuard.Runtime.Variant.Reference.impl
         {
             return new ArrayReferenceVariant(_array, _index);
         }
+        
     }
 }

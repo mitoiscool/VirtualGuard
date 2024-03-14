@@ -9,6 +9,6 @@ namespace VirtualGuard.Runtime.Variant.Reference
         {
             return true;
         }
-        
+
     }
 }
