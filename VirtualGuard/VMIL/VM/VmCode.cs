@@ -66,6 +66,7 @@ public enum VmCode : byte
     Throw,
     
     Box,
+    Unbox,
     Unboxany,
     
     Castclass,
